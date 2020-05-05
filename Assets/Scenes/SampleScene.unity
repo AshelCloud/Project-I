@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 1497133697}
   - component: {fileID: 1497133696}
   - component: {fileID: 1497133695}
+  - component: {fileID: 1497133699}
   - component: {fileID: 1497133698}
   m_Layer: 0
   m_Name: Player
@@ -328,3 +329,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 1
+--- !u!111 &1497133699
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497133694}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
