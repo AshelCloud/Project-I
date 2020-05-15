@@ -37,6 +37,8 @@ public class IdleState : IPlayerState
     {
         Debug.Log("IdleState");
 
+        _player.Anim.Play("idle");
+
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))    //idle -> run
         {
             _player.SetState(new RunState());
@@ -125,6 +127,7 @@ public class AttackState : IPlayerState
     {
         Debug.Log("AttackState");                           //현재는 아무것도 없다, 차후 기능 추가
 
+
         if (!Input.anyKey)
         {
             _player.SetState(new IdleState());              //아무 입력이 없으면 대기 상태로 전이
@@ -148,9 +151,6 @@ public class AttackState : IPlayerState
 
 //점프
 //if(Input.GetKeyDown(KeyCode.D))
-
-//공격
-//if(Input.GetKeyDown(KeyCode.A))
 
 //벽 타기
 //if(Input.GetKeyDown(KeyCode.S))
