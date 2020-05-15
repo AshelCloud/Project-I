@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,16 +8,29 @@ public class MapLoader : MonoBehaviour
 {
     private Dictionary<string, MapData> mapDatas;
 
-    const string JsonFilePath = "MapJsons/";
-
+    //Application.dataPath와 연동시켜서 사용
+    const string JsonFilePath = "/Resources/MapJsons/";
+    
+    
     const string TileAssetFilePath = "TileAssets/";
     const string PrefabFilePath = "Prefabs/";
 
     private int TilemapLoadIndex { get; set; }
 
+    private void Awake()
+    {
+        mapDatas = new Dictionary<string, MapData>();
+        TilemapLoadIndex = 0;
+    }
+
+    private void Start()
+    {
+        JsonToTilemap("TestMap");
+    }
+
     public void JsonToTilemap(string fileName)
     {
-        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(JsonFilePath, fileName).ToDictionary();
+        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName).ToDictionary();
 
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
