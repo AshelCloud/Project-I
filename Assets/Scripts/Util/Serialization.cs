@@ -39,6 +39,7 @@ public class Serialization<TKey, TValue> : ISerializationCallbackReceiver
     public void OnAfterDeserialize()
     {
         var count = Math.Min(keys.Count, values.Count);
+
         target = new Dictionary<TKey, TValue>(count);
         for (var i = 0; i < count; ++i)
         {
