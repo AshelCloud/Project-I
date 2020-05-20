@@ -30,7 +30,7 @@ public class MapLoader : MonoBehaviour
 
     public void JsonToTilemap(string fileName)
     {
-        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName).ToDictionary();
+        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName, true).ToDictionary();
 
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
