@@ -28,7 +28,7 @@ public class JsonManager
             fileStream.Read(data, 0, data.Length);
             fileStream.Close();
 
-            string jsonData = Encoding.UTF8.GetString(data);
+            string jsonData = Encoding.UTF8.GetString(data, 3, data.Length - 3);
             return JsonToObject<T>(jsonData);
         }
     }
