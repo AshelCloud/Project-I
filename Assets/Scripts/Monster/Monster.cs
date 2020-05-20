@@ -39,7 +39,9 @@ public class Monster : MonoBehaviour
     
     protected MonsterData Data { get; set; }
     protected int ID { get; set; }
-    protected Animator Anim { get; set; }
+    public Animator Anim { get; set; }
+    public SpriteRenderer Renderer { get; set; }
+    public Rigidbody2D RB { get; set; }
 
     protected List<MBehaviour> Behaviours { get; set; }
 
@@ -51,6 +53,8 @@ public class Monster : MonoBehaviour
         {
             Debug.LogError("GameObject Not Added Animator!");
         }
+        Renderer = GetComponent<SpriteRenderer>();
+        RB = GetComponent<Rigidbody2D>();
 
         Behaviours = new List<MBehaviour>();
 
