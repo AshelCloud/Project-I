@@ -5,18 +5,26 @@ using UnityEngine;
 
 public class MPatrol : MBehaviour
 {
-    public MPatrol(GameObject go):
-        base(go)
+    public MPatrol(Monster monster, float speed):
+        base(monster)
     {
+        SetSpeed(speed);
     }
+
+    private float Speed { get; set; }
 
     public override void Start()
     {
-        Debug.Log("Patrol Start");
+        Debug.Log(Speed);
     }
 
     public override void Update()
     {
         Debug.Log(MObject.transform.position);
+    }
+
+    public void SetSpeed(float speed)
+    {
+        Speed = speed;
     }
 }

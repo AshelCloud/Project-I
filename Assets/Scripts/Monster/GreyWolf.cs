@@ -11,7 +11,7 @@ public class GreyWolf : Monster
 
     protected override void SetBehaviors()
     {
-        Behaviours.Add(new MPatrol(transform.gameObject));
+        Behaviours.Add(new MPatrol(this, Data.Speed));
     }
 
     protected override void SetID()

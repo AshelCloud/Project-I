@@ -36,15 +36,9 @@ public class Monster : MonoBehaviour
         public List<int> ItemID;
         public List<int> Percentage;
     }
-
-    protected enum MonsterType
-    {
-        Normal,
-        Boss,
-    }
-    private MonsterData Data { get; set; }
+    
+    protected MonsterData Data { get; set; }
     protected int ID { get; set; }
-    protected MonsterType Type { get; set; }
     protected Animator Anim { get; set; }
 
     protected List<MBehaviour> Behaviours { get; set; }

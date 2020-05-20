@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MBehaviour
 {
-    protected GameObject MObject { get; set; }
+    protected Monster MObject { get; set; }
 
-    public MBehaviour(GameObject go)
+    public MBehaviour(Monster monster)
     {
-        MObject = go;
+        MObject = monster;
     }
 
     public virtual void Start()
