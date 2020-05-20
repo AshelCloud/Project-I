@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
 using UnityEditor.Animations;
@@ -41,11 +42,12 @@ public class Monster : MonoBehaviour
         Normal,
         Boss,
     }
-
     private MonsterData Data { get; set; }
     protected int ID { get; set; }
     protected MonsterType Type { get; set; }
     protected Animator Anim { get; set; }
+
+    protected List<MBehaviour> Behaviours { get; set; }
 
     protected virtual void Awake()
     {
@@ -56,10 +58,30 @@ public class Monster : MonoBehaviour
             Debug.LogError("GameObject Not Added Animator!");
         }
 
+        Behaviours = new List<MBehaviour>();
+
         SetID();
 
         LoadToJsonData(ID);
         UpdateData();
+
+        SetBehaviors();
+    }
+
+    protected virtual void Start()
+    {
+        foreach(var action in Behaviours)
+        {
+            action.Start();
+        }
+    }
+
+    protected virtual void Update()
+    {
+        foreach(var action in Behaviours)
+        {
+            action.Update();
+        }
     }
 
     //Data를 받기 위해 ID 필요
@@ -96,5 +118,9 @@ public class Monster : MonoBehaviour
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용
         Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + Data.AnimatorName);
+    }
+
+    protected virtual void SetBehaviors()
+    {
     }
 }
