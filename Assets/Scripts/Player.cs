@@ -8,16 +8,22 @@ public partial class Player : MonoBehaviour
     private float _moveSpeed;                       //플레이어 이동 속도(에디터 수정 가능)
     public float MoveSpeed { get { return _moveSpeed; } }
 
-    private Animator anim;
-    public Animator Anim { get { return anim; } }
+    [SerializeField]
+    private float _jumpForce;
+    public float JumpForce { get { return _jumpForce; } }
+
+    public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
+    public Rigidbody2D Rigidbody { get { return gameObject.GetComponent<Rigidbody2D>(); } }
+
+    private bool grounded = true;
+
+    public bool isGrounded { get { return grounded; } }
 
     private IPlayerState _currentState;
 
     private void Awake()
     {
         SetState(new IdleState());                  //최초 게임 실행 시 대기 상태로 설정
-
-        anim = gameObject.GetComponent<Animator>();
     }
 
 
@@ -37,4 +43,20 @@ public partial class Player : MonoBehaviour
         _currentState.OnEnter(this);                //다음 상태 진입
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        print("충돌 테스트");
+        if (collision.tag == "Floor")
+        {
+            grounded = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Floor")
+        {
+            grounded = false;
+        }
+    }
 }

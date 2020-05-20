@@ -25,7 +25,7 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
-        JsonToTilemap("TestMap");
+        JsonToTilemap("Test_1");
     }
 
     public void JsonToTilemap(string fileName)
