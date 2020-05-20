@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class MBehaviour
 {
+    protected GameObject MObject { get; set; }
+
+    public MBehaviour(GameObject go)
+    {
+        MObject = go;
+    }
+
     public virtual void Start()
     {
     }
