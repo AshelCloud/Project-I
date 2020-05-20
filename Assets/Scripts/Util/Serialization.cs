@@ -6,9 +6,9 @@ using UnityEngine;
 public class Serialization<T>
 {
     [SerializeField]
-    T target;
-    public T ToObject() { return target; }
-    public Serialization(T target)
+    List<T> target;
+    public List<T> ToObject() { return target; }
+    public Serialization(List<T> target)
     {
         this.target = target;
     }
