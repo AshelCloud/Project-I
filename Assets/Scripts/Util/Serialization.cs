@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Serialization<T>
-{
-    [SerializeField]
-    T target;
-    public T ToObject() { return target; }
-    public Serialization(T target)
-    {
-        this.target = target;
-    }
-}
+/*
+                            Json으로 변환시에는 해당 데이터가 직렬화(Serialization)이 되있어야됨
+                            Dictionary를 직렬화 하는 Util 클래스
+ */
 
 [System.Serializable]
 public class Serialization<TKey, TValue> : ISerializationCallbackReceiver
