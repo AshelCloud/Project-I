@@ -83,7 +83,6 @@ public class RunState : IPlayerState
     void IPlayerState.Update()
     {
         Debug.Log("RunState");
-
         _player.Anim.Play("Run");
 
         //좌측이동
@@ -102,10 +101,21 @@ public class RunState : IPlayerState
             _player.transform.localScale = direction;
         }
 
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _player.SetState(new AttackState());
+        }
+
         //점프
         if (Input.GetKeyDown(KeyCode.D))
         {
             _player.SetState(new JumpState());
+        }
+
+        //구르기
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            _player.SetState(new RollState());
         }
 
         if (!Input.anyKey)
@@ -147,12 +157,12 @@ public class AttackState : IPlayerState
         }
 
         //마지막 애니메이션이 끝나면 최초 단계로 초기화
-        if (attackCount >= 4)
+        else if (attackCount >= 4)
         {
             attackCount = 1;
         }
 
-        if (!Input.anyKey && currentAnim >= 0.99f)
+        if (!Input.GetKey(KeyCode.A) && currentAnim >= 0.99f)
         {
             _player.SetState(new IdleState());              //아무 입력이 없으면 대기 상태로 전이
         }
@@ -174,7 +184,9 @@ public class JumpState : IPlayerState
     {
         _player = player;
 
+        //플레이어를 점프시킴
         _player.Rigidbody.AddForce(Vector2.up * _player.JumpForce, ForceMode2D.Impulse);
+        _player.isGrounded = false;
     }
 
     //공격 상태에 따른 행동들
@@ -183,6 +195,7 @@ public class JumpState : IPlayerState
         Debug.Log("JumpState");
         _player.Anim.Play("Jump");
 
+        //플레이어의 공중 이동
         if (!_player.isGrounded)
         {
             _player.Anim.Play("Jump", -1, 0.5f);
@@ -200,10 +213,9 @@ public class JumpState : IPlayerState
             }
         }
 
+        //땅에 착지 했을 시에 취하는 입력들
         else
         {
-
-            _player.Anim.Play("Jump", -1, 0.9f);
 
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
             {
@@ -246,10 +258,14 @@ public class RollState : IPlayerState
         _player.Anim.Play("Roll");
 
         if (_player.transform.localScale.x == 1f)
+        {
             _player.transform.Translate(Vector2.right * 2.0f * Time.deltaTime, Space.World);
+        }
 
         else
+        {
             _player.transform.Translate(-Vector2.right * 2.0f * Time.deltaTime, Space.World);
+        }
 
         if (_player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
         {

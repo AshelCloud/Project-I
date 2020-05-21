@@ -17,7 +17,7 @@ public partial class Player : MonoBehaviour
 
     private bool grounded = true;
 
-    public bool isGrounded { get { return grounded; } }
+    public bool isGrounded { get { return grounded; } set { grounded = value; } }
 
     private IPlayerState _currentState;
 
@@ -56,7 +56,10 @@ public partial class Player : MonoBehaviour
     {
         if (collision.tag == "Floor")
         {
+
             grounded = false;
+
+            Debug.Log("땅에 착지?" + grounded.ToString());
         }
     }
 }
