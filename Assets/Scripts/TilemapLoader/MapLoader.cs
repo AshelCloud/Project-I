@@ -97,6 +97,10 @@ public class MapLoader : MonoBehaviour
 
         //TilemapRenderer를 추가하면 Tilemap도 추가됨
         go.AddComponent<TilemapRenderer>();
+        if (tilemapData.IsHaveCollider)
+        {
+            go.AddComponent<TilemapCollider2D>();
+        }
         map = go.GetComponent<Tilemap>();
 
         //정보 업데이트

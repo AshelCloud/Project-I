@@ -37,6 +37,7 @@ public class TilemapData
     public Color Color;
     public Vector3 TileAnchor;
     public int OrderInLayer;
+    public bool IsHaveCollider;
 }
 
 [System.Serializable]
