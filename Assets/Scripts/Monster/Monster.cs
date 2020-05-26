@@ -22,24 +22,7 @@ public class Monster : MonoBehaviour
         public int Defense;
         public int HP;
         public int Speed;
-        public int DropBundleID;
-        public string ObjectName;
-        public string AnimatorName;
-        public string PrefabName;
     }
-
-    [System.Serializable]
-    protected class TestData
-    {
-        public string Name;
-        public string VariableName;
-        public string MonsterType;
-        public int OffensePower;
-        public int Defense;
-        public int HP;
-        public int Speed;
-    }
-    
     protected MonsterData Data { get; set; }
     protected int ID { get; set; }
     public Animator Anim { get; set; }
@@ -118,7 +101,8 @@ public class Monster : MonoBehaviour
 
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용
-        Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + Data.AnimatorName);
+        //Table 부재로 리터럴문자 사용
+        Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + "Grey_wolf");
     }
 
     protected virtual void SetBehaviors()
