@@ -31,10 +31,13 @@ public class Monster : MonoBehaviour
     [System.Serializable]
     protected class TestData
     {
-        public string DropBundleName;
-        public List<int> Quantity;
-        public List<int> ItemID;
-        public List<int> Percentage;
+        public string Name;
+        public string VariableName;
+        public string MonsterType;
+        public int OffensePower;
+        public int Defense;
+        public int HP;
+        public int Speed;
     }
     
     protected MonsterData Data { get; set; }
@@ -102,7 +105,7 @@ public class Monster : MonoBehaviour
 
         //Json 파싱
         var json = JsonManager.LoadJson<Serialization<string, MonsterData>>(Application.dataPath + "/Resources/MonsterJsons/", "MonsterTable").ToDictionary();
-        
+
         //ID 값으로 해당되는 Data 저장
         //ID는 각 몬스터 스크립트에서 할당
         Data = json[ID.ToString()];

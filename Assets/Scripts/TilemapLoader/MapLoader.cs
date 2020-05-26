@@ -15,22 +15,35 @@ public class MapLoader : MonoBehaviour
     const string TileAssetFilePath = "TileAssets/";
     const string PrefabFilePath = "Prefabs/";
 
-    private int TilemapLoadIndex { get; set; }
+    Tilemap[] tilemaps;
 
     private void Awake()
     {
         mapDatas = new Dictionary<string, MapData>();
-        TilemapLoadIndex = 0;
+        tilemaps = GetComponentsInChildren<Tilemap>();
     }
 
     private void Start()
     {
-        JsonToTilemap("Test_1");
+        StartCoroutine(JsonToTilemap("WolfForest"));
     }
 
-    public void JsonToTilemap(string fileName)
+    public IEnumerator JsonToTilemap(string fileName)
     {
-        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName, true).ToDictionary();
+        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName).ToDictionary();
+
+        //현재 있는 맵들 다 삭제하고 진행
+        foreach (var tilemap in tilemaps)
+        {
+            if (tilemap != null)
+            {
+                Destroy(tilemap.gameObject);
+            }
+        }
+        tilemaps = null;
+
+        //Destroy가 느리기때문에 다 삭제될때까지 기다림
+        yield return new WaitUntil(() => transform.childCount == 0);
 
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
@@ -41,6 +54,7 @@ public class MapLoader : MonoBehaviour
                 var tilemap = UpdateTilemapDataWithCreate(tile.BaseTilemap);
 
                 tilemap.SetTile(tile.LocalPlace, Resources.Load<Tile>(TileAssetFilePath + tile.Name));
+                tilemap.SetTransformMatrix(tile.LocalPlace, tile.Matrix);
             }
             foreach (var prefab in data.Value.Prefabs)
             {
@@ -50,11 +64,14 @@ public class MapLoader : MonoBehaviour
                 go.transform.localScale = prefab.Scale;
             }
 
-            //TODO: 플레이어 생성
-            //var playerReosurce = Resources.Load<GameObject>(PrefabFilePath + "Player");
-            //var player = Instantiate(playerReosurce, data.Value.PlayerStartPosition, Quaternion.identity);
+            //플레이어 생성코드
+            //임시
+            //필요시 삭제
+            var playerReosurce = Resources.Load<GameObject>(PrefabFilePath + "Player");
+            var player = Instantiate(playerReosurce, data.Value.PlayerStartPosition, Quaternion.identity);
         }
 
+        yield return null;
     }
 
     //Tilemap 정보갱신
@@ -63,20 +80,24 @@ public class MapLoader : MonoBehaviour
     {
         var maps = transform.GetComponentsInChildren<Tilemap>();
 
+        foreach (var m in maps)
+        {
+            //자식중에 같은게 있으면 리턴
+            if (m.name == tilemapData.Name)
+            {
+                return m;
+            }
+        }
+
         Tilemap map;
 
-        //Tilemap 존재시 정보만 업데이트
-        //혹은 Tilemap 생성
-        if (TilemapLoadIndex >= maps.Length)
-        {
-            GameObject go = new GameObject();
-            go.transform.SetParent(transform);
-            map = go.AddComponent<Tilemap>();
-        }
-        else
-        {
-            map = maps[TilemapLoadIndex];
-        }
+        //없으면 새로만들어서 정보업데이트후 리턴
+        GameObject go = new GameObject();
+        go.transform.SetParent(transform);
+
+        //TilemapRenderer를 추가하면 Tilemap도 추가됨
+        go.AddComponent<TilemapRenderer>();
+        map = go.GetComponent<Tilemap>();
 
         //정보 업데이트
         //데이터테이블 변경시 같이 변경해야함
@@ -87,6 +108,7 @@ public class MapLoader : MonoBehaviour
         map.animationFrameRate = tilemapData.AnimationFrameRate;
         map.color = tilemapData.Color;
         map.tileAnchor = tilemapData.TileAnchor;
+        map.GetComponent<TilemapRenderer>().sortingOrder = tilemapData.OrderInLayer;
 
         return map;
     }

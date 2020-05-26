@@ -12,6 +12,7 @@ public class TileData
     public string Name;
     public Vector3 WorldPlace;
     public Vector3Int LocalPlace;
+    public Matrix4x4 Matrix;
     public TilemapData BaseTilemap;
 }
 
@@ -35,6 +36,7 @@ public class TilemapData
     public float AnimationFrameRate;
     public Color Color;
     public Vector3 TileAnchor;
+    public int OrderInLayer;
 }
 
 [System.Serializable]

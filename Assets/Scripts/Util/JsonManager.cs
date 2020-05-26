@@ -20,27 +20,15 @@ public class JsonManager
         }
     }
 
-    //isMapLoader 추가이유
-    //앞 3바이트에 UTF-8 BOM이 추가됨. 테이블 Json이 읽히지않기 때문에 3바이트 제거
-    //근데 맵 Json에는 추가가 되지않음 ( 아마 유니티에서 제작한 Json이기 때문인듯 )
-    //그래서 구분해서 사용
-    public static T LoadJson<T>(string loadPath, string fileName, bool isMapLoader = false)
+    public static T LoadJson<T>(string loadPath, string fileName)
     {
         using (FileStream fileStream = new FileStream(string.Format("{0}/{1}.json", loadPath, fileName), FileMode.Open))
         {
             byte[] data = new byte[fileStream.Length];
             fileStream.Read(data, 0, data.Length);
             fileStream.Close();
-            
-            string jsonData;
-            if(isMapLoader)
-            {
-                jsonData = Encoding.UTF8.GetString(data, 0, data.Length);
-            }
-            else
-            {
-                jsonData = Encoding.UTF8.GetString(data, 3, data.Length - 3);
-            }
+
+            string jsonData = Encoding.UTF8.GetString(data, 0, data.Length);
             return JsonToObject<T>(jsonData);
         }
     }
