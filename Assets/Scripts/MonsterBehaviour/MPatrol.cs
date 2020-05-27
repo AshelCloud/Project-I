@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class MPatrol : MBehaviour
 {
-    public MPatrol(Monster monster, float speed):
-        base(monster)
+    private float Speed { get; set; }
+    private float MoveTime { get; set; }
+    private float StartTime { get; set; }
+    private bool FlipX { get; set; }
+
+    public MPatrol(Monster monster, float speed) :
+    base(monster)
     {
         SetSpeed(speed);
         MoveTime = 2f;
         StartTime = 0f;
         FlipX = false;
     }
-
-    private float Speed { get; set; }
-    private float MoveTime { get; set; }
-    private float StartTime { get; set; }
-    private bool FlipX { get; set; }
 
     public override void Start()
     {
@@ -26,6 +26,10 @@ public class MPatrol : MBehaviour
 
     public override void Update()
     {
+        if(MObject.CurrentBehaviour != Monster.MonsterBehaviour.Run) { return; }
+
+        MObject.CurrentBehaviour = Monster.MonsterBehaviour.Run;
+
         if(Time.time - StartTime >= MoveTime)
         {
             StartTime = Time.time;
@@ -39,7 +43,7 @@ public class MPatrol : MBehaviour
         MObject.Anim.Play("Run");
     }
 
-    public void SetSpeed(float speed)
+    private void SetSpeed(float speed)
     {
         Speed = speed;
     }

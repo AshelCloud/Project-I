@@ -23,13 +23,24 @@ public class Monster : MonoBehaviour
         public int HP;
         public int Speed;
     }
+
+    public enum MonsterBehaviour
+    {
+        Run,
+        Chase,
+        Attack,
+        Hit,
+        Dead
+    }
+
     protected MonsterData Data { get; set; }
     protected int ID { get; set; }
     public Animator Anim { get; set; }
     public SpriteRenderer Renderer { get; set; }
     public Rigidbody2D RB { get; set; }
-
     protected List<MBehaviour> Behaviours { get; set; }
+    
+    public MonsterBehaviour CurrentBehaviour { get; set; }
 
     protected virtual void Awake()
     {
@@ -49,6 +60,7 @@ public class Monster : MonoBehaviour
         LoadToJsonData(ID);
         UpdateData();
 
+        CurrentBehaviour = MonsterBehaviour.Run;
         SetBehaviors();
     }
 
@@ -64,6 +76,7 @@ public class Monster : MonoBehaviour
     {
         foreach(var action in Behaviours)
         {
+            print(CurrentBehaviour);
             action.Update();
         }
     }
