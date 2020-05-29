@@ -22,6 +22,10 @@ public class Monster : MonoBehaviour
         public int Defense;
         public int HP;
         public int Speed;
+        public int DropBundleID;
+        public string ObjectName;
+        public string AnimatorName;
+        public string PrefabName;
     }
 
     public enum MonsterBehaviour
@@ -110,12 +114,12 @@ public class Monster : MonoBehaviour
     //Data값을 오브젝트에 할당
     protected virtual void UpdateData()
     {
-        transform.name = Data.Name;
+        transform.name = Data.ObjectName;
 
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용
         //Table 부재로 리터럴문자 사용
-        Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + "Grey_wolf");
+        Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + Data.AnimatorName);
     }
 
     protected virtual void SetBehaviors()
