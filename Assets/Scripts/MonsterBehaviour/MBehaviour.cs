@@ -18,4 +18,8 @@ public class MBehaviour
     public virtual void Update()
     {
     }
+
+    public virtual void OnGizmo()
+    {
+    }
 }

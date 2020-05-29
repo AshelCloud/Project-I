@@ -26,7 +26,6 @@ public partial class Player : MonoBehaviour
         SetState(new IdleState());                  //최초 게임 실행 시 대기 상태로 설정
     }
 
-
     private void Update()
     {
         _currentState.Update();                     //현재 상태에 따른 행동 실행

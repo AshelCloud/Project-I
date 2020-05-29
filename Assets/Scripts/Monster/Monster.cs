@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using UnityEditor.Animations;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 /*
  *  모든 몬스터 부모 클래스
@@ -18,14 +15,16 @@ public class Monster : MonoBehaviour
         public string Name;
         public string VariableName;
         public string MonsterType;
-        public int OffensePower;
-        public int Defense;
-        public int HP;
-        public int Speed;
+        public float OffensePower;
+        public float Defense;
+        public float HP;
+        public float Speed;
         public int DropBundleID;
         public string ObjectName;
         public string AnimatorName;
         public string PrefabName;
+        public float DetectionRange;
+        public float AttackRange;
     }
 
     public enum MonsterBehaviour
@@ -120,9 +119,21 @@ public class Monster : MonoBehaviour
         //Controller는 Resources폴더 안에 넣어두고 사용
         //Table 부재로 리터럴문자 사용
         Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + Data.AnimatorName);
+
+        print(Data.AnimatorName);
     }
 
     protected virtual void SetBehaviors()
     {
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(Behaviours == null) { return; }
+
+        foreach (var action in Behaviours)
+        {
+            action.OnGizmo();
+        }
     }
 }

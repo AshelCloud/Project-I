@@ -23,7 +23,7 @@ public class MChase : MBehaviour
         ChaseRange = ChaseRange * (MObject.Renderer.flipX ? -1 : 1);
 
         Vector2 range = new Vector2(MObject.transform.position.x + ChaseRange, MObject.transform.position.y);
-        var results = Physics2D.LinecastAll(MObject.transform.position,  range);
+        var results = Physics2D.LinecastAll(new Vector2(MObject.transform.position.x - ChaseRange, MObject.transform.position.y),  range);
 
         foreach(var result in results)
         {
@@ -45,5 +45,11 @@ public class MChase : MBehaviour
         }
 
         MObject.RB.velocity = new Vector2(spd * Time.deltaTime, MObject.RB.velocity.y);
+    }
+
+    public override void OnGizmo()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(new Vector3(MObject.transform.position.x - ChaseRange, MObject.transform.position.y, MObject.transform.position.z), new Vector3(MObject.transform.position.x + ChaseRange, MObject.transform.position.y, MObject.transform.position.z));
     }
 }
