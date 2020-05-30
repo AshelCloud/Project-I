@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 
@@ -10,18 +12,32 @@ using UnityEngine.Experimental.PlayerLoop;
 public class MAttack : MBehaviour
 {
     private float AttackRange { get; set; }
+    private Action Action { get; set; }
 
-    public MAttack(Monster monster, float Range) :
+    public MAttack(Monster monster, float range, params Action[] actions) :
         base(monster)
     {
-        AttackRange = Range;
+        AttackRange = range * (MObject.Renderer.flipX ? -1 : 1);
+
+        for(int i = 0; i < actions.Length; i ++)
+        {
+            Action += actions[i];
+        }
     }
 
     public override void Update()
     {
-        //추격하는상태에서만 진행
-        if(MObject.CurrentBehaviour != Monster.MonsterBehaviour.Chase) { return; }
+        if(Action == null) { return; }
 
+        Action();
+    }
+
+    public override void OnGizmo()
+    {
+        Gizmos.color = Color.red;
+
+        float range = AttackRange * (MObject.Renderer.flipX ? -1 : 1);
+        Gizmos.DrawLine(new Vector3(MObject.transform.position.x, MObject.transform.position.y - 0.5f, MObject.transform.position.z), new Vector3(MObject.transform.position.x + range, MObject.transform.position.y - 0.5f, MObject.transform.position.z));
 
     }
 }

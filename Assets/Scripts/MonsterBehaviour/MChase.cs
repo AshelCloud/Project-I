@@ -18,9 +18,9 @@ public class MChase : MBehaviour
 
     public override void Update()
     {
-        GameObject player = null;
+        if(MObject.CurrentBehaviour == Monster.MonsterBehaviour.Attack) { return; }
 
-        ChaseRange = ChaseRange * (MObject.Renderer.flipX ? -1 : 1);
+        GameObject player = null;
 
         Vector2 range = new Vector2(MObject.transform.position.x + ChaseRange, MObject.transform.position.y);
         var results = Physics2D.LinecastAll(new Vector2(MObject.transform.position.x - ChaseRange, MObject.transform.position.y),  range);
@@ -34,14 +34,31 @@ public class MChase : MBehaviour
             }
         }
 
-        if(player == null) { return; }
+        if(player == null) 
+        {
+            MObject.Anim.speed = 1f;
+            MObject.CurrentBehaviour = Monster.MonsterBehaviour.Run;
+            return; 
+        }
 
         MObject.CurrentBehaviour = Monster.MonsterBehaviour.Chase;
 
+        MObject.Anim.Play("Run");
+        MObject.Anim.speed = 1.5f;
+
+        Vector3 direction = player.transform.position - MObject.transform.position;
+
+        Debug.Log(direction.normalized.x);
+
         float spd = Speed;
-        if(MObject.Renderer.flipX)
+        if(direction.normalized.x < 0)
         {
             spd = -Speed;
+            MObject.Renderer.flipX = true;
+        }
+        else
+        {
+            MObject.Renderer.flipX = false;
         }
 
         MObject.RB.velocity = new Vector2(spd * Time.deltaTime, MObject.RB.velocity.y);
