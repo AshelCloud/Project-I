@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MPatrol : MBehaviour
 {
@@ -42,5 +39,6 @@ public class MPatrol : MBehaviour
         Monster.RB.velocity = new Vector2(Speed * direction * Time.deltaTime, Monster.RB.velocity.y);
 
         Monster.Anim.Play("Run");
+        Monster.Anim.speed = 1f;
     }
 }

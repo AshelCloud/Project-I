@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MChase : MBehaviour
 {
@@ -21,7 +17,10 @@ public class MChase : MBehaviour
     }
     private void ChaseUpdate()
     {
-        if (Monster.CurrentBehaviour == Monster.MonsterBehaviour.Attack) { return; }
+        if (Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run) 
+        {
+            return;
+        }
 
         GameObject player = null;
 
@@ -41,7 +40,6 @@ public class MChase : MBehaviour
 
         if (player == null)
         {
-            Monster.Anim.speed = 1f;
             Monster.CurrentBehaviour = Monster.MonsterBehaviour.Run;
             return;
         }
@@ -52,8 +50,6 @@ public class MChase : MBehaviour
         Monster.Anim.speed = 1.5f;
 
         Vector3 direction = player.transform.position - Monster.transform.position;
-
-        Debug.Log(direction.normalized.x);
 
         float spd = Speed;
         if (direction.normalized.x < 0)
@@ -71,8 +67,6 @@ public class MChase : MBehaviour
 
     private void ChaseGizmos()
     {
-        Debug.Log("Run!");
-
         Vector2 from = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
         Vector2 to = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
 
