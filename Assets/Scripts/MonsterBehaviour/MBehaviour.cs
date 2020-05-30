@@ -1,25 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MBehaviour
 {
-    protected Monster MObject { get; set; }
-
-    public MBehaviour(Monster monster)
-    {
-        MObject = monster;
-    }
-
-    public virtual void Start()
-    {
-    }
-
-    public virtual void Update()
-    {
-    }
-
-    public virtual void OnGizmo()
-    {
-    }
+    public string BehaivorName { get; set; }
+    public Action Start { get; set; }
+    public Action Update { get; set; }
+    public Action OnGizmos { get; set; }
 }

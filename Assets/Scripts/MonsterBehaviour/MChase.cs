@@ -6,67 +6,78 @@ using UnityEngine;
 
 public class MChase : MBehaviour
 {
+    private Monster Monster { get; set; }
     private float Speed { get; set; }
     private float ChaseRange { get; set; }
 
-    public MChase(Monster monster, float speed, float Range):
-        base(monster)
+    public MChase(Monster monster, float speed = 0f, float range = 0f)
     {
-        Speed = speed * (MObject.Renderer.flipX ? -1 : 1);
-        ChaseRange = Range * (MObject.Renderer.flipX ? -1 : 1);
-    }
+        Monster = monster;
+        Speed = speed;
+        ChaseRange = range;
 
-    public override void Update()
+        Update = ChaseUpdate;
+        OnGizmos = ChaseGizmos;
+    }
+    private void ChaseUpdate()
     {
-        if(MObject.CurrentBehaviour == Monster.MonsterBehaviour.Attack) { return; }
+        if (Monster.CurrentBehaviour == Monster.MonsterBehaviour.Attack) { return; }
 
         GameObject player = null;
 
-        Vector2 range = new Vector2(MObject.transform.position.x + ChaseRange, MObject.transform.position.y);
-        var results = Physics2D.LinecastAll(new Vector2(MObject.transform.position.x - ChaseRange, MObject.transform.position.y),  range);
+        Vector2 start = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
+        Vector2 end = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
 
-        foreach(var result in results)
+        var results = Physics2D.LinecastAll(start, end);
+
+        foreach (var result in results)
         {
-            if(result.transform.CompareTag("Player"))
+            if (result.transform.CompareTag("Player"))
             {
                 player = result.transform.gameObject;
                 break;
             }
         }
 
-        if(player == null) 
+        if (player == null)
         {
-            MObject.Anim.speed = 1f;
-            MObject.CurrentBehaviour = Monster.MonsterBehaviour.Run;
-            return; 
+            Monster.Anim.speed = 1f;
+            Monster.CurrentBehaviour = Monster.MonsterBehaviour.Run;
+            return;
         }
 
-        MObject.CurrentBehaviour = Monster.MonsterBehaviour.Chase;
+        Monster.CurrentBehaviour = Monster.MonsterBehaviour.Chase;
 
-        MObject.Anim.Play("Run");
-        MObject.Anim.speed = 1.5f;
+        Monster.Anim.Play("Run");
+        Monster.Anim.speed = 1.5f;
 
-        Vector3 direction = player.transform.position - MObject.transform.position;
+        Vector3 direction = player.transform.position - Monster.transform.position;
 
         Debug.Log(direction.normalized.x);
 
         float spd = Speed;
-        if(direction.normalized.x < 0)
+        if (direction.normalized.x < 0)
         {
             spd = -Speed;
-            MObject.Renderer.flipX = true;
+            Monster.Renderer.flipX = true;
         }
         else
         {
-            MObject.Renderer.flipX = false;
+            Monster.Renderer.flipX = false;
         }
 
-        MObject.RB.velocity = new Vector2(spd * Time.deltaTime, MObject.RB.velocity.y);
+        Monster.RB.velocity = new Vector2(spd * Time.deltaTime, Monster.RB.velocity.y);
     }
 
-    public override void OnGizmo()
+    private void ChaseGizmos()
     {
+        Debug.Log("Run!");
+
+        Vector2 from = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
+        Vector2 to = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
+
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(new Vector3(MObject.transform.position.x - ChaseRange, MObject.transform.position.y, MObject.transform.position.z), new Vector3(MObject.transform.position.x + ChaseRange, MObject.transform.position.y, MObject.transform.position.z));
+        
+        Gizmos.DrawLine(from, to);
     }
 }

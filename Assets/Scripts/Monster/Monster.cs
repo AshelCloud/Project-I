@@ -41,7 +41,7 @@ public class Monster : MonoBehaviour
     public Animator Anim { get; set; }
     public SpriteRenderer Renderer { get; set; }
     public Rigidbody2D RB { get; set; }
-    protected List<MBehaviour> Behaviours { get; set; }
+    protected Dictionary<string, MBehaviour> Behaviours { get; set; }
     
     public MonsterBehaviour CurrentBehaviour { get; set; }
 
@@ -56,7 +56,7 @@ public class Monster : MonoBehaviour
         Renderer = GetComponent<SpriteRenderer>();
         RB = GetComponent<Rigidbody2D>();
 
-        Behaviours = new List<MBehaviour>();
+        Behaviours = new Dictionary<string, MBehaviour>();
 
         SetID();
 
@@ -71,7 +71,7 @@ public class Monster : MonoBehaviour
     {
         foreach(var action in Behaviours)
         {
-            action.Start();
+            action.Value.Start?.Invoke();
         }
     }
 
@@ -79,8 +79,7 @@ public class Monster : MonoBehaviour
     {
         foreach(var action in Behaviours)
         {
-            print(CurrentBehaviour);
-            action.Update();
+            action.Value.Update?.Invoke();
         }
     }
 
@@ -119,8 +118,6 @@ public class Monster : MonoBehaviour
         //Controller는 Resources폴더 안에 넣어두고 사용
         //Table 부재로 리터럴문자 사용
         Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + Data.AnimatorName);
-
-        print(Data.AnimatorName);
     }
 
     protected virtual void SetBehaviors()
@@ -129,11 +126,9 @@ public class Monster : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(Behaviours == null) { return; }
-
         foreach (var action in Behaviours)
         {
-            action.OnGizmo();
+            action.Value.OnGizmos?.Invoke();
         }
     }
 }

@@ -5,16 +5,20 @@ using UnityEngine;
 
 public class GreyWolf : Monster
 {
+    private float StartTime { get; set; }
+    private float MoveTime { get; set; }
+
     protected override void Start()
     {
         base.Start();
+
+        CurrentBehaviour = MonsterBehaviour.Run;
     }
 
     protected override void SetBehaviors()
     {
-        Behaviours.Add(new MPatrol(this, Data.Speed));
-        Behaviours.Add(new MChase(this, Data.Speed * 1.5f, Data.DetectionRange));
-        Behaviours.Add(new MAttack(this, Data.AttackRange, Attack));
+        Behaviours.Add("Patrol", new MPatrol(this, Data.Speed, 2f));
+        Behaviours.Add("Chase", new MChase(this, Data.Speed, Data.DetectionRange));
     }
 
     protected override void SetID()

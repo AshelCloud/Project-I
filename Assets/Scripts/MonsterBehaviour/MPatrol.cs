@@ -5,46 +5,42 @@ using UnityEngine;
 
 public class MPatrol : MBehaviour
 {
-    private float Speed { get; set; }
-    private float MoveTime { get; set; }
-    private float StartTime { get; set; }
-    private bool FlipX { get; set; }
+    public Monster Monster { get; set; }
+    public float StartTime { get; set; }
+    public float MoveTime { get; set; }
+    public float Speed { get; set; }
 
-    public MPatrol(Monster monster, float speed) :
-    base(monster)
+    public MPatrol(Monster monster, float speed = 0f, float moveTime = 1f)
     {
-        SetSpeed(speed);
-        MoveTime = 2f;
-        StartTime = 0f;
-        FlipX = false;
+        Monster = monster;
+        MoveTime = moveTime;
+        Speed = speed;
+
+        Start = PatrolStart;
+        Update = PatrolUpdate;
     }
 
-    public override void Start()
+    private void PatrolStart()
     {
         StartTime = Time.time;
     }
 
-    public override void Update()
+    private void PatrolUpdate()
     {
-        if(MObject.CurrentBehaviour != Monster.MonsterBehaviour.Run) { return; }
+        if (Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run) { return; }
 
-        MObject.CurrentBehaviour = Monster.MonsterBehaviour.Run;
+        Monster.CurrentBehaviour = Monster.MonsterBehaviour.Run;
 
-        if(Time.time - StartTime >= MoveTime)
+        if (Time.time - StartTime >= MoveTime)
         {
             StartTime = Time.time;
-            FlipX = !FlipX;
-            Speed = -Speed;
-            MObject.Renderer.flipX = FlipX;
+            Monster.Renderer.flipX = !Monster.Renderer.flipX;
         }
 
-        MObject.RB.velocity = new Vector2(Speed * Time.deltaTime, MObject.RB.velocity.y);
+        int direction = Monster.Renderer.flipX ? -1 : 1;
 
-        MObject.Anim.Play("Run");
-    }
+        Monster.RB.velocity = new Vector2(Speed * direction * Time.deltaTime, Monster.RB.velocity.y);
 
-    private void SetSpeed(float speed)
-    {
-        Speed = speed;
+        Monster.Anim.Play("Run");
     }
 }
