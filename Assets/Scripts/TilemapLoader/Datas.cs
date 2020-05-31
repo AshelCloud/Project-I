@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /*
                                 데이터
@@ -27,6 +28,57 @@ public class PrefabData
 }
 
 [System.Serializable]
+public class TilemapCollider2DData
+{
+    public bool IsNotNull;
+    public bool IsTrigger;
+    public bool UsedByEffector;
+    public bool UsedByComposite;
+    public Vector2 Offset;
+}
+
+[System.Serializable]
+public class Rigidbody2DData
+{
+    public bool IsNotNull;
+    public RigidbodyType2D BodyType;
+    public bool Simulated;
+    public bool UseAutoMass;
+    public float Mass;
+    public float LinearDrag;
+    public float AngularDrag;
+    public float GravityScale;
+    public CollisionDetectionMode2D CollisionDetection;
+    public RigidbodySleepMode2D SleepingMode;
+    public RigidbodyInterpolation2D Interpolate;
+    public RigidbodyConstraints2D Constraints;
+}
+
+[System.Serializable]
+public class CompositeCollider2DData
+{
+    public bool IsNotNull;
+    public bool IsTrigger;
+    public bool UsedByEffector;
+    public Vector2 Offset;
+    public CompositeCollider2D.GeometryType GeometryType;
+    public CompositeCollider2D.GenerationType GenerationType;
+    public float VertexDistance;
+    public float EdgeRadius;
+}
+
+[System.Serializable]
+public class TilemapRendererData
+{
+    public bool IsNotNull;
+    public TilemapRenderer.SortOrder SortOrder;
+    public TilemapRenderer.Mode Mode;
+    public TilemapRenderer.DetectChunkCullingBounds DetectChunkCullingBounds;
+    public int OrderinLayer;
+    public SpriteMaskInteraction SpriteMaskInteraction;
+}
+
+[System.Serializable]
 public class TilemapData
 {
     public string Name;
@@ -36,9 +88,14 @@ public class TilemapData
     public float AnimationFrameRate;
     public Color Color;
     public Vector3 TileAnchor;
-    public int OrderInLayer;
-    public bool IsHaveCollider;
+    public Tilemap.Orientation Orientation;
+
+    public TilemapCollider2DData TilemapCollider;
+    public TilemapRendererData TilemapRenderer;
+    public Rigidbody2DData RigidBody2D;
+    public CompositeCollider2DData CompositeCollider;
 }
+
 
 [System.Serializable]
 public class MapData

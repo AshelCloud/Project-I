@@ -76,14 +76,16 @@ public class MapLoader : MonoBehaviour
 
     //Tilemap 정보갱신
     //JsonToTilemap함수에 필요
-    public Tilemap UpdateTilemapDataWithCreate(TilemapData tilemapData)
+    //테스트용
+    //본 프로젝트로 옮겨서 사용
+    public Tilemap UpdateTilemapDataWithCreate(TilemapData mapData)
     {
         var maps = transform.GetComponentsInChildren<Tilemap>();
 
         foreach (var m in maps)
         {
             //자식중에 같은게 있으면 리턴
-            if (m.name == tilemapData.Name)
+            if (m.name == mapData.Name)
             {
                 return m;
             }
@@ -96,23 +98,70 @@ public class MapLoader : MonoBehaviour
         go.transform.SetParent(transform);
 
         //TilemapRenderer를 추가하면 Tilemap도 추가됨
-        go.AddComponent<TilemapRenderer>();
-        if (tilemapData.IsHaveCollider)
+        var renderer = go.AddComponent<TilemapRenderer>();
+        TilemapRendererData rendererData = mapData.TilemapRenderer;
+
+        renderer.sortOrder = rendererData.SortOrder;
+        renderer.mode = rendererData.Mode;
+        renderer.detectChunkCullingBounds = rendererData.DetectChunkCullingBounds;
+        renderer.sortingOrder = rendererData.OrderinLayer;
+        renderer.maskInteraction = rendererData.SpriteMaskInteraction;
+
+        if (mapData.TilemapCollider.IsNotNull)
         {
-            go.AddComponent<TilemapCollider2D>();
+            var collider = go.AddComponent<TilemapCollider2D>();
+            var colliderData = mapData.TilemapCollider;
+
+            collider.isTrigger = colliderData.IsTrigger;
+            collider.usedByEffector = colliderData.UsedByEffector;
+            collider.usedByComposite = colliderData.UsedByComposite;
+            collider.offset = colliderData.Offset;
         }
+
+        if (mapData.RigidBody2D.IsNotNull)
+        {
+            var rigidbody2D = go.AddComponent<Rigidbody2D>();
+            var rigidbodyData = mapData.RigidBody2D;
+
+            rigidbody2D.bodyType = rigidbodyData.BodyType;
+            rigidbody2D.simulated = rigidbodyData.Simulated;
+            rigidbody2D.useAutoMass = rigidbodyData.UseAutoMass;
+            rigidbody2D.mass = rigidbodyData.Mass;
+            rigidbody2D.drag = rigidbodyData.LinearDrag;
+            rigidbody2D.angularDrag = rigidbodyData.AngularDrag;
+            rigidbody2D.gravityScale = rigidbodyData.GravityScale;
+            rigidbody2D.collisionDetectionMode = rigidbodyData.CollisionDetection;
+            rigidbody2D.sleepMode = rigidbodyData.SleepingMode;
+            rigidbody2D.interpolation = rigidbodyData.Interpolate;
+            rigidbody2D.constraints = rigidbodyData.Constraints;
+        }
+
+        if (mapData.CompositeCollider.IsNotNull)
+        {
+            var collider = go.AddComponent<CompositeCollider2D>();
+            var colliderData = mapData.CompositeCollider;
+
+            collider.isTrigger = colliderData.IsTrigger;
+            collider.usedByEffector = colliderData.UsedByEffector;
+            collider.offset = colliderData.Offset;
+            collider.geometryType = colliderData.GeometryType;
+            collider.generationType = colliderData.GenerationType;
+            collider.vertexDistance = colliderData.VertexDistance;
+            collider.edgeRadius = colliderData.EdgeRadius;
+        }
+
         map = go.GetComponent<Tilemap>();
 
         //정보 업데이트
         //데이터테이블 변경시 같이 변경해야함
-        map.transform.name = tilemapData.Name;
-        map.transform.position = tilemapData.Position;
-        map.transform.rotation = tilemapData.Rotation;
-        map.transform.localScale = tilemapData.Scale;
-        map.animationFrameRate = tilemapData.AnimationFrameRate;
-        map.color = tilemapData.Color;
-        map.tileAnchor = tilemapData.TileAnchor;
-        map.GetComponent<TilemapRenderer>().sortingOrder = tilemapData.OrderInLayer;
+        map.transform.name = mapData.Name;
+        map.transform.position = mapData.Position;
+        map.transform.rotation = mapData.Rotation;
+        map.transform.localScale = mapData.Scale;
+        map.animationFrameRate = mapData.AnimationFrameRate;
+        map.color = mapData.Color;
+        map.tileAnchor = mapData.TileAnchor;
+        map.orientation = mapData.Orientation;
 
         return map;
     }
