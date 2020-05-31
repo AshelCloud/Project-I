@@ -154,7 +154,9 @@ public class MapLoader : MonoBehaviour
 
         //정보 업데이트
         //데이터테이블 변경시 같이 변경해야함
+        //TODO: string Null 체크
         map.transform.name = mapData.Name;
+        map.tag = mapData.Tag;
         map.transform.position = mapData.Position;
         map.transform.rotation = mapData.Rotation;
         map.transform.localScale = mapData.Scale;

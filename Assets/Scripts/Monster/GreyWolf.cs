@@ -4,9 +4,20 @@ public class GreyWolf : Monster
 {
     protected override void SetBehaviors()
     {
-        Behaviours.Add("Patrol", new MPatrol(this, Data.Speed, 2f));
-        Behaviours.Add("Chase", new MChase(this, Data.Speed, Data.DetectionRange));
-        Behaviours.Add("Attack", new MAttack(this, Data.AttackRange, Attack));
+        Behaviours.Add("Patrol", new MPatrol(this, "Run", Data.Speed, 2f));
+        Behaviours.Add("Chase", new MChase(this, "Run", Data.Speed, Data.DetectionRange, () => 
+        { 
+            if(CurrentBehaviour == MonsterBehaviour.Chase) { print("1.5f"); Anim.speed = 1.5f; }
+            else { print("1f"); Anim.speed = 1f; }
+        }));
+        Behaviours.Add("Attack", new MAttack(this, "Bite", Data.AttackRange, Attack));
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        print(CurrentBehaviour.ToString());
     }
     protected override void SetID()
     {
@@ -31,13 +42,11 @@ public class GreyWolf : Monster
 
         if (player == null)
         {
-            CurrentBehaviour = MonsterBehaviour.Run;
             return;
         }
 
         CurrentBehaviour = MonsterBehaviour.Attack;
 
         Anim.Play("Bite");
-        Anim.speed = 1f;
     }
 }

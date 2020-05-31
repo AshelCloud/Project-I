@@ -1,33 +1,44 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 public class MChase : MBehaviour
 {
-    private Monster Monster { get; set; }
-    private float Speed { get; set; }
-    private float ChaseRange { get; set; }
+    public Monster Monster { get; private set; }
+    public string AnimationName { get; private set; }
+    public float Speed { get; set; }
+    public float ChaseRange { get; set; }
 
-    public MChase(Monster monster, float speed = 0f, float range = 0f)
+    public MChase(Monster monster, string animationName, float speed = 0f, float range = 0f, params Action[] actions)
     {
         Monster = monster;
+        AnimationName = animationName;
         Speed = speed;
         ChaseRange = range;
 
-        Update = ChaseUpdate;
-        OnGizmos = ChaseGizmos;
+        foreach(var action in actions)
+        {
+            Update += action;
+        }
+
+        Update += ChaseUpdate;
+        OnGizmos += ChaseGizmos;
     }
+
     private void ChaseUpdate()
     {
-        if (Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run) 
+        if(Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run && Monster.CurrentBehaviour != Monster.MonsterBehaviour.Chase) 
         {
             return;
         }
 
-        GameObject player = null;
 
         Vector2 start = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
         Vector2 end = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
 
         var results = Physics2D.LinecastAll(start, end);
+
+        GameObject player = null;
 
         foreach (var result in results)
         {
@@ -46,8 +57,7 @@ public class MChase : MBehaviour
 
         Monster.CurrentBehaviour = Monster.MonsterBehaviour.Chase;
 
-        Monster.Anim.Play("Run");
-        Monster.Anim.speed = 1.5f;
+        Monster.Anim.Play(AnimationName);
 
         Vector3 direction = player.transform.position - Monster.transform.position;
 

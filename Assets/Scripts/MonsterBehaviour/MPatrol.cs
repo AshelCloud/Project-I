@@ -1,20 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MPatrol : MBehaviour
 {
-    public Monster Monster { get; set; }
-    public float StartTime { get; set; }
+    public Monster Monster { get; private set; }
+    public string AnimationName { get; private set; }
     public float MoveTime { get; set; }
     public float Speed { get; set; }
+    private float StartTime { get; set; }
 
-    public MPatrol(Monster monster, float speed = 0f, float moveTime = 1f)
+    public MPatrol(Monster monster, string animationName, float speed = 0f, float moveTime = 1f, params Action[] actions)
     {
         Monster = monster;
+        AnimationName = animationName;
         MoveTime = moveTime;
         Speed = speed;
 
-        Start = PatrolStart;
-        Update = PatrolUpdate;
+        foreach (var action in actions)
+        {
+            Update += action;
+        }
+
+        Start += PatrolStart;
+        Update += PatrolUpdate;
     }
 
     private void PatrolStart()
@@ -26,8 +34,6 @@ public class MPatrol : MBehaviour
     {
         if (Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run) { return; }
 
-        Monster.CurrentBehaviour = Monster.MonsterBehaviour.Run;
-
         if (Time.time - StartTime >= MoveTime)
         {
             StartTime = Time.time;
@@ -38,7 +44,6 @@ public class MPatrol : MBehaviour
 
         Monster.RB.velocity = new Vector2(Speed * direction * Time.deltaTime, Monster.RB.velocity.y);
 
-        Monster.Anim.Play("Run");
-        Monster.Anim.speed = 1f;
+        Monster.Anim.Play(AnimationName);
     }
 }

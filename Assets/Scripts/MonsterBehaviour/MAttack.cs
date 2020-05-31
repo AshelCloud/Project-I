@@ -3,21 +3,23 @@ using UnityEngine;
 
 public class MAttack : MBehaviour
 {
-    private Monster Monster { get; set; }
-    private float AttackRange { get; set; }
-    public MAttack(Monster monster, float range, params Action[] actions)
+    public Monster Monster { get; private set; }
+    public string AnimationName { get; private set; }
+    public float AttackRange { get; set; }
+    public MAttack(Monster monster, string animationName, float range = 0f, params Action[] actions)
     {
         Monster = monster;
+        AnimationName = animationName;
         AttackRange = range;
 
         foreach(var action in actions)
         {
             Update += action;
         }
-        OnGizmos = AttackGizmos;
+        OnGizmos += AttackGizmos;
     }
 
-    public void AttackGizmos()
+    private void AttackGizmos()
     {
         Gizmos.color = Color.red;
 

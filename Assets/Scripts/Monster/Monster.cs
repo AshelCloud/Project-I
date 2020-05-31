@@ -38,10 +38,12 @@ public class Monster : MonoBehaviour
 
     protected MonsterData Data { get; set; }
     protected int ID { get; set; }
+    protected Dictionary<string, MBehaviour> Behaviours { get; set; }
     public Animator Anim { get; set; }
     public SpriteRenderer Renderer { get; set; }
     public Rigidbody2D RB { get; set; }
-    protected Dictionary<string, MBehaviour> Behaviours { get; set; }
+
+    public float HP { get; set; }
     
     public MonsterBehaviour CurrentBehaviour { get; set; }
 
@@ -113,6 +115,8 @@ public class Monster : MonoBehaviour
     protected virtual void UpdateData()
     {
         transform.name = Data.ObjectName;
+
+        HP = Data.HP;
 
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용

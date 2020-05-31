@@ -82,6 +82,7 @@ public class TilemapRendererData
 public class TilemapData
 {
     public string Name;
+    public string Tag;
     public Vector3 Position;
     public Quaternion Rotation;
     public Vector3 Scale;
