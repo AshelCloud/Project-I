@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class MonsterJson
+    public class MonsterTest
     {
         [UnityTest]
         public IEnumerator MonsterDataTableParsingCheck()
