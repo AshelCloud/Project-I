@@ -10,7 +10,7 @@ public class Monster : MonoBehaviour
     //데이터 클래스
     //테이블에 따라 변화
     [System.Serializable]
-    protected class MonsterData
+    public class MonsterData
     {
         public string Name;
         public string VariableName;
@@ -134,5 +134,10 @@ public class Monster : MonoBehaviour
         {
             action.Value.OnGizmos?.Invoke();
         }
+    }
+
+    public virtual void Hit(int damage)
+    {
+        HP -= 10;
     }
 }
