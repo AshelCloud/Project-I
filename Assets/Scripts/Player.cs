@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using UnityEditorInternal;
 using UnityEngine;
 
 public partial class Player : MonoBehaviour
@@ -25,7 +24,6 @@ public partial class Player : MonoBehaviour
     {
         SetState(new IdleState());                  //최초 게임 실행 시 대기 상태로 설정
     }
-
 
     private void Update()
     {

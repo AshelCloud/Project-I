@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using UnityEditor.Animations;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 /*
  *  모든 몬스터 부모 클래스
@@ -13,23 +10,42 @@ public class Monster : MonoBehaviour
     //데이터 클래스
     //테이블에 따라 변화
     [System.Serializable]
-    protected class MonsterData
+    public class MonsterData
     {
         public string Name;
         public string VariableName;
         public string MonsterType;
-        public int OffensePower;
-        public int Defense;
-        public int HP;
-        public int Speed;
+        public float OffensePower;
+        public float Defense;
+        public float HP;
+        public float Speed;
+        public int DropBundleID;
+        public string ObjectName;
+        public string AnimatorName;
+        public string PrefabName;
+        public float DetectionRange;
+        public float AttackRange;
     }
+
+    public enum MonsterBehaviour
+    {
+        Run,
+        Chase,
+        Attack,
+        Hit,
+        Dead
+    }
+
     protected MonsterData Data { get; set; }
     protected int ID { get; set; }
+    protected Dictionary<string, MBehaviour> Behaviours { get; set; }
     public Animator Anim { get; set; }
     public SpriteRenderer Renderer { get; set; }
     public Rigidbody2D RB { get; set; }
 
-    protected List<MBehaviour> Behaviours { get; set; }
+    public float HP { get; set; }
+    
+    public MonsterBehaviour CurrentBehaviour { get; set; }
 
     protected virtual void Awake()
     {
@@ -42,13 +58,14 @@ public class Monster : MonoBehaviour
         Renderer = GetComponent<SpriteRenderer>();
         RB = GetComponent<Rigidbody2D>();
 
-        Behaviours = new List<MBehaviour>();
+        Behaviours = new Dictionary<string, MBehaviour>();
 
         SetID();
 
         LoadToJsonData(ID);
         UpdateData();
 
+        CurrentBehaviour = MonsterBehaviour.Run;
         SetBehaviors();
     }
 
@@ -56,7 +73,7 @@ public class Monster : MonoBehaviour
     {
         foreach(var action in Behaviours)
         {
-            action.Start();
+            action.Value.Start?.Invoke();
         }
     }
 
@@ -64,7 +81,7 @@ public class Monster : MonoBehaviour
     {
         foreach(var action in Behaviours)
         {
-            action.Update();
+            action.Value.Update?.Invoke();
         }
     }
 
@@ -97,15 +114,30 @@ public class Monster : MonoBehaviour
     //Data값을 오브젝트에 할당
     protected virtual void UpdateData()
     {
-        transform.name = Data.Name;
+        transform.name = Data.ObjectName;
+
+        HP = Data.HP;
 
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용
         //Table 부재로 리터럴문자 사용
-        Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + "Grey_wolf");
+        Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + Data.AnimatorName);
     }
 
     protected virtual void SetBehaviors()
     {
+    }
+
+    private void OnDrawGizmos()
+    {
+        foreach (var action in Behaviours)
+        {
+            action.Value.OnGizmos?.Invoke();
+        }
+    }
+
+    public virtual void Hit(int damage)
+    {
+        HP -= 10;
     }
 }

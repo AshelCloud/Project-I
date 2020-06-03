@@ -1,46 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System;
 using UnityEngine;
 
 public class MPatrol : MBehaviour
 {
-    public MPatrol(Monster monster, float speed):
-        base(monster)
+    public Monster Monster { get; private set; }
+    public string AnimationName { get; private set; }
+    public float MoveTime { get; set; }
+    public float Speed { get; set; }
+    private float StartTime { get; set; }
+
+    public MPatrol(Monster monster, string animationName, float speed = 0f, float moveTime = 1f, params Action[] actions)
     {
-        SetSpeed(speed);
-        MoveTime = 2f;
-        StartTime = 0f;
-        FlipX = false;
+        Monster = monster;
+        AnimationName = animationName;
+        MoveTime = moveTime;
+        Speed = speed;
+
+        foreach (var action in actions)
+        {
+            Update += action;
+        }
+
+        Start += PatrolStart;
+        Update += PatrolUpdate;
     }
 
-    private float Speed { get; set; }
-    private float MoveTime { get; set; }
-    private float StartTime { get; set; }
-    private bool FlipX { get; set; }
-
-    public override void Start()
+    private void PatrolStart()
     {
         StartTime = Time.time;
     }
 
-    public override void Update()
+    private void PatrolUpdate()
     {
-        if(Time.time - StartTime >= MoveTime)
+        if (Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run) { return; }
+
+        if (Time.time - StartTime >= MoveTime)
         {
             StartTime = Time.time;
-            FlipX = !FlipX;
-            Speed = -Speed;
-            MObject.Renderer.flipX = FlipX;
+            Monster.Renderer.flipX = !Monster.Renderer.flipX;
         }
 
-        MObject.RB.velocity = new Vector2(Speed * Time.deltaTime, MObject.RB.velocity.y);
+        int direction = Monster.Renderer.flipX ? -1 : 1;
 
-        MObject.Anim.Play("Run");
-    }
+        Monster.RB.velocity = new Vector2(Speed * direction * Time.deltaTime, Monster.RB.velocity.y);
 
-    public void SetSpeed(float speed)
-    {
-        Speed = speed;
+        Monster.Anim.Play(AnimationName);
     }
 }
