@@ -23,9 +23,9 @@ public class MDie : MBehaviour
     {
         if (Monster.HP > 0) { return; }
 
-        Monster.Anim.Play(AnimationName);
+        Monster.BehaviourStack.Push(Monster.MonsterBehaviour.Dead);
 
-        Monster.CurrentBehaviour = Monster.MonsterBehaviour.Dead;
+        Monster.Anim.Play(AnimationName);
 
         //TODO: 애니메이션 끝난뒤 오브젝트 삭제
         if (Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)

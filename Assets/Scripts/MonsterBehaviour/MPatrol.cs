@@ -32,7 +32,7 @@ public class MPatrol : MBehaviour
 
     private void PatrolUpdate()
     {
-        if (Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run) { return; }
+        if (Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Run) { return; }
 
         if (Time.time - StartTime >= MoveTime)
         {

@@ -7,8 +7,10 @@ public class GreyWolf : Monster
         Behaviours.Add("Patrol", new MPatrol(this, "Run", Data.Speed, 2f));
         Behaviours.Add("Chase", new MChase(this, "Run", Data.Speed, Data.DetectionRange, () => 
         { 
-            if(CurrentBehaviour == MonsterBehaviour.Chase) { print("1.5f"); Anim.speed = 1.5f; }
+            if(BehaviourStack.Peek() == MonsterBehaviour.Chase) { Anim.speed = 1.5f; }
+            else { Anim.speed = 1f; }
         }));
+        Behaviours.Add("Hit", new MHit(this, "Hit"));
         Behaviours.Add("Attack", new MAttack(this, "Bite", Data.AttackRange, Attack));
         Behaviours.Add("Dead", new MDie(this, "Dead"));
     }
@@ -36,10 +38,16 @@ public class GreyWolf : Monster
 
         if (player == null)
         {
+            if(BehaviourStack.Peek() == MonsterBehaviour.Attack)
+            {
+                BehaviourStack.Pop();
+            }
             return;
         }
-
-        CurrentBehaviour = MonsterBehaviour.Attack;
+        else if(BehaviourStack.Peek() != MonsterBehaviour.Attack)
+        {
+            BehaviourStack.Push(MonsterBehaviour.Attack);
+        }
 
         Anim.Play("Bite");
     }

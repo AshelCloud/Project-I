@@ -29,6 +29,7 @@ public class Monster : MonoBehaviour
 
     public enum MonsterBehaviour
     {
+        Idle,
         Run,
         Chase,
         Attack,
@@ -42,10 +43,11 @@ public class Monster : MonoBehaviour
     public Animator Anim { get; set; }
     public SpriteRenderer Renderer { get; set; }
     public Rigidbody2D RB { get; set; }
-
     public float HP { get; set; }
-    
-    public MonsterBehaviour CurrentBehaviour { get; set; }
+    public float AttackRange { get; set; }
+    public float DetectionRange { get; set; }
+
+    public Stack<MonsterBehaviour> BehaviourStack { get; set; }
 
     public bool Dead { get; set; }
 
@@ -63,13 +65,15 @@ public class Monster : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
 
         Behaviours = new Dictionary<string, MBehaviour>();
+        BehaviourStack = new Stack<MonsterBehaviour>();
+
+        BehaviourStack.Push(MonsterBehaviour.Run);
 
         SetID();
 
         LoadToJsonData(ID);
         UpdateData();
 
-        CurrentBehaviour = MonsterBehaviour.Run;
         SetBehaviors();
 
         Dead = false;
@@ -86,6 +90,8 @@ public class Monster : MonoBehaviour
     protected virtual void Update()
     {
         if( Dead ) { return;  }
+
+        print(BehaviourStack.Peek());
 
         foreach(var action in Behaviours)
         {
@@ -125,6 +131,8 @@ public class Monster : MonoBehaviour
         transform.name = Data.ObjectName;
 
         HP = Data.HP;
+        AttackRange = Data.AttackRange;
+        DetectionRange = Data.DetectionRange;
 
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용
@@ -144,9 +152,11 @@ public class Monster : MonoBehaviour
         }
     }
 
-    public virtual void Hit(int damage)
+    public virtual void Hit(float damage)
     {
-        HP -= 10;
+        BehaviourStack.Push(MonsterBehaviour.Hit);
+
+        HP -= damage;
     }
 
     public virtual void DestroyObject()
