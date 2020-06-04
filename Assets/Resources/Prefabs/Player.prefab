@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  jumpForce: 7
+  jumpForce: 10
   rollLength: 5
 --- !u!50 &3905798396274382593
 Rigidbody2D:
