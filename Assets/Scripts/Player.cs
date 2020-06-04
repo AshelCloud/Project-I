@@ -22,7 +22,7 @@ public partial class Player : MonoBehaviour
     public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D Rigidbody { get { return gameObject.GetComponent<Rigidbody2D>(); } }
 
-    private bool grounded = true;
+    private bool grounded = false;
 
     public bool isGrounded { get { return grounded; } set { grounded = value; } }
 
@@ -51,10 +51,10 @@ public partial class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("충돌 테스트");
         if (collision.tag == "Floor")
         {
             grounded = true;
+            Debug.Log("땅에 착지?" + grounded.ToString());
         }
     }
 
@@ -62,7 +62,6 @@ public partial class Player : MonoBehaviour
     {
         if (collision.tag == "Floor")
         {
-
             grounded = false;
 
             Debug.Log("땅에 착지?" + grounded.ToString());
