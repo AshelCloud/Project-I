@@ -1,15 +1,23 @@
 ﻿using System.Collections;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public partial class Player : MonoBehaviour
 {
+    //이동 속도
     [SerializeField]
-    private float _moveSpeed;                       //플레이어 이동 속도(에디터 수정 가능)
-    public float MoveSpeed { get { return _moveSpeed; } }
+    private float moveSpeed;                       
+    public float MoveSpeed { get { return moveSpeed; } }
 
+    //점프력
     [SerializeField]
-    private float _jumpForce;
-    public float JumpForce { get { return _jumpForce; } }
+    private float jumpForce;
+    public float JumpForce { get { return jumpForce; } }
+
+    //구르기 거리
+    [SerializeField]
+    private float rollLength;
+    public float RollLength { get { return rollLength; } }
 
     public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D Rigidbody { get { return gameObject.GetComponent<Rigidbody2D>(); } }

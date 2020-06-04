@@ -25,41 +25,41 @@ public interface IPlayerState
 //플레이어 대기 상태
 public class IdleState : IPlayerState
 {
-    private Player _player;
+    private Player player;
 
     void IPlayerState.OnEnter(Player player)
     {
-        _player = player;
+        this.player = player;
     }
 
     void IPlayerState.Update()
     {
         Debug.Log("IdleState");
 
-        _player.Anim.Play("idle");
+        player.Anim.Play("idle");
 
         //이동
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            _player.SetState(new RunState());
+            player.SetState(new RunState());
         }
 
         //공격
         if (Input.GetKeyDown(KeyCode.A))
         {
-            _player.SetState(new AttackState());
+            player.SetState(new AttackState());
         }
 
         //점프
         if (Input.GetKeyDown(KeyCode.D))
         {
-            _player.SetState(new JumpState());
+            player.SetState(new JumpState());
         }
 
         //구르기
         if (Input.GetKeyDown(KeyCode.F))
         {
-            _player.SetState(new RollState());
+            player.SetState(new RollState());
         }
     }
 
@@ -72,55 +72,55 @@ public class IdleState : IPlayerState
 //플레이어 이동 상태
 public class RunState : IPlayerState
 {
-    private Player _player;
+    private Player player;
     private Vector2 direction;
     void IPlayerState.OnEnter(Player player)
     {
-        _player = player;
-        direction = _player.transform.localScale;
+        this.player = player;
+        direction = player.transform.localScale;
     }
 
     void IPlayerState.Update()
     {
         Debug.Log("RunState");
-        _player.Anim.Play("Run");
+        player.Anim.Play("Run");
 
         //좌측이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            _player.transform.Translate(Vector2.right * (-_player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
+            player.transform.Translate(Vector2.right * (-player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
             direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-            _player.transform.localScale = direction;
+            player.transform.localScale = direction;
         }
 
         //우측이동
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            _player.transform.Translate(Vector2.right * _player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
+            player.transform.Translate(Vector2.right * player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
             direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
-            _player.transform.localScale = direction;
+            player.transform.localScale = direction;
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            _player.SetState(new AttackState());
+            player.SetState(new AttackState());
         }
 
         //점프
         if (Input.GetKeyDown(KeyCode.D))
         {
-            _player.SetState(new JumpState());
+            player.SetState(new JumpState());
         }
 
         //구르기
         if (Input.GetKeyDown(KeyCode.F))
         {
-            _player.SetState(new RollState());
+            player.SetState(new RollState());
         }
 
         if (!Input.anyKey)
         {
-            _player.SetState(new IdleState());          //아무 입력이 없으면 대기 상태로 전이
+            player.SetState(new IdleState());          //아무 입력이 없으면 대기 상태로 전이
         }
     }
 
@@ -132,22 +132,22 @@ public class RunState : IPlayerState
 //플레이어 공격 상태
 public class AttackState : IPlayerState
 {
-    private Player _player;
+    private Player player;
 
     //공격 애니메이션 1 ~ 4
     private int attackCount = 1;
 
     void IPlayerState.OnEnter(Player player)
     {
-        _player = player;
+        this.player = player;
     }
 
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     { 
-        _player.Anim.Play("Attack" + attackCount.ToString());
+        player.Anim.Play("Attack" + attackCount.ToString());
 
-        float currentAnim = _player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        float currentAnim = player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
 
         //현재 애니메이션이 끝나면 다음 단계 애니메이션으로 전이
@@ -164,7 +164,7 @@ public class AttackState : IPlayerState
 
         if (!Input.GetKey(KeyCode.A) && currentAnim >= 0.99f)
         {
-            _player.SetState(new IdleState());              //아무 입력이 없으면 대기 상태로 전이
+            player.SetState(new IdleState());              //아무 입력이 없으면 대기 상태로 전이
         }
     }
 
@@ -179,37 +179,37 @@ public class AttackState : IPlayerState
 //플레이어 점프 상태
 public class JumpState : IPlayerState
 {
-    private Player _player;
+    private Player player;
     void IPlayerState.OnEnter(Player player)
     {
-        _player = player;
+        this.player = player;
 
         //플레이어를 점프시킴
-        _player.Rigidbody.AddForce(Vector2.up * _player.JumpForce, ForceMode2D.Impulse);
-        _player.isGrounded = false;
+        player.Rigidbody.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+        player.isGrounded = false;
     }
 
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
         Debug.Log("JumpState");
-        _player.Anim.Play("Jump");
+        player.Anim.Play("Jump");
 
         //플레이어의 공중 이동
-        if (!_player.isGrounded)
+        if (!player.isGrounded)
         {
-            _player.Anim.Play("Jump", -1, 0.5f);
+            player.Anim.Play("Jump", -1, 0.5f);
 
             //좌측이동
-            if (Input.GetKey(KeyCode.LeftArrow) && !_player.isGrounded)
+            if (Input.GetKey(KeyCode.LeftArrow) && !player.isGrounded)
             {
-                _player.transform.Translate(Vector2.right * (-_player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
+                player.transform.Translate(Vector2.right * (-player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
             }
 
             //우측이동
-            if (Input.GetKey(KeyCode.RightArrow) && !_player.isGrounded)
+            if (Input.GetKey(KeyCode.RightArrow) && !player.isGrounded)
             {
-                _player.transform.Translate(Vector2.right * _player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
+                player.transform.Translate(Vector2.right * player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
             }
         }
 
@@ -219,18 +219,18 @@ public class JumpState : IPlayerState
 
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
             {
-                _player.SetState(new RunState());
+                player.SetState(new RunState());
             }
 
             //구르기
             if (Input.GetKey(KeyCode.F))
             {
-                _player.SetState(new RollState());
+                player.SetState(new RollState());
             }
 
             if (!Input.anyKey)
             {
-                _player.SetState(new IdleState());          //아무 입력이 없으면 대기 상태로 전이
+                player.SetState(new IdleState());          //아무 입력이 없으면 대기 상태로 전이
             }
         }
 
@@ -244,32 +244,32 @@ public class JumpState : IPlayerState
 //플레이어 구르기 상태
 public class RollState : IPlayerState
 {
-    private Player _player;
+    private Player player;
     private Vector2 direction;
 
     void IPlayerState.OnEnter(Player player)
     {
-        _player = player;
-        direction = _player.transform.localScale;
+        this.player = player;
+        direction = player.transform.localScale;
     }
 
     void IPlayerState.Update()
     {
-        _player.Anim.Play("Roll");
+        player.Anim.Play("Roll");
 
-        if (_player.transform.localScale.x == 1f)
+        if (player.transform.localScale.x == 1f)
         {
-            _player.transform.Translate(Vector2.right * 2.0f * Time.deltaTime, Space.World);
+            player.transform.Translate(Vector2.right * player.RollLength * Time.deltaTime, Space.World);
         }
 
         else
         {
-            _player.transform.Translate(-Vector2.right * 2.0f * Time.deltaTime, Space.World);
+            player.transform.Translate(-Vector2.right * player.RollLength * Time.deltaTime, Space.World);
         }
 
-        if (_player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
         {
-            _player.SetState(new IdleState());
+            player.SetState(new IdleState());
         }
     }
 
