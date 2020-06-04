@@ -47,13 +47,17 @@ public class Monster : MonoBehaviour
     
     public MonsterBehaviour CurrentBehaviour { get; set; }
 
+    public bool Dead { get; set; }
+
     protected virtual void Awake()
     {
         //TODO: GetComponent가 많으면 함수화
         Anim = GetComponent<Animator>();
         if (Anim == null)
         {
-            Debug.LogError("GameObject Not Added Animator!");
+            Debug.LogWarning("GameObject Not Added Animator! Adding Animator In Script");
+
+            Anim = gameObject.AddComponent<Animator>();
         }
         Renderer = GetComponent<SpriteRenderer>();
         RB = GetComponent<Rigidbody2D>();
@@ -67,6 +71,8 @@ public class Monster : MonoBehaviour
 
         CurrentBehaviour = MonsterBehaviour.Run;
         SetBehaviors();
+
+        Dead = false;
     }
 
     protected virtual void Start()
@@ -79,6 +85,8 @@ public class Monster : MonoBehaviour
 
     protected virtual void Update()
     {
+        if( Dead ) { return;  }
+
         foreach(var action in Behaviours)
         {
             action.Value.Update?.Invoke();
@@ -139,5 +147,11 @@ public class Monster : MonoBehaviour
     public virtual void Hit(int damage)
     {
         HP -= 10;
+    }
+
+    public virtual void DestroyObject()
+    {
+        Dead = true;
+        Destroy(gameObject);
     }
 }

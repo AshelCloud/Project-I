@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using UnityEngine;
 
 public class MDie : MBehaviour
 {
@@ -25,10 +21,17 @@ public class MDie : MBehaviour
 
     private void DieUpdate()
     {
-        if(Monster.HP > 0) { return; }
+        if (Monster.HP > 0) { return; }
 
-         Monster.Anim.Play(AnimationName);
+        Monster.Anim.Play(AnimationName);
 
-         //TODO: 애니메이션 끝난뒤 오브젝트 삭제
+        Monster.CurrentBehaviour = Monster.MonsterBehaviour.Dead;
+
+        //TODO: 애니메이션 끝난뒤 오브젝트 삭제
+        if (Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
+        {
+            //TODO: FadeOut으로 교체
+            Monster.DestroyObject();
+        }
     }
 }

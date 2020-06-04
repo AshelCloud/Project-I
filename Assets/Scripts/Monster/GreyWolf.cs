@@ -8,17 +8,11 @@ public class GreyWolf : Monster
         Behaviours.Add("Chase", new MChase(this, "Run", Data.Speed, Data.DetectionRange, () => 
         { 
             if(CurrentBehaviour == MonsterBehaviour.Chase) { print("1.5f"); Anim.speed = 1.5f; }
-            else { print("1f"); Anim.speed = 1f; }
         }));
         Behaviours.Add("Attack", new MAttack(this, "Bite", Data.AttackRange, Attack));
+        Behaviours.Add("Dead", new MDie(this, "Dead"));
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-        print(CurrentBehaviour.ToString());
-    }
     protected override void SetID()
     {
         ID = 1;

@@ -32,7 +32,6 @@ public class MChase : MBehaviour
             return;
         }
 
-
         Vector2 start = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
         Vector2 end = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
 
