@@ -257,14 +257,19 @@ public class RollState : IPlayerState
     {
         player.Anim.Play("Roll");
 
-        if (player.transform.localScale.x == 1f)
+        if (player.transform.localScale.x > 0)
         {
             player.transform.Translate(Vector2.right * player.RollLength * Time.deltaTime, Space.World);
+            direction.x = Mathf.Abs(direction.x);                                                              
+            player.transform.localScale = direction;
+
         }
 
         else
         {
-            player.transform.Translate(-Vector2.right * player.RollLength * Time.deltaTime, Space.World);
+            player.transform.Translate(Vector2.right * -player.RollLength * Time.deltaTime, Space.World);
+            direction.x = -Mathf.Abs(direction.x);
+            player.transform.localScale = direction;
         }
 
         if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
