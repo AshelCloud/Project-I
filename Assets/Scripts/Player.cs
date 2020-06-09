@@ -6,7 +6,7 @@ public partial class Player : MonoBehaviour
 {
     //이동 속도
     [SerializeField]
-    private float moveSpeed;                       
+    private float moveSpeed;
     public float MoveSpeed { get { return moveSpeed; } }
 
     //점프력
@@ -26,11 +26,19 @@ public partial class Player : MonoBehaviour
 
     public bool isGrounded { get { return grounded; } set { grounded = value; } }
 
+    public bool isHit { get; set; }
+    public Monster hitTarget;
+
+    public bool rightMove;
+    public bool leftMove;
+
     private IPlayerState _currentState;
 
     private void Awake()
     {
         SetState(new IdleState());                  //최초 게임 실행 시 대기 상태로 설정
+        rightMove = false;
+        leftMove = false;
     }
 
     private void Update()
@@ -54,8 +62,15 @@ public partial class Player : MonoBehaviour
         if (collision.tag == "Floor")
         {
             grounded = true;
-            Debug.Log("땅에 착지?" + grounded.ToString());
         }
+
+        if(collision.tag == "Monster")
+        {
+            isHit = true;
+            hitTarget = collision.gameObject.GetComponent<Monster>();
+            Debug.Log("몬스터가 맞았다!");
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -63,8 +78,6 @@ public partial class Player : MonoBehaviour
         if (collision.tag == "Floor")
         {
             grounded = false;
-
-            Debug.Log("땅에 착지?" + grounded.ToString());
         }
     }
 }

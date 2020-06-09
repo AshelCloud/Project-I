@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 /*
@@ -38,28 +39,36 @@ public class IdleState : IPlayerState
 
         player.Anim.Play("idle");
 
-        //이동
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        if (!player.isGrounded)
         {
-            player.SetState(new RunState());
+            player.Anim.Play("Jump", -1, 0.5f);
         }
 
-        //공격
-        if (Input.GetKeyDown(KeyCode.A))
+        else
         {
-            player.SetState(new AttackState());
-        }
+            //이동
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                player.SetState(new RunState());
+            }
 
-        //점프
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            player.SetState(new JumpState());
-        }
+            //공격
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                player.SetState(new AttackState());
+            }
 
-        //구르기
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            player.SetState(new RollState());
+            //점프
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                player.SetState(new JumpState());
+            }
+
+            //구르기
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                player.SetState(new RollState());
+            }
         }
     }
 
@@ -74,6 +83,7 @@ public class RunState : IPlayerState
 {
     private Player player;
     private Vector2 direction;
+
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
@@ -91,6 +101,8 @@ public class RunState : IPlayerState
             player.transform.Translate(Vector2.right * (-player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
             direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
             player.transform.localScale = direction;
+            player.rightMove = false;
+            player.leftMove = true;
         }
 
         //우측이동
@@ -99,6 +111,8 @@ public class RunState : IPlayerState
             player.transform.Translate(Vector2.right * player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
             direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
             player.transform.localScale = direction;
+            player.leftMove = false;
+            player.rightMove = true;
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -120,6 +134,8 @@ public class RunState : IPlayerState
 
         if (!Input.anyKey)
         {
+            player.leftMove = false;
+            player.rightMove = false;
             player.SetState(new IdleState());          //아무 입력이 없으면 대기 상태로 전이
         }
     }
@@ -133,36 +149,63 @@ public class RunState : IPlayerState
 public class AttackState : IPlayerState
 {
     private Player player;
+    private Monster monster;
+    string animName;
 
     //공격 애니메이션 1 ~ 4
-    private int attackCount = 1;
-
+    private int attackCount;
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
+        attackCount = 1;
     }
 
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
-    { 
+    {
         player.Anim.Play("Attack" + attackCount.ToString());
 
-        float currentAnim = player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
+        Debug.Log("현재 공격 단계: " + attackCount.ToString());
 
         //현재 애니메이션이 끝나면 다음 단계 애니메이션으로 전이
-        if (currentAnim >= 0.99f)
+        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
+            player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack1"))
         {
-            attackCount++;
+            attackCount = 2;
         }
 
-        //마지막 애니메이션이 끝나면 최초 단계로 초기화
-        else if (attackCount >= 4)
+        else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
+                 player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack2"))
+        {
+            attackCount = 3;
+        }
+
+        else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
+                 player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack3"))
+        {
+            attackCount = 4;
+        }
+
+        else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
+                 player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack4"))
         {
             attackCount = 1;
         }
 
-        if (!Input.GetKey(KeyCode.A) && currentAnim >= 0.99f)
+        else
+        {
+
+        }
+
+        if (player.isHit)
+        {
+            monster = player.hitTarget;
+            monster.Hit(10);
+            Debug.Log(monster.HP.ToString());
+            player.isHit = false;
+        }
+
+        if (!Input.GetKey(KeyCode.A) && player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
         {
             player.SetState(new IdleState());              //아무 입력이 없으면 대기 상태로 전이
         }
@@ -173,7 +216,6 @@ public class AttackState : IPlayerState
         //공격 애니메이션 최초 단계로 초기화
         attackCount = 1;
     }
-
 }
 
 //플레이어 점프 상태
@@ -198,18 +240,23 @@ public class JumpState : IPlayerState
         //플레이어의 공중 이동
         if (!player.isGrounded)
         {
-            player.Anim.Play("Jump", -1, 0.5f);
+            player.Anim.Play("Jump", 0, 0.5f);
 
             //좌측이동
-            if (Input.GetKey(KeyCode.LeftArrow) && !player.isGrounded)
+            if (player.rightMove)
             {
-                player.transform.Translate(Vector2.right * (-player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
+                player.transform.Translate(Vector2.right.normalized * player.MoveSpeed * Time.deltaTime, Space.World);    //플레이어 좌측 이동
             }
 
             //우측이동
-            if (Input.GetKey(KeyCode.RightArrow) && !player.isGrounded)
+            else if (player.leftMove)
             {
-                player.transform.Translate(Vector2.right * player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
+                player.transform.Translate(Vector2.left.normalized * player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
+            }
+
+            else
+            {
+
             }
         }
 
@@ -234,7 +281,7 @@ public class JumpState : IPlayerState
             }
         }
 
-        }
+    }
 
     void IPlayerState.OnExit()
     {
@@ -260,7 +307,7 @@ public class RollState : IPlayerState
         if (player.transform.localScale.x > 0)
         {
             player.transform.Translate(Vector2.right * player.RollLength * Time.deltaTime, Space.World);
-            direction.x = Mathf.Abs(direction.x);                                                              
+            direction.x = Mathf.Abs(direction.x);
             player.transform.localScale = direction;
 
         }
@@ -272,9 +319,14 @@ public class RollState : IPlayerState
             player.transform.localScale = direction;
         }
 
-        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && !Input.anyKeyDown)
         {
             player.SetState(new IdleState());
+        }
+
+        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)))
+        {
+            player.SetState(new RunState());
         }
     }
 
