@@ -11,44 +11,12 @@ public class GreyWolf : Monster
             else { Anim.speed = 1f; }
         }));
         Behaviours.Add("Hit", new MHit(this, "Hit"));
-        Behaviours.Add("Attack", new MAttack(this, "Bite", Data.AttackRange, Attack));
+        Behaviours.Add("Attack", new MAttack(this, "Bite", Data.AttackRange, GetComponentInChildren<CircleCollider2D>()));
         Behaviours.Add("Dead", new MDie(this, "Dead"));
     }
 
     protected override void SetID()
     {
         ID = 1;
-    }
-    public void Attack()
-    {
-        Vector2 end = new Vector2(transform.position.x + Data.AttackRange, transform.position.y);
-
-        var results = Physics2D.LinecastAll(transform.position, end);
-
-        GameObject player = null;
-
-        foreach (var result in results)
-        {
-            if (result.transform.CompareTag("Player"))
-            {
-                player = result.transform.gameObject;
-                break;
-            }
-        }
-
-        if (player == null)
-        {
-            if(BehaviourStack.Peek() == MonsterBehaviour.Attack)
-            {
-                BehaviourStack.Pop();
-            }
-            return;
-        }
-        else if(BehaviourStack.Peek() != MonsterBehaviour.Attack)
-        {
-            BehaviourStack.Push(MonsterBehaviour.Attack);
-        }
-
-        Anim.Play("Bite");
     }
 }

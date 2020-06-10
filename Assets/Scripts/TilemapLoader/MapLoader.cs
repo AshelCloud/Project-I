@@ -69,6 +69,7 @@ public class MapLoader : MonoBehaviour
             //필요시 삭제
             var playerReosurce = Resources.Load<GameObject>(PrefabFilePath + "Player");
             var player = Instantiate(playerReosurce, data.Value.PlayerStartPosition, Quaternion.identity);
+            player.tag = "Player";
         }
 
         yield return null;
