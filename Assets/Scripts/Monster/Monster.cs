@@ -29,6 +29,7 @@ public class Monster : MonoBehaviour
 
     public enum MonsterBehaviour
     {
+        Idle,
         Run,
         Chase,
         Attack,
@@ -42,10 +43,13 @@ public class Monster : MonoBehaviour
     public Animator Anim { get; set; }
     public SpriteRenderer Renderer { get; set; }
     public Rigidbody2D RB { get; set; }
-
     public float HP { get; set; }
-    
-    public MonsterBehaviour CurrentBehaviour { get; set; }
+    public float AttackRange { get; set; }
+    public float DetectionRange { get; set; }
+
+    public Stack<MonsterBehaviour> BehaviourStack { get; set; }
+
+    public bool Dead { get; set; }
 
     protected virtual void Awake()
     {
@@ -53,20 +57,26 @@ public class Monster : MonoBehaviour
         Anim = GetComponent<Animator>();
         if (Anim == null)
         {
-            Debug.LogError("GameObject Not Added Animator!");
+            Debug.LogWarning("GameObject Not Added Animator! Adding Animator In Script");
+
+            Anim = gameObject.AddComponent<Animator>();
         }
         Renderer = GetComponent<SpriteRenderer>();
         RB = GetComponent<Rigidbody2D>();
 
         Behaviours = new Dictionary<string, MBehaviour>();
+        BehaviourStack = new Stack<MonsterBehaviour>();
+
+        BehaviourStack.Push(MonsterBehaviour.Run);
 
         SetID();
 
         LoadToJsonData(ID);
         UpdateData();
 
-        CurrentBehaviour = MonsterBehaviour.Run;
         SetBehaviors();
+
+        Dead = false;
     }
 
     protected virtual void Start()
@@ -79,6 +89,10 @@ public class Monster : MonoBehaviour
 
     protected virtual void Update()
     {
+        if( Dead ) { return;  }
+
+        print(BehaviourStack.Peek());
+
         foreach(var action in Behaviours)
         {
             action.Value.Update?.Invoke();
@@ -117,6 +131,8 @@ public class Monster : MonoBehaviour
         transform.name = Data.ObjectName;
 
         HP = Data.HP;
+        AttackRange = Data.AttackRange;
+        DetectionRange = Data.DetectionRange;
 
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용
@@ -136,8 +152,16 @@ public class Monster : MonoBehaviour
         }
     }
 
-    public virtual void Hit(int damage)
+    public virtual void Hit(float damage)
     {
-        HP -= 10;
+        BehaviourStack.Push(MonsterBehaviour.Hit);
+
+        HP -= damage;
+    }
+
+    public virtual void DestroyObject()
+    {
+        Dead = true;
+        Destroy(gameObject);
     }
 }

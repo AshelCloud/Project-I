@@ -27,11 +27,12 @@ public class MChase : MBehaviour
 
     private void ChaseUpdate()
     {
-        if(Monster.CurrentBehaviour != Monster.MonsterBehaviour.Run && Monster.CurrentBehaviour != Monster.MonsterBehaviour.Chase) 
+        var curBehavior = Monster.BehaviourStack.Peek();
+
+        if(curBehavior != Monster.MonsterBehaviour.Run && curBehavior != Monster.MonsterBehaviour.Chase) 
         {
             return;
         }
-
 
         Vector2 start = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
         Vector2 end = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
@@ -51,11 +52,17 @@ public class MChase : MBehaviour
 
         if (player == null)
         {
-            Monster.CurrentBehaviour = Monster.MonsterBehaviour.Run;
+            if(Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Chase) 
+            {
+                Monster.BehaviourStack.Pop(); 
+            }
+
             return;
         }
-
-        Monster.CurrentBehaviour = Monster.MonsterBehaviour.Chase;
+        else if(Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Chase)
+        {
+            Monster.BehaviourStack.Push(Monster.MonsterBehaviour.Chase);
+        }
 
         Monster.Anim.Play(AnimationName);
 
