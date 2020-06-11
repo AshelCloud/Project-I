@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -156,6 +157,7 @@ public class AttackState : IPlayerState
     private int attackCount;
     void IPlayerState.OnEnter(Player player)
     {
+        player.isAttacking = true;
         this.player = player;
         attackCount = 1;
     }
@@ -171,24 +173,28 @@ public class AttackState : IPlayerState
         if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
             player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack1"))
         {
+            IsSwordHitMonster();
             attackCount = 2;
         }
 
         else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
                  player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack2"))
         {
+            IsSwordHitMonster();
             attackCount = 3;
         }
 
         else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
                  player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack3"))
         {
+            IsSwordHitMonster();
             attackCount = 4;
         }
 
         else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
                  player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack4"))
         {
+            IsSwordHitMonster();
             attackCount = 1;
         }
 
@@ -197,24 +203,35 @@ public class AttackState : IPlayerState
 
         }
 
-        if (player.isHit)
-        {
-            monster = player.hitTarget;
-            monster.Hit(10);
-            Debug.Log(monster.HP.ToString());
-            player.isHit = false;
-        }
+
 
         if (!Input.GetKey(KeyCode.A) && player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
         {
             player.SetState(new IdleState());              //아무 입력이 없으면 대기 상태로 전이
         }
+
     }
 
     void IPlayerState.OnExit()
     {
         //공격 애니메이션 최초 단계로 초기화
         attackCount = 1;
+        player.isAttacking = false;
+    }
+
+    private void IsSwordHitMonster()
+    {
+        if (player.hitTarget)
+        {
+            monster = player.hitTarget;
+            monster.Hit(10);
+            Debug.Log(monster.HP.ToString());
+        }
+
+        else
+        {
+            return;
+        }
     }
 }
 

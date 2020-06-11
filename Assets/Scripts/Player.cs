@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 
 public partial class Player : MonoBehaviour
@@ -26,7 +27,10 @@ public partial class Player : MonoBehaviour
 
     public bool isGrounded { get { return grounded; } set { grounded = value; } }
 
-    public bool isHit { get; set; }
+    //공격 판정을 위한 GameObject
+    GameObject sword;
+
+    public bool isAttacking { get; set; }
     public Monster hitTarget;
 
     public bool rightMove;
@@ -39,11 +43,21 @@ public partial class Player : MonoBehaviour
         SetState(new IdleState());                  //최초 게임 실행 시 대기 상태로 설정
         rightMove = false;
         leftMove = false;
+
+        sword = GameObject.Find("Sword");
+
+        //검이 공격 상태일 때만 활성화
+        sword.SetActive(false);
     }
 
     private void Update()
     {
-        _currentState.Update();                     //현재 상태에 따른 행동 실행
+        //공격 상태 확인 및 활성화
+        StartCoroutine(ActivateSword(isAttacking));
+
+        //현재 상태에 따른 행동 실행
+        _currentState.Update();                     
+
     }
 
     public void SetState(IPlayerState nextState)
@@ -57,27 +71,43 @@ public partial class Player : MonoBehaviour
         _currentState.OnEnter(this);                //다음 상태 진입
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "Floor")
+        if (collision.gameObject.tag == "Floor")
         {
             grounded = true;
         }
-
-        if(collision.tag == "Monster")
-        {
-            isHit = true;
-            hitTarget = collision.gameObject.GetComponent<Monster>();
-            Debug.Log("몬스터가 맞았다!");
-        }
-
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.tag == "Floor")
+        if (collision.gameObject.tag == "Floor")
         {
             grounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Monster")
+        {
+            hitTarget = collider.gameObject.GetComponent<Monster>();
+            Debug.Log("몬스터가 맞았다!");
+        }
+    }
+
+    public IEnumerator ActivateSword(bool attackState)
+    {
+        if (attackState)
+        {
+            sword.SetActive(true);
+            yield return new WaitForSeconds(1.0f);
+            sword.SetActive(false);
+        }
+
+        else
+        {
+            yield return null;
         }
     }
 }
