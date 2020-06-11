@@ -151,63 +151,80 @@ public class AttackState : IPlayerState
 {
     private Player player;
     private Monster monster;
-    string animName;
+    private float currentAnimTime;
 
     //공격 애니메이션 1 ~ 4
-    private int attackCount;
+    private int currentAnim;
+
+    //현재 재생되는 애니메이션을 비교해 공격 판정을 애니메이션당 한번만 실행하기 위함
+    private int attackAnim;
+
     void IPlayerState.OnEnter(Player player)
     {
-        player.isAttacking = true;
         this.player = player;
-        attackCount = 1;
+        currentAnim = 1;
+        attackAnim = 1;
     }
 
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
-        player.Anim.Play("Attack" + attackCount.ToString());
+        Debug.Log("RunState");
+        currentAnimTime = player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-        Debug.Log("현재 공격 단계: " + attackCount.ToString());
+        //1~4까지의 공격 애니메이션 실행
+        player.Anim.Play("Attack" + currentAnim.ToString());
+
+        //공격 판정 검사 및 실행
+        if ((currentAnimTime >= 0.6f && currentAnimTime < 0.7f) &&          //검을 휘두르는 스프라이트에 맞춰 몬스터 타격
+           attackAnim == currentAnim)                                       //현재 애니메이션 비교
+        {
+            //다음 애니메이션에 대한 공격 판정을 위해 증가
+            attackAnim++;
+
+            //검 활성화
+            player.Sword.SetActive(true);
+
+            //몬스터 타격
+            SwordHitMonster();
+        }
 
         //현재 애니메이션이 끝나면 다음 단계 애니메이션으로 전이
-        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
-            player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack1"))
-        {
-            IsSwordHitMonster();
-            attackCount = 2;
-        }
-
-        else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
-                 player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack2"))
-        {
-            IsSwordHitMonster();
-            attackCount = 3;
-        }
-
-        else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
-                 player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack3"))
-        {
-            IsSwordHitMonster();
-            attackCount = 4;
-        }
-
-        else if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f &&
-                 player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack4"))
-        {
-            IsSwordHitMonster();
-            attackCount = 1;
-        }
-
         else
         {
+            if (currentAnimTime >= 0.99f &&
+                player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack1"))
+            {
+                //다음 애니메이션 시작을 위해 갱신
+                currentAnim = 2;
+            }
 
+            else if (currentAnimTime >= 0.99f &&
+                     player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack2"))
+            {
+                currentAnim = 3;
+            }
+
+            else if (currentAnimTime >= 0.99f &&
+                     player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack3"))
+            {
+                currentAnim = 4;
+            }
+
+            else if (currentAnimTime >= 0.99f &&
+                     player.Anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack4"))
+            {
+                currentAnim = 1;
+                attackAnim = 1;
+            }
+
+            else
+            { }
         }
-
-
-
-        if (!Input.GetKey(KeyCode.A) && player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+        //애니메이션 종료 후 아무 입력이 없으면 대기 상태로 전이
+        if (!Input.GetKey(KeyCode.A) && currentAnimTime >= 0.99f)
         {
-            player.SetState(new IdleState());              //아무 입력이 없으면 대기 상태로 전이
+            player.SetState(new IdleState());              
         }
 
     }
@@ -215,17 +232,18 @@ public class AttackState : IPlayerState
     void IPlayerState.OnExit()
     {
         //공격 애니메이션 최초 단계로 초기화
-        attackCount = 1;
-        player.isAttacking = false;
+        currentAnim = 1;
+        attackAnim = 1;
     }
 
-    private void IsSwordHitMonster()
+    private void SwordHitMonster()
     {
         if (player.hitTarget)
         {
             monster = player.hitTarget;
-            monster.Hit(10);
-            Debug.Log(monster.HP.ToString());
+            monster.Hit(0.1f);
+            Debug.Log("현재 애니메이션: " + currentAnim + ",몬스터 체력: " + monster.HP);
+            player.Sword.SetActive(false);
         }
 
         else

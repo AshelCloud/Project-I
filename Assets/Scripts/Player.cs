@@ -28,9 +28,8 @@ public partial class Player : MonoBehaviour
     public bool isGrounded { get { return grounded; } set { grounded = value; } }
 
     //공격 판정을 위한 GameObject
-    GameObject sword;
-
-    public bool isAttacking { get; set; }
+    private GameObject sword;
+    public GameObject Sword { get { return sword; } }
     public Monster hitTarget;
 
     public bool rightMove;
@@ -52,9 +51,6 @@ public partial class Player : MonoBehaviour
 
     private void Update()
     {
-        //공격 상태 확인 및 활성화
-        StartCoroutine(ActivateSword(isAttacking));
-
         //현재 상태에 따른 행동 실행
         _currentState.Update();                     
 
@@ -93,21 +89,6 @@ public partial class Player : MonoBehaviour
         {
             hitTarget = collider.gameObject.GetComponent<Monster>();
             Debug.Log("몬스터가 맞았다!");
-        }
-    }
-
-    public IEnumerator ActivateSword(bool attackState)
-    {
-        if (attackState)
-        {
-            sword.SetActive(true);
-            yield return new WaitForSeconds(1.0f);
-            sword.SetActive(false);
-        }
-
-        else
-        {
-            yield return null;
         }
     }
 }

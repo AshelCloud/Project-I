@@ -34,10 +34,13 @@ public class PlayerCam : MonoBehaviour
         halfWidth = halfHeight * Screen.width / Screen.height;
     }
 
+    private void Start()
+    {
+        StartCoroutine(FindPlayer());
+    }
+
     private void LateUpdate()
     {
-        target = GameObject.Find("Player(Clone)").transform;
-
         //카메라 위치 결정
         transform.position = new Vector3(target.position.x, target.position.y) + offset;
 
@@ -45,5 +48,11 @@ public class PlayerCam : MonoBehaviour
         float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
 
         this.transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+    }
+
+    private IEnumerator FindPlayer()
+    {
+        yield return null;
+        target = GameObject.Find("Player(Clone)").transform;
     }
 }
