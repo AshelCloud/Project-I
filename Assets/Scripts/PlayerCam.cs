@@ -41,6 +41,8 @@ public class PlayerCam : MonoBehaviour
 
     private void LateUpdate()
     {
+        if(target == null) { return; }
+
         //카메라 위치 결정
         transform.position = new Vector3(target.position.x, target.position.y) + offset;
 
