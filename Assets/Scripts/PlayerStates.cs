@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 /*
  **********************************************
@@ -32,6 +33,8 @@ public class IdleState : IPlayerState
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
+        player.rightMove = false;
+        player.leftMove = false;
     }
 
     void IPlayerState.Update()
@@ -42,7 +45,7 @@ public class IdleState : IPlayerState
 
         if (!player.isGrounded)
         {
-            player.Anim.Play("Jump", -1, 0.5f);
+            player.SetState(new JumpState());
         }
 
         else
@@ -150,7 +153,6 @@ public class RunState : IPlayerState
 public class AttackState : IPlayerState
 {
     private Player player;
-    private Monster monster;
     private float currentAnimTime;
 
     //공격 애니메이션 1 ~ 4
@@ -224,7 +226,7 @@ public class AttackState : IPlayerState
         //애니메이션 종료 후 아무 입력이 없으면 대기 상태로 전이
         if (!Input.GetKey(KeyCode.A) && currentAnimTime >= 0.99f)
         {
-            player.SetState(new IdleState());              
+            player.SetState(new IdleState());
         }
 
     }
@@ -234,15 +236,16 @@ public class AttackState : IPlayerState
         //공격 애니메이션 최초 단계로 초기화
         currentAnim = 1;
         attackAnim = 1;
+
+        player.hitTarget = null;
     }
 
     private void SwordHitMonster()
     {
         if (player.hitTarget)
         {
-            monster = player.hitTarget;
-            monster.Hit(0.1f);
-            Debug.Log("현재 애니메이션: " + currentAnim + ",몬스터 체력: " + monster.HP);
+            player.hitTarget.Hit(0.1f);
+            Debug.Log("현재 애니메이션: " + currentAnim + ",몬스터 체력: " + player.hitTarget.HP);
             player.Sword.SetActive(false);
         }
 
@@ -257,6 +260,7 @@ public class AttackState : IPlayerState
 public class JumpState : IPlayerState
 {
     private Player player;
+    private float currentAnimTime;
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
@@ -264,7 +268,7 @@ public class JumpState : IPlayerState
         if (player.isGrounded)
         {
             //플레이어를 점프시킴
-            player.Rigidbody.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+            player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
             player.isGrounded = false;
         }
 
@@ -274,12 +278,12 @@ public class JumpState : IPlayerState
     void IPlayerState.Update()
     {
         Debug.Log("JumpState");
+        currentAnimTime = player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
         //플레이어의 공중 이동
         if (!player.isGrounded)
         {
-            player.Anim.Play("Jump", 0, 0.5f);
-
+            PlayJumpAnim();
             //좌측이동
             if (player.rightMove)
             {
@@ -294,28 +298,38 @@ public class JumpState : IPlayerState
 
             else
             {
-
             }
         }
 
         //땅에 착지 했을 시에 취하는 입력들
         else
         {
-
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
             {
                 player.SetState(new RunState());
             }
 
+            else if (Input.GetKey(KeyCode.A))
+            {
+                player.SetState(new AttackState());
+            }
+
             //구르기
-            if (Input.GetKey(KeyCode.F))
+            else if (Input.GetKey(KeyCode.F))
             {
                 player.SetState(new RollState());
             }
 
-            if (!Input.anyKey)
+            //아무 입력이 없으면 대기 상태로 전이
+            else if (!Input.anyKey)
             {
-                player.SetState(new IdleState());          //아무 입력이 없으면 대기 상태로 전이
+                player.SetState(new IdleState());
+            }
+
+            //버그 방지
+            else
+            {
+                player.SetState(new IdleState());
             }
         }
 
@@ -323,6 +337,30 @@ public class JumpState : IPlayerState
 
     void IPlayerState.OnExit()
     {
+    }
+
+    private void PlayJumpAnim()
+    {
+        if (player.rb.velocity.y >= 8f)
+        {
+            player.Anim.Play("Jump", 0, 0.2f);
+        }
+
+        else if (player.rb.velocity.y < 8f && player.rb.velocity.y > 0f)
+        {
+            player.Anim.Play("Jump", 0, 0.4f);
+        }
+
+        //마이너스가 나올 수록 점점 빨라짐
+        else if (player.rb.velocity.y < 0f)
+        {
+            player.Anim.Play("Jump", 0, 0.6f);
+        }
+
+        else
+        {
+            player.Anim.Play("Jump", 0, 0.8f);
+        }
     }
 }
 
@@ -342,7 +380,7 @@ public class RollState : IPlayerState
     {
         player.Anim.Play("Roll");
 
-        if (player.transform.localScale.x > 0)
+        if (direction.x > 0)
         {
             player.transform.Translate(Vector2.right * player.RollLength * Time.deltaTime, Space.World);
             direction.x = Mathf.Abs(direction.x);
@@ -377,26 +415,66 @@ public class RollState : IPlayerState
 public class HitState : IPlayerState
 {
     private Player player;
+    private Vector2 direction;
 
+    //튕겨져 나가는 거리
+    private const float bounceLength = 8;
+
+    //튕겨져 나가는 힘
+    private const float bounceForce = 12;
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
+
+        //플레이어가 피격당할 시 공중에 뜨게 되는데,
+        //동시에 OnCollisionExit2D()를 통해 공중에 떠있다는 것을 감지하게되면서 
+        //JumpState로 전이된다. 이를 방지 하기 위해 설정해주는 것이다
+        player.GetComponent<BoxCollider2D>().isTrigger = true;
+
+        //플레이어 방향
+        direction = player.transform.localScale;
+
+        //플레이어가 피격시 공중으로 튕겨져 나감
+        player.rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
+
+        //플레이어가 공중에 있음을 확인
+        player.isGrounded = false;
     }
     void IPlayerState.Update()
     {
+        player.Anim.Play("hit");
+
+        //Lerp와 Translate중 뭐가 좋을지 테스트중
+        if (direction.x > 0)
+        {
+            //player.transform.Translate(Vector2.left * bounceLength * Time.deltaTime, Space.World);
+            player.transform.position = Vector2.Lerp(player.transform.position, player.transform.position - new Vector3(bounceLength, 0, 0), 0.02f);
+        }
+        else
+        {
+            //player.transform.Translate(Vector2.right * bounceLength * Time.deltaTime, Space.World);
+            player.transform.position = Vector2.Lerp(player.transform.position, player.transform.position + new Vector3(bounceLength, 0, 0), 0.02f);
+        }
+
+        if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+        {
+            player.SetState(new IdleState());
+        }
     }
 
     void IPlayerState.OnExit()
     {
-
+        //다시 원상 복구 시켜 정상적으로 상태가 전이될 수 있게 한다.
+        player.GetComponent<BoxCollider2D>().isTrigger = false;
     }
 }
 
+//현재 미구현 사항
 public class DeathState : IPlayerState
 {
     void IPlayerState.OnEnter(Player player)
     {
-
+        Debug.Log("선 채로... 죽었어!");
     }
 
     void IPlayerState.Update()

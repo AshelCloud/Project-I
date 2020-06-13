@@ -175,7 +175,6 @@ MonoBehaviour:
   speed: 29.87
   jumpForce: 15
   rollLength: 10
-  hitTarget: {fileID: 0}
 --- !u!50 &3905798396274382593
 Rigidbody2D:
   serializedVersion: 4

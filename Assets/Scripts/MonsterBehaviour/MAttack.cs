@@ -62,6 +62,10 @@ public class MAttack : MBehaviour
 
         Monster.Anim.Play(AnimationName);
 
+        //플레이어 피격테스트
+        //수정요망
+        //player.GetComponent<Player>().HitByMonster(0);
+
         //!< 폐기코드
         //if(Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime / AttackCount > 0.8f)
         //{

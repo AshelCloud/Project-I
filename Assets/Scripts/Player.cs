@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Runtime.InteropServices;
 using TMPro;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -48,14 +49,17 @@ public class Player : MonoBehaviour
     public float RollLength { get { return rollLength; } }
 
     public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
-    public Rigidbody2D Rigidbody { get { return gameObject.GetComponent<Rigidbody2D>(); } }
+    public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
 
-    public bool isGrounded { get; set; }
+    public bool isGrounded { get; set; } = false;
+    private float groundDistance;
+
 
     //공격 판정을 위한 GameObject
     private GameObject sword;
     public GameObject Sword { get { return sword; } }
-    public Monster hitTarget;
+
+    public Monster hitTarget { get; set; }
 
     //플레이어 점프 방향 구분
     public bool rightMove { get; set; } = false;
@@ -82,6 +86,13 @@ public class Player : MonoBehaviour
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
+
+        //추후 필히 삭제
+        //피격 디버그
+        if (Input.GetKeyDown(KeyCode.Mouse2))
+        {
+            HitByMonster(0);
+        }
     }
 
     public void SetState(IPlayerState nextState)
@@ -155,9 +166,10 @@ public class Player : MonoBehaviour
         hp -= damage;
         SetState(new HitState());
 
-        if(hp <= 0)
+        if (hp <= 0)
         {
-            //Player Dead!
+            //죽음 상태 미구현
+            SetState(new DeathState());
         }
 
         else { return; }

@@ -28,7 +28,7 @@ public class MHit : MBehaviour
 
         Monster.Anim.Play(AnimationName);
 
-        if(Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        if(Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
         {
             Monster.BehaviourStack.Pop();
         }
