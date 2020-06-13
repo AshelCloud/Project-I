@@ -99,7 +99,7 @@ public class RunState : IPlayerState
         //좌측이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            player.transform.Translate(Vector2.right * (-player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
+            player.transform.Translate(Vector2.right * (-player.Speed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
             direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
             player.transform.localScale = direction;
             player.rightMove = false;
@@ -109,7 +109,7 @@ public class RunState : IPlayerState
         //우측이동
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            player.transform.Translate(Vector2.right * player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
+            player.transform.Translate(Vector2.right * player.Speed * Time.deltaTime, Space.World);       //플레이어 우측 이동
             direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
             player.transform.localScale = direction;
             player.leftMove = false;
@@ -279,13 +279,13 @@ public class JumpState : IPlayerState
             //좌측이동
             if (player.rightMove)
             {
-                player.transform.Translate(Vector2.right.normalized * player.MoveSpeed * Time.deltaTime, Space.World);    //플레이어 좌측 이동
+                player.transform.Translate(Vector2.right.normalized * player.Speed * Time.deltaTime, Space.World);    //플레이어 좌측 이동
             }
 
             //우측이동
             else if (player.leftMove)
             {
-                player.transform.Translate(Vector2.left.normalized * player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
+                player.transform.Translate(Vector2.left.normalized * player.Speed * Time.deltaTime, Space.World);       //플레이어 우측 이동
             }
 
             else

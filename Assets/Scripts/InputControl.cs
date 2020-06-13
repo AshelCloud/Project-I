@@ -53,7 +53,7 @@ public class InputControl : MonoBehaviour
 
     public void MoveLeft()
     {
-        _player.transform.Translate(Vector2.right * (-_player.MoveSpeed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
+        _player.transform.Translate(Vector2.right * (-_player.Speed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
         direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
         _player.transform.localScale = direction;
 
@@ -61,7 +61,7 @@ public class InputControl : MonoBehaviour
 
     public void MoveRight()
     {
-        _player.transform.Translate(Vector2.right * _player.MoveSpeed * Time.deltaTime, Space.World);       //플레이어 우측 이동
+        _player.transform.Translate(Vector2.right * _player.Speed * Time.deltaTime, Space.World);       //플레이어 우측 이동
         direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
         _player.transform.localScale = direction;
     }

@@ -4,29 +4,37 @@ using System.Dynamic;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Timeline;
+
+
 
 public class Player : MonoBehaviour
 {
-    private struct PlayerData
+    [System.Serializable]
+    public class PlayerData
     {
-        string name;
-        string variableName;
-        float offensePower;
-        float defense;
-        float hp;
-        float speed;
-        string objectName;
-        string animatorName;
-        string prefabName;
+        public string Name;
+        public string Variablename;
+        public float Offensepower;
+        public float Defense;
+        public float HP;
+        public float Speed;
+        public string Objectname;
+        public string Animatorname;
+        public string Prefabname;
     }
 
-    private PlayerData playerData;
-    private int ID;
 
+    public PlayerData playerData;
+    private int ID = 1;
+
+    private float offensePower;
+    private float defense;
+    private float hp;
     //이동 속도
     [SerializeField]
-    private float moveSpeed;
-    public float MoveSpeed { get { return moveSpeed; } }
+    private float speed;
+    public float Speed { get { return speed; } }
 
     //점프력
     [SerializeField]
@@ -44,24 +52,26 @@ public class Player : MonoBehaviour
     public bool isGrounded { get; set; }
 
     //공격 판정을 위한 GameObject
-    public GameObject Sword { get { return GameObject.Find("Sword"); } }
+    private GameObject sword;
+    public GameObject Sword { get { return sword; } }
     public Monster hitTarget;
 
-    public bool rightMove { get; set; }
-    public bool leftMove { get; set; }
+    //플레이어 점프 방향 구분
+    public bool rightMove { get; set; } = false;
+    public bool leftMove { get; set; } = false;
 
     private IPlayerState _currentState;
 
-    
+
 
     private void Awake()
     {
-        ID = 1;
+        LoadToJsonData(ID);
+        UpdateData();
 
+        sword = GameObject.Find("Sword");
         //최초 게임 실행 시 대기 상태로 설정
-        SetState(new IdleState());                  
-        rightMove = false;
-        leftMove = false;
+        SetState(new IdleState());
 
         //검이 공격 상태일 때만 활성화
         Sword.SetActive(false);
@@ -69,13 +79,9 @@ public class Player : MonoBehaviour
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 
-    private void FixedUpdate()
-    {
-    }
-
-
     private void Update()
     {
+
         //현재 상태에 따른 행동 실행
         _currentState.Update();
     }
@@ -85,14 +91,14 @@ public class Player : MonoBehaviour
         if (_currentState != null)
         {
             //기존 상태 존재할 시 OnExit()호출
-            _currentState.OnExit();                 
+            _currentState.OnExit();
         }
 
         //다음 상태 전이
         _currentState = nextState;
 
         //다음 상태 진입
-        _currentState.OnEnter(this);                
+        _currentState.OnEnter(this);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -130,10 +136,18 @@ public class Player : MonoBehaviour
         }
 
         //Json 파싱
-        var json = JsonManager.LoadJson<Serialization<string, PlayerData>>(Application.dataPath + "/Resources/PlayerJsons/", "Characters_Table").ToDictionary();
+        var json = JsonManager.LoadJson<Serialization<string, PlayerData>>(Application.dataPath + "/Resources/PlayerJson/", "CharactersTable").ToDictionary();
 
         //ID 값으로 해당되는 Data 저장
         //ID는 각 몬스터 스크립트에서 할당
         playerData = json[ID.ToString()];
+    }
+
+    private void UpdateData()
+    {
+        offensePower = playerData.Offensepower;
+        defense = playerData.Defense;
+        hp = playerData.HP;
+        speed = playerData.Speed;
     }
 }
