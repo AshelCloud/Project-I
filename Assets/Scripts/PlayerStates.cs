@@ -260,9 +260,13 @@ public class JumpState : IPlayerState
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
-        //플레이어를 점프시킴
-        player.Rigidbody.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-        player.isGrounded = false;
+
+        if (player.isGrounded)
+        {
+            //플레이어를 점프시킴
+            player.Rigidbody.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+            player.isGrounded = false;
+        }
 
     }
 
@@ -368,6 +372,42 @@ public class RollState : IPlayerState
     {
     }
 
+}
+
+public class HitState : IPlayerState
+{
+    private Player player;
+
+    void IPlayerState.OnEnter(Player player)
+    {
+        this.player = player;
+    }
+    void IPlayerState.Update()
+    {
+    }
+
+    void IPlayerState.OnExit()
+    {
+
+    }
+}
+
+public class DeathState : IPlayerState
+{
+    void IPlayerState.OnEnter(Player player)
+    {
+
+    }
+
+    void IPlayerState.Update()
+    {
+
+    }
+
+    void IPlayerState.OnExit()
+    {
+
+    }
 }
 
 //****************************차후 구현해야할 기능들*************************

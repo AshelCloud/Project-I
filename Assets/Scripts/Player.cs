@@ -11,7 +11,7 @@ using UnityEngine.Timeline;
 public class Player : MonoBehaviour
 {
     [System.Serializable]
-    public class PlayerData
+    private struct PlayerData
     {
         public string Name;
         public string Variablename;
@@ -25,12 +25,13 @@ public class Player : MonoBehaviour
     }
 
 
-    public PlayerData playerData;
+    private PlayerData playerData;
     private int ID = 1;
 
     private float offensePower;
     private float defense;
     private float hp;
+
     //이동 속도
     [SerializeField]
     private float speed;
@@ -62,8 +63,6 @@ public class Player : MonoBehaviour
 
     private IPlayerState _currentState;
 
-
-
     private void Awake()
     {
         LoadToJsonData(ID);
@@ -81,7 +80,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
         //현재 상태에 따른 행동 실행
         _currentState.Update();
     }
@@ -114,6 +112,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Floor")
         {
             isGrounded = false;
+            SetState(new JumpState());
         }
     }
 
@@ -149,5 +148,18 @@ public class Player : MonoBehaviour
         defense = playerData.Defense;
         hp = playerData.HP;
         speed = playerData.Speed;
+    }
+
+    public void HitByMonster(float damage)
+    {
+        hp -= damage;
+        SetState(new HitState());
+
+        if(hp <= 0)
+        {
+            //Player Dead!
+        }
+
+        else { return; }
     }
 }
