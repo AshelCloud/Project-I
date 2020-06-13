@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
         }
 
         //Json 파싱
-        var json = JsonManager.LoadJson<Serialization<string, PlayerData>>(Application.dataPath + "/Resources/PlayerJson/", "CharactersTable").ToDictionary();
+        var json = JsonManager.LoadJson<Serialization<string, PlayerData>>(Application.dataPath + "/Resources/PlayerJson/", "Characters_Table").ToDictionary();
 
         //ID 값으로 해당되는 Data 저장
         //ID는 각 몬스터 스크립트에서 할당
