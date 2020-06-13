@@ -260,17 +260,16 @@ public class JumpState : IPlayerState
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
-
         //플레이어를 점프시킴
         player.Rigidbody.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
         player.isGrounded = false;
+
     }
 
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
         Debug.Log("JumpState");
-        player.Anim.Play("Jump");
 
         //플레이어의 공중 이동
         if (!player.isGrounded)

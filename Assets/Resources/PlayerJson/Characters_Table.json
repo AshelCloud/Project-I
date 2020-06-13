@@ -1,0 +1,16 @@
+{
+  "keys": [ "1" ],
+  "values": [
+    {
+      "Name": "플레이어",
+      "Variablename": "Player",
+      "Offensepower": 5,
+      "Defense": 5,
+      "HP": 50,
+      "Speed": 25,
+      "Objectname": "Player",
+      "Animatorname": "Player",
+      "Prefabname": "Player"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6465777863101596922}
   - component: {fileID: 6465777863101596923}
   - component: {fileID: 61261127759561220}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Grey_wolf
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4c811b0ea14f1479638b8843f078b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravityScale: -5
 --- !u!50 &6465777863101596923
 Rigidbody2D:
   serializedVersion: 4
