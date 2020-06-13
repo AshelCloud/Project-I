@@ -60,17 +60,19 @@ public class MAttack : MBehaviour
             Monster.BehaviourStack.Push(Monster.MonsterBehaviour.Attack);
         }
 
-        Monster.Anim.Play("Bite");
-        if(Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime / AttackCount > 0.8f)
-        {
-            EnableColliders(true);
-            AttackCount ++;
-            Debug.Log("NormalizedTime: " + Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-        }
-        else
-        {
-            EnableColliders(false);
-        }
+        Monster.Anim.Play(AnimationName);
+
+        //!< 폐기코드
+        //if(Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime / AttackCount > 0.8f)
+        //{
+        //    EnableColliders(true);
+        //    AttackCount ++;
+        //    Debug.Log("NormalizedTime: " + Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        //}
+        //else
+        //{
+        //    EnableColliders(false);
+        //}
     }
 
     private void EnableColliders(bool enable)

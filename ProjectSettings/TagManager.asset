@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Monster
+  - MonsterAttackCollider
   layers:
   - Default
   - TransparentFX
@@ -15,12 +16,12 @@ TagManager:
   - UI
   - 
   - 
+  - Floor
+  - 
+  - 
+  - 
+  - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 

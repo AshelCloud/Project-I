@@ -47,6 +47,9 @@ public class Monster : MonoBehaviour
     public float AttackRange { get; set; }
     public float DetectionRange { get; set; }
 
+    [SerializeField]
+    private float gravityScale = -5f;
+
     public Stack<MonsterBehaviour> BehaviourStack { get; set; }
 
     public bool Dead { get; set; }
@@ -91,9 +94,7 @@ public class Monster : MonoBehaviour
     {
         if( Dead ) { return;  }
 
-        print(BehaviourStack.Peek());
-
-        foreach(var action in Behaviours)
+        foreach (var action in Behaviours)
         {
             action.Value.Update?.Invoke();
         }

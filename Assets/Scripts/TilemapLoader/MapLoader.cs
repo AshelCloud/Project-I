@@ -158,6 +158,7 @@ public class MapLoader : MonoBehaviour
         //TODO: string Null 체크
         map.transform.name = mapData.Name;
         map.tag = mapData.Tag;
+        map.gameObject.layer = LayerMask.NameToLayer(mapData.Tag) == -1 ? 0 : LayerMask.NameToLayer(mapData.Tag);
         map.transform.position = mapData.Position;
         map.transform.rotation = mapData.Rotation;
         map.transform.localScale = mapData.Scale;
