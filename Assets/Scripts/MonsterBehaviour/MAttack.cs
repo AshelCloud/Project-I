@@ -7,14 +7,13 @@ public class MAttack : MBehaviour
     public string AnimationName { get; private set; }
     public float AttackRange { get; set; }
     Collider2D Collider { get; set; }
-    public float AttackCount { get; set; } = 1f;
-
-    public MAttack(Monster monster, string animationName, float range = 0f, Collider2D collider = null, params Action[] actions)
+    
+    public MAttack(Monster monster, string animationName, float range = 0f, MAttackCollider collider = null, params Action[] actions)
     {
         Monster = monster;
         AnimationName = animationName;
         AttackRange = range;
-        Collider = collider;
+        Collider = collider.attackCollider;
 
         Start += AttackStart;
         Update += AttackUpdate;
@@ -27,11 +26,13 @@ public class MAttack : MBehaviour
 
     private void AttackStart()
     {
-        EnableColliders(false);
+        Collider.enabled = false;
     }
 
     private void AttackUpdate()
     {
+        if(Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Dead) { return; }
+
         Vector2 end = new Vector2(Monster.transform.position.x + AttackRange, Monster.transform.position.y);
 
         var results = Physics2D.LinecastAll(Monster.transform.position, end);
@@ -62,6 +63,19 @@ public class MAttack : MBehaviour
 
         Monster.Anim.Play(AnimationName);
 
+        float curAnimatorNormalizedTime = Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime - (int)Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+        //Debug.Log("CurrentAnimatorNormalizedTime: " + curAnimatorNormalizedTime);
+
+        if (curAnimatorNormalizedTime > 0.8f)
+        {
+            Collider.enabled = true;
+        }
+        else
+        {
+            Collider.enabled = false;
+        }
+
         //플레이어 피격테스트
         //수정요망
         //player.GetComponent<Player>().HitByMonster(0);
@@ -77,11 +91,6 @@ public class MAttack : MBehaviour
         //{
         //    EnableColliders(false);
         //}
-    }
-
-    private void EnableColliders(bool enable)
-    {
-        Collider.enabled = enable;
     }
 
     private void AttackGizmos()

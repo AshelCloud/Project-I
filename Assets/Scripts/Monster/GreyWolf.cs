@@ -11,7 +11,7 @@ public class GreyWolf : Monster
             else { Anim.speed = 1f; }
         }));
         Behaviours.Add("Hit", new MHit(this, "Hit"));
-        Behaviours.Add("Attack", new MAttack(this, "Bite", Data.AttackRange, GetComponentInChildren<CircleCollider2D>()));
+        Behaviours.Add("Attack", new MAttack(this, "Bite", Data.AttackRange, GetComponentInChildren<MAttackCollider>()));
         Behaviours.Add("Dead", new MDie(this, "Dead"));
     }
 
