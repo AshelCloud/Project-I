@@ -251,6 +251,7 @@ public class AttackState : IPlayerState
 
         else
         {
+            player.Sword.SetActive(false);
             return;
         }
     }
