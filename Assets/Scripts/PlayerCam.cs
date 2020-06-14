@@ -14,6 +14,9 @@ public class PlayerCam : MonoBehaviour
     [SerializeField]
     private BoxCollider2D mapBound;
 
+    [SerializeField]
+    private float smoothSpeed = 0.125f;
+
     private Vector3 minBound;
     private Vector3 maxBound;
 
@@ -44,17 +47,20 @@ public class PlayerCam : MonoBehaviour
         if(target == null) { return; }
 
         //카메라 위치 결정
-        transform.position = new Vector3(target.position.x, target.position.y) + offset;
-
+        Vector3 desiredPosition = target.position + offset;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        transform.position = smoothedPosition;
+        
         float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
         float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
 
-        this.transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+
     }
 
     private IEnumerator FindPlayer()
     {
         yield return null;
-        target = GameObject.Find("Player(Clone)").transform;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 }

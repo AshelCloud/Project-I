@@ -65,6 +65,8 @@ public class Player : MonoBehaviour
     public bool rightMove { get; set; } = false;
     public bool leftMove { get; set; } = false;
 
+    private bool playerHit = false;
+
     private IPlayerState _currentState;
 
     private void Awake()
@@ -76,8 +78,6 @@ public class Player : MonoBehaviour
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
 
-        //검이 공격 상태일 때만 활성화
-        Sword.SetActive(false);
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
@@ -135,6 +135,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Monster"))
+        {
+            hitTarget = null;
+        }
+    }
+
     private void LoadToJsonData(int ID)
     {
         //테이블 ID는 1부터 시작
@@ -163,15 +171,27 @@ public class Player : MonoBehaviour
 
     public void HitByMonster(float damage)
     {
-        hp -= damage;
-        SetState(new HitState());
-
-        if (hp <= 0)
+        //플레이어가 맞은 상태가 아닐 때만
+        if (!playerHit)
         {
-            //죽음 상태 미구현
-            SetState(new DeathState());
-        }
+            hp -= damage;
+            if (hp <= 0)
+            {
+                //죽음 상태 부분구현
+                SetState(new DeadState());
+            }
 
-        else { return; }
+            else
+            {
+                SetState(new HitState());
+            }
+        }
+        
+        //무적 상태 테스트
+        else
+        {
+            //yield return new WaitForSeconds(1f);
+            playerHit = false;
+        }
     }
 }

@@ -438,6 +438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 2, z: -10}
   mapBound: {fileID: 514734944}
+  smoothSpeed: 0.075
 --- !u!114 &1894327507
 MonoBehaviour:
   m_ObjectHideFlags: 0
