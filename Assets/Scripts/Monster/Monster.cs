@@ -46,6 +46,7 @@ public class Monster : MonoBehaviour
     public float HP { get; set; }
     public float AttackRange { get; set; }
     public float DetectionRange { get; set; }
+    public float OffentPower { get; set; }
 
     [SerializeField]
     private float gravityScale = -5f;
@@ -134,6 +135,7 @@ public class Monster : MonoBehaviour
         HP = Data.HP;
         AttackRange = Data.AttackRange;
         DetectionRange = Data.DetectionRange;
+        OffentPower = Data.OffensePower;
 
         //Animator Controller 할당
         //Controller는 Resources폴더 안에 넣어두고 사용

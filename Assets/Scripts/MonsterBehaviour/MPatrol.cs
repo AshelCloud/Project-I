@@ -32,15 +32,21 @@ public class MPatrol : MBehaviour
 
     private void PatrolUpdate()
     {
+        if (Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Dead) { return; }
+
         if (Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Run) { return; }
+
+        var curSclae = Monster.transform.localScale;
 
         if (Time.time - StartTime >= MoveTime)
         {
             StartTime = Time.time;
-            Monster.Renderer.flipX = !Monster.Renderer.flipX;
+            Monster.transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
+
+            //Monster.Renderer.flipX = !Monster.Renderer.flipX;
         }
 
-        int direction = Monster.Renderer.flipX ? -1 : 1;
+        int direction = curSclae.x < 0f ? -1 : 1;
 
         Monster.RB.velocity = new Vector2(Speed * direction * Time.deltaTime, Monster.RB.velocity.y);
 

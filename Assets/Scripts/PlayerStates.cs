@@ -244,7 +244,7 @@ public class AttackState : IPlayerState
     {
         if (player.hitTarget)
         {
-            player.hitTarget.Hit(0.1f);
+            player.hitTarget.Hit(100f); //테스트용으로 한방
             Debug.Log("현재 애니메이션: " + currentAnim + ",몬스터 체력: " + player.hitTarget.HP);
             player.Sword.SetActive(false);
         }

@@ -27,6 +27,8 @@ public class MChase : MBehaviour
 
     private void ChaseUpdate()
     {
+        if (Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Dead) { return; }
+
         var curBehavior = Monster.BehaviourStack.Peek();
 
         if(curBehavior != Monster.MonsterBehaviour.Run && curBehavior != Monster.MonsterBehaviour.Chase) 
