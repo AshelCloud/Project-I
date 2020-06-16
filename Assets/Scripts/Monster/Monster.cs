@@ -51,7 +51,7 @@ public class Monster : MonoBehaviour
     [SerializeField]
     private float gravityScale = -5f;
 
-    public Stack<MonsterBehaviour> BehaviourStack { get; set; }
+    public MBehaviourStack BehaviourStack { get; set; }
 
     public bool Dead { get; set; }
 
@@ -69,7 +69,7 @@ public class Monster : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
 
         Behaviours = new Dictionary<string, MBehaviour>();
-        BehaviourStack = new Stack<MonsterBehaviour>();
+        BehaviourStack = new MBehaviourStack();
 
         BehaviourStack.Push(MonsterBehaviour.Run);
 
