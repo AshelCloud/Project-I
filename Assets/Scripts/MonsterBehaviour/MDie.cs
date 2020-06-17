@@ -23,10 +23,7 @@ public class MDie : MBehaviour
     {
         if (Monster.HP > 0) { return; }
 
-        if(Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Dead)
-        {
-            Monster.BehaviourStack.Push(Monster.MonsterBehaviour.Dead);
-        }
+        Monster.BehaviourStack.Push(MonsterBehaviour.Dead);
 
         Monster.Anim.Play(AnimationName);
 

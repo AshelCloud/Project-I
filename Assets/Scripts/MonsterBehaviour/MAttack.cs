@@ -31,8 +31,6 @@ public class MAttack : MBehaviour
 
     private void AttackUpdate()
     {
-        if(Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Dead) { return; }
-
         Vector2 end = new Vector2(Monster.transform.position.x + AttackRange, Monster.transform.position.y);
 
         var results = Physics2D.LinecastAll(Monster.transform.position, end);
@@ -50,16 +48,14 @@ public class MAttack : MBehaviour
 
         if (player == null)
         {
-            if (Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Attack)
+            if (Monster.BehaviourStack.Peek() == MonsterBehaviour.Attack)
             {
                 Monster.BehaviourStack.Pop();
             }
             return;
         }
-        else if (Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Attack)
-        {
-            Monster.BehaviourStack.Push(Monster.MonsterBehaviour.Attack);
-        }
+
+        Monster.BehaviourStack.Push(MonsterBehaviour.Attack);
 
         Monster.Anim.Play(AnimationName);
 

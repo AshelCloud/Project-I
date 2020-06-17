@@ -27,15 +27,6 @@ public class MChase : MBehaviour
 
     private void ChaseUpdate()
     {
-        if (Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Dead) { return; }
-
-        var curBehavior = Monster.BehaviourStack.Peek();
-
-        if(curBehavior != Monster.MonsterBehaviour.Run && curBehavior != Monster.MonsterBehaviour.Chase) 
-        {
-            return;
-        }
-
         Vector2 start = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
         Vector2 end = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
 
@@ -54,31 +45,41 @@ public class MChase : MBehaviour
 
         if (player == null)
         {
-            if(Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Chase) 
+            if(Monster.BehaviourStack.Peek() == MonsterBehaviour.Chase) 
             {
                 Monster.BehaviourStack.Pop(); 
             }
 
             return;
         }
-        else if(Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Chase)
-        {
-            Monster.BehaviourStack.Push(Monster.MonsterBehaviour.Chase);
-        }
+
+        Monster.BehaviourStack.Push(MonsterBehaviour.Chase);
 
         Monster.Anim.Play(AnimationName);
 
         Vector3 direction = player.transform.position - Monster.transform.position;
+        
+        var curSclae = Monster.transform.localScale;
 
         float spd = Speed;
         if (direction.normalized.x < 0)
         {
             spd = -Speed;
-            Monster.Renderer.flipX = true;
+
+            if(curSclae.x > 0f)
+            {
+                Monster.transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
+            }
+
+            //Monster.Renderer.flipX = true;
         }
         else
         {
-            Monster.Renderer.flipX = false;
+            if (curSclae.x < 0f)
+            {
+                Monster.transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
+            }
+            //Monster.Renderer.flipX = false;
         }
 
         Monster.RB.velocity = new Vector2(spd * Time.deltaTime, Monster.RB.velocity.y);

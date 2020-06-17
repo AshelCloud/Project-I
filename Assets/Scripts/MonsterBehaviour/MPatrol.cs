@@ -32,10 +32,6 @@ public class MPatrol : MBehaviour
 
     private void PatrolUpdate()
     {
-        if (Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Dead) { return; }
-
-        if (Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Run) { return; }
-
         var curSclae = Monster.transform.localScale;
 
         if (Time.time - StartTime >= MoveTime)

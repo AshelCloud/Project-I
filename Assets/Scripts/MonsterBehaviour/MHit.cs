@@ -23,14 +23,9 @@ public class MHit : MBehaviour
 
     private void HitUpdate()
     {
-        if (Monster.BehaviourStack.Peek() == Monster.MonsterBehaviour.Dead) { return; }
-
-        if (Monster.BehaviourStack.Peek() != Monster.MonsterBehaviour.Hit) { return; }
-        if(0 >= Monster.HP) { return; }
-
         Monster.Anim.Play(AnimationName);
 
-        if(Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+        if(Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
             Monster.BehaviourStack.Pop();
         }

@@ -27,16 +27,6 @@ public class Monster : MonoBehaviour
         public float AttackRange;
     }
 
-    public enum MonsterBehaviour
-    {
-        Idle,
-        Run,
-        Chase,
-        Attack,
-        Hit,
-        Dead
-    }
-
     protected MonsterData Data { get; set; }
     protected int ID { get; set; }
     protected Dictionary<string, MBehaviour> Behaviours { get; set; }
@@ -71,6 +61,8 @@ public class Monster : MonoBehaviour
         Behaviours = new Dictionary<string, MBehaviour>();
         BehaviourStack = new MBehaviourStack();
 
+        BehaviourStack.SetPriority();
+
         BehaviourStack.Push(MonsterBehaviour.Run);
 
         SetID();
@@ -97,8 +89,11 @@ public class Monster : MonoBehaviour
 
         foreach (var action in Behaviours)
         {
+            
             action.Value.Update?.Invoke();
         }
+
+        print(BehaviourStack.Peek());
     }
 
     //Data를 받기 위해 ID 필요
