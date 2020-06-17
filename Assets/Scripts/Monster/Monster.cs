@@ -61,7 +61,7 @@ public class Monster : MonoBehaviour
         Behaviours = new Dictionary<string, MBehaviour>();
         BehaviourStack = new MBehaviourStack();
 
-        BehaviourStack.SetPriority();
+        Initialize();
 
         BehaviourStack.Push(MonsterBehaviour.Run);
 
@@ -73,6 +73,8 @@ public class Monster : MonoBehaviour
         SetBehaviors();
 
         Dead = false;
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"));
     }
 
     protected virtual void Start()
@@ -89,11 +91,13 @@ public class Monster : MonoBehaviour
 
         foreach (var action in Behaviours)
         {
-            
             action.Value.Update?.Invoke();
         }
 
-        print(BehaviourStack.Peek());
+        if(Anim.GetCurrentAnimatorStateInfo(0).IsName(BehaviourStack.PeekToAnimationName()) == false)
+        {
+            Anim.Play(BehaviourStack.PeekToAnimationName());
+        }
     }
 
     //Data를 받기 위해 ID 필요
@@ -136,6 +140,12 @@ public class Monster : MonoBehaviour
         //Controller는 Resources폴더 안에 넣어두고 사용
         //Table 부재로 리터럴문자 사용
         Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Controllers/" + Data.AnimatorName);
+    }
+
+    protected virtual void Initialize()
+    {
+        BehaviourStack.SetPrioritys();
+        BehaviourStack.SetAnimationNames();
     }
 
     protected virtual void SetBehaviors()

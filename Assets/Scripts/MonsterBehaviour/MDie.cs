@@ -4,8 +4,6 @@ public class MDie : MBehaviour
 {
     public Monster Monster { get; private set; }
 
-    public string AnimationName { get; private set; }
-
     public MDie(Monster monster, string animationName, params Action[] actions)
     {
         Monster = monster;
@@ -24,8 +22,6 @@ public class MDie : MBehaviour
         if (Monster.HP > 0) { return; }
 
         Monster.BehaviourStack.Push(MonsterBehaviour.Dead);
-
-        Monster.Anim.Play(AnimationName);
 
         //TODO: 애니메이션 끝난뒤 오브젝트 삭제
         if (Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && Monster.Anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))

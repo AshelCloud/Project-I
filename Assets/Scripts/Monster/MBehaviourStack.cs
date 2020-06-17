@@ -34,19 +34,33 @@ public class MBehaviourStack
         }
     }
 
-    private Dictionary<MonsterBehaviour, int> _priority;
-    private Dictionary<MonsterBehaviour, int> Priority 
+    private Dictionary<MonsterBehaviour, int> _prioritys;
+    private Dictionary<MonsterBehaviour, int> Prioritys 
     {
         get
         {
-            if(_priority == null)
+            if(_prioritys == null)
             {
-                _priority = new Dictionary<MonsterBehaviour, int>();
+                _prioritys = new Dictionary<MonsterBehaviour, int>();
             }
-            return _priority;
+            return _prioritys;
         }
 
-        set { _priority = value; }
+        set { _prioritys = value; }
+    }
+
+    private Dictionary<MonsterBehaviour, string> _animationNames;
+    private Dictionary<MonsterBehaviour, string> AnimationNames
+    {
+        get
+        {
+            if(_animationNames == null)
+            {
+                _animationNames = new Dictionary<MonsterBehaviour, string>();
+            }
+            return _animationNames;
+        }
+        set { _animationNames = value; }
     }
 
     /// <summary>
@@ -64,7 +78,7 @@ public class MBehaviourStack
         }
 
         // >=를 쓰지않는 이유: 같은 행동이라면 == 이기때문에 거른다.
-        if(Priority[item] > Priority[Behaviours.Peek()])
+        if(Prioritys[item] > Prioritys[Behaviours.Peek()])
         {
             Behaviours.Push(item);
 
@@ -75,6 +89,20 @@ public class MBehaviourStack
     public MonsterBehaviour Peek()
     {
         return Behaviours.Peek();
+    }
+
+    public string PeekToAnimationName()
+    {
+        var peek = Behaviours.Peek();
+
+        if(AnimationNames.ContainsKey(peek))
+        {
+            return AnimationNames[peek];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public MonsterBehaviour Pop()
@@ -90,13 +118,23 @@ public class MBehaviourStack
     /// <summary>
     /// 애니메이션 전이 우선순위 결정함수
     /// </summary>
-    public void SetPriority(int idle = 0, int run = 1, int chase = 2, int attack = 3)
+    public void SetPrioritys(int idle = 0, int run = 1, int chase = 2, int attack = 3)
     {
-        Priority.Add(MonsterBehaviour.Idle, idle);
-        Priority.Add(MonsterBehaviour.Run, run);
-        Priority.Add(MonsterBehaviour.Chase, chase);
-        Priority.Add(MonsterBehaviour.Attack, attack);
-        Priority.Add(MonsterBehaviour.Hit, idle + run + chase + attack);
-        Priority.Add(MonsterBehaviour.Dead, idle + run + chase + attack + 1);
+        Prioritys.Add(MonsterBehaviour.Idle, idle);
+        Prioritys.Add(MonsterBehaviour.Run, run);
+        Prioritys.Add(MonsterBehaviour.Chase, chase);
+        Prioritys.Add(MonsterBehaviour.Attack, attack);
+        Prioritys.Add(MonsterBehaviour.Hit, idle + run + chase + attack);
+        Prioritys.Add(MonsterBehaviour.Dead, idle + run + chase + attack + 1);
+    }
+
+    public void SetAnimationNames(string idle = "Idle", string run = "Run", string chase = "Chase", string attack = "Attack", string hit = "Hit", string dead = "Dead")
+    {
+        AnimationNames.Add(MonsterBehaviour.Idle, idle);
+        AnimationNames.Add(MonsterBehaviour.Run, run);
+        AnimationNames.Add(MonsterBehaviour.Chase, chase);
+        AnimationNames.Add(MonsterBehaviour.Attack, attack);
+        AnimationNames.Add(MonsterBehaviour.Hit, hit);
+        AnimationNames.Add(MonsterBehaviour.Dead, dead);
     }
 }

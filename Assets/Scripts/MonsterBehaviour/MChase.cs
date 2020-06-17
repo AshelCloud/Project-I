@@ -5,7 +5,6 @@ using UnityEngine;
 public class MChase : MBehaviour
 {
     public Monster Monster { get; private set; }
-    public string AnimationName { get; private set; }
     public float Speed { get; set; }
     public float ChaseRange { get; set; }
 
@@ -54,8 +53,6 @@ public class MChase : MBehaviour
         }
 
         Monster.BehaviourStack.Push(MonsterBehaviour.Chase);
-
-        Monster.Anim.Play(AnimationName);
 
         Vector3 direction = player.transform.position - Monster.transform.position;
         

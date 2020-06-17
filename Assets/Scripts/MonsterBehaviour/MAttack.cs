@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class MAttack : MBehaviour
 {
     public Monster Monster { get; private set; }
-    public string AnimationName { get; private set; }
     public float AttackRange { get; set; }
     Collider2D Collider { get; set; }
     
@@ -57,9 +57,8 @@ public class MAttack : MBehaviour
 
         Monster.BehaviourStack.Push(MonsterBehaviour.Attack);
 
-        Monster.Anim.Play(AnimationName);
-
-        float curAnimatorNormalizedTime = Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime - (int)Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        var curAnimatorStateInfo = Monster.Anim.GetCurrentAnimatorStateInfo(0);
+        float curAnimatorNormalizedTime = curAnimatorStateInfo.normalizedTime - (int)curAnimatorStateInfo.normalizedTime;
 
         //Debug.Log("CurrentAnimatorNormalizedTime: " + curAnimatorNormalizedTime);
 

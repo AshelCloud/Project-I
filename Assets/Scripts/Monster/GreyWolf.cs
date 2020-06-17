@@ -2,6 +2,12 @@
 
 public class GreyWolf : Monster
 {
+    protected override void Initialize()
+    {
+        BehaviourStack.SetPrioritys();
+        BehaviourStack.SetAnimationNames("Ready", "Run", "Run", "Bite", "Hit", "Dead");
+    }
+
     protected override void SetBehaviors()
     {
         Behaviours.Add("Patrol", new MPatrol(this, "Run", Data.Speed, 2f));

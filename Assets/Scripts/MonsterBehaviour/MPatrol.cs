@@ -4,7 +4,6 @@ using UnityEngine;
 public class MPatrol : MBehaviour
 {
     public Monster Monster { get; private set; }
-    public string AnimationName { get; private set; }
     public float MoveTime { get; set; }
     public float Speed { get; set; }
     private float StartTime { get; set; }
@@ -45,7 +44,5 @@ public class MPatrol : MBehaviour
         int direction = curSclae.x < 0f ? -1 : 1;
 
         Monster.RB.velocity = new Vector2(Speed * direction * Time.deltaTime, Monster.RB.velocity.y);
-
-        Monster.Anim.Play(AnimationName);
     }
 }
