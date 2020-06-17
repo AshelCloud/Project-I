@@ -31,7 +31,7 @@ public class MAttack : MBehaviour
 
     private void AttackUpdate()
     {
-        Vector2 end = new Vector2(Monster.transform.position.x + AttackRange, Monster.transform.position.y);
+        Vector2 end = new Vector2(Monster.transform.position.x + AttackRange * Monster.transform.lossyScale.x, Monster.transform.position.y);
 
         var results = Physics2D.LinecastAll(Monster.transform.position, end);
 
@@ -56,6 +56,8 @@ public class MAttack : MBehaviour
         }
 
         Monster.BehaviourStack.Push(MonsterBehaviour.Attack);
+
+        Monster.RB.velocity = Vector2.zero;
 
         var curAnimatorStateInfo = Monster.Anim.GetCurrentAnimatorStateInfo(0);
         float curAnimatorNormalizedTime = curAnimatorStateInfo.normalizedTime - (int)curAnimatorStateInfo.normalizedTime;
@@ -93,7 +95,7 @@ public class MAttack : MBehaviour
         Gizmos.color = Color.red;
 
         Vector3 from = new Vector3(Monster.transform.position.x, Monster.transform.position.y - 0.5f, Monster.transform.position.z);
-        Vector3 to = new Vector3(Monster.transform.position.x + (Monster.Renderer.flipX ? -AttackRange : AttackRange), Monster.transform.position.y - 0.5f, Monster.transform.position.z);
+        Vector3 to = new Vector3(Monster.transform.position.x + AttackRange * Monster.transform.lossyScale.x, Monster.transform.position.y - 0.5f, Monster.transform.position.z);
 
         Gizmos.DrawLine(from, to);
     }
