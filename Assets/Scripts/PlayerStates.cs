@@ -37,7 +37,7 @@ public class IdleState : IPlayerState
         this.player.rightMove = false;
         this.player.leftMove = false;
 
-        Log.Print("IdleState");
+        Log.Print("대기");
     }
 
     void IPlayerState.Update()
@@ -94,7 +94,7 @@ public class RunState : IPlayerState
         this.player = player;
         direction = player.transform.localScale;
 
-        Log.Print("RunState");
+        Log.Print("달리기");
     }
 
     void IPlayerState.Update()
@@ -169,7 +169,7 @@ public class AttackState : IPlayerState
         currentAnim = 1;
         attackAnim = 1;
 
-        Log.Print("AttackState");
+        Log.Print("공격상태");
     }
 
     //공격 상태에 따른 행동들
@@ -186,10 +186,7 @@ public class AttackState : IPlayerState
         {
             //다음 애니메이션에 대한 공격 판정을 위해 증가
             attackAnim++;
-
-            //검 활성화
-            //player.Sword.SetActive(true);
-
+            Log.Print("플레이어 공격 단계: " + currentAnim + "단계 공격");
             //몬스터 타격
             SwordHitMonster();
         }
@@ -249,12 +246,12 @@ public class AttackState : IPlayerState
         if (player.hitTarget)
         {
             player.hitTarget.Hit(player.offensePower); //테스트용으로 한방
-            Debug.Log("몬스터 체력: " + player.hitTarget.HP);
+            Log.Print("몬스터 타격!");
+            Log.Print("몬스터 체력: " + player.hitTarget.HP);
         }
 
         else
-        {
-            //player.Sword.SetActive(false);
+        { 
         }
     }
 }
@@ -273,7 +270,7 @@ public class JumpState : IPlayerState
             this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
             this.player.isGrounded = false;
         }
-        Debug.Log("JumpState");
+        Debug.Log("점프");
     }
 
     //공격 상태에 따른 행동들
@@ -363,7 +360,6 @@ public class JumpState : IPlayerState
         else
         {
             this.player.isGrounded = true;
-            //버그 발생함
             player.Anim.Play("Jump", 0, 0.8f);
             return;
         }
@@ -382,7 +378,7 @@ public class RollState : IPlayerState
         direction = player.transform.localScale;
         this.player.Anim.Play("Roll");
         this.player.playerRoll = true;
-        Debug.Log("RollState");
+        Log.Print("구르기");
     }
 
     void IPlayerState.Update()
@@ -417,7 +413,6 @@ public class RollState : IPlayerState
     void IPlayerState.OnExit()
     {
         player.playerRoll = false;
-
     }
 
 }
@@ -449,7 +444,8 @@ public class HitState : IPlayerState
 
         this.player.playerHit = true;
 
-        Debug.Log("HitState");
+        Log.Print("플레이어 타격!");
+        Log.Print("현재 플레이어 체력: " + player.HP);
     }
     void IPlayerState.Update()
     {
@@ -483,7 +479,7 @@ public class DeadState : IPlayerState
     {
         this.player = player;
         player.Anim.Play("Die");
-        Debug.Log("DeadState");
+        Debug.Log("플레이어 사망!");
     }
 
     void IPlayerState.Update()
