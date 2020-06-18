@@ -36,6 +36,7 @@ public static class Log
 
     private static void LogWithWriteFile(string logMessage, LogType logType)
     {
+        #if !UNITY_EDITOR
         FileStream fs = new FileStream(logPath, FileMode.Append);
         if(fs.Length > 2048000)
         {
@@ -50,5 +51,6 @@ public static class Log
 
         writer.Close();
         fs.Close();
+        #endif
     }
 }
