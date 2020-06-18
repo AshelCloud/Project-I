@@ -14,6 +14,4 @@ public class AssetBundleBuilder : MonoBehaviour
         }
         BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
     }
-
-
 }

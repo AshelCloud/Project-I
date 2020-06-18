@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 /*
  *  모든 몬스터 부모 클래스
@@ -119,7 +120,15 @@ public class Monster : MonoBehaviour
         }
 
         //Json 파싱
-        var json = JsonManager.LoadJson<Serialization<string, MonsterData>>(Application.dataPath + "/Resources/MonsterJsons/", "MonsterTable").ToDictionary();
+        AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+        if (localAssetBundle == null)
+        {
+            Debug.LogError("Failed to load AssetBundle!");
+        }
+
+        TextAsset monsterTable = localAssetBundle.LoadAsset<TextAsset>("MonsterTable");
+
+        var json = JsonManager.LoadJson<Serialization<string, MonsterData>>(monsterTable).ToDictionary();
 
         //ID 값으로 해당되는 Data 저장
         //ID는 각 몬스터 스크립트에서 할당
