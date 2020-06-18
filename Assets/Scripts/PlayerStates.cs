@@ -36,7 +36,8 @@ public class IdleState : IPlayerState
         this.player = player;
         this.player.rightMove = false;
         this.player.leftMove = false;
-        Debug.Log("IdleState");
+
+        Log.Print("IdleState");
     }
 
     void IPlayerState.Update()
@@ -93,7 +94,7 @@ public class RunState : IPlayerState
         this.player = player;
         direction = player.transform.localScale;
 
-        Debug.Log("RunState");
+        Log.Print("RunState");
     }
 
     void IPlayerState.Update()
@@ -168,7 +169,7 @@ public class AttackState : IPlayerState
         currentAnim = 1;
         attackAnim = 1;
 
-        Debug.Log("AttackState");
+        Log.Print("AttackState");
     }
 
     //공격 상태에 따른 행동들

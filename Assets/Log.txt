@@ -1,2 +1,4 @@
 06-18 11:18:41 -- IdleState
 06-18 11:18:42 -- IdleState
+06-18 11:28:55 -- [Log]IdleState
+06-18 11:28:57 -- [Log]IdleState
