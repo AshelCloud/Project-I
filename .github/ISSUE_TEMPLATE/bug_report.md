@@ -23,16 +23,16 @@ Steps to reproduce the behavior:
 **스크린샷**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
+**Desktop ([ ] 사이에 정보를 기입하세요):**
  - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
  - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
+**Smartphone ([ ] 사이에 정보를 기입하세요):**
  - Device: [e.g. iPhone6]
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
 
-**Additional context**
+**추가 문구**
 Add any other context about the problem here.
