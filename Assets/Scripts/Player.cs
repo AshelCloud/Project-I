@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.IO;
 
 public class Player : MonoBehaviour
 {
@@ -139,18 +139,27 @@ public class Player : MonoBehaviour
     {
         //테이블 ID는 1부터 시작
         //ID가 기본값이면 에러로그 출력
+        AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+        
+        if (localAssetBundle == null)
+        {
+            Debug.LogError("Failed to load AssetBundle!");
+        }
+
         if (ID == 0)
         {
             Debug.LogError("데이터 로드 실패! ID를 설정해주세요");
             return;
         }
 
+        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Characters_Table");
+
         //Json 파싱
-        var json = JsonManager.LoadJson<Serialization<string, PlayerData>>(Application.dataPath + "/Resources/PlayerJson/", "Characters_Table").ToDictionary();
+        var playerDatas = JsonManager.LoadJson<Serialization<string, PlayerData>>(json).ToDictionary();
 
         //ID 값으로 해당되는 Data 저장
         //ID는 각 몬스터 스크립트에서 할당
-        playerData = json[ID.ToString()];
+        playerData = playerDatas[ID.ToString()];
     }
 
     private void UpdateData()

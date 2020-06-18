@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2862357755
+CRC: 2474142357
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2495b65d12e669dd867609f2ceefc29c
+    Hash: fca5016024dba0e6c93d452a40d9e3e6
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -12,6 +12,7 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 Assets:
+- Assets/Resources/PlayerJson/Characters_Table.json
 - Assets/Resources/MonsterJsons/MonsterTable.json
 - Assets/Resources/MapJsons/TestWolfForest.json
 - Assets/Resources/MapJsons/WolfForest.json

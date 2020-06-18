@@ -36,12 +36,11 @@ public class IdleState : IPlayerState
         this.player = player;
         this.player.rightMove = false;
         this.player.leftMove = false;
+        Debug.Log("IdleState");
     }
 
     void IPlayerState.Update()
     {
-        Debug.Log("IdleState");
-
         player.Anim.Play("Idle");
 
         if (!player.isGrounded)
@@ -52,7 +51,7 @@ public class IdleState : IPlayerState
         else
         {
             //이동
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
             {
                 player.SetState(new RunState());
             }
@@ -93,11 +92,12 @@ public class RunState : IPlayerState
     {
         this.player = player;
         direction = player.transform.localScale;
+
+        Debug.Log("RunState");
     }
 
     void IPlayerState.Update()
     {
-        Debug.Log("RunState");
         player.Anim.Play("Run");
 
         //좌측이동
@@ -167,12 +167,13 @@ public class AttackState : IPlayerState
         this.player = player;
         currentAnim = 1;
         attackAnim = 1;
+
+        Debug.Log("AttackState");
     }
 
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
-        Debug.Log("AttackState");
         currentAnimTime = player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
         //1~4까지의 공격 애니메이션 실행
@@ -271,14 +272,12 @@ public class JumpState : IPlayerState
             this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
             this.player.isGrounded = false;
         }
-
+        Debug.Log("JumpState");
     }
 
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
-        Debug.Log("JumpState");
-
         //플레이어의 공중 이동
         if (!player.isGrounded)
         {
@@ -381,6 +380,8 @@ public class RollState : IPlayerState
         this.player = player;
         direction = player.transform.localScale;
         this.player.Anim.Play("Roll");
+
+        Debug.Log("RollState");
     }
 
     void IPlayerState.Update()
@@ -428,6 +429,7 @@ public class HitState : IPlayerState
 
     //튕겨져 나가는 힘
     private const float bounceForce = 12;
+
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
@@ -444,6 +446,7 @@ public class HitState : IPlayerState
 
         this.player.playerHit = true;
 
+        Debug.Log("HitState");
     }
     void IPlayerState.Update()
     {
@@ -477,6 +480,7 @@ public class DeadState : IPlayerState
     {
         this.player = player;
         player.Anim.Play("Die");
+        Debug.Log("DeadState");
     }
 
     void IPlayerState.Update()
