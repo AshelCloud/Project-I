@@ -8,11 +8,11 @@ public class PlayerCam : MonoBehaviour
     private Transform target;
 
     [SerializeField]
-    private Vector3 offset;
+    private Vector3 offset = Vector3.zero;
 
     //맵 경계
     [SerializeField]
-    private BoxCollider2D mapBound;
+    private BoxCollider2D mapBound = null;
 
     [SerializeField]
     private float smoothSpeed = 0.125f;

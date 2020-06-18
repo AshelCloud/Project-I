@@ -4,17 +4,17 @@ using System.IO;
 public class Player : MonoBehaviour
 {
     [System.Serializable]
-    private struct PlayerData
+    private class PlayerData
     {
-        public string Name;
-        public string Variablename;
-        public float Offensepower;
-        public float Defense;
-        public float HP;
-        public float Speed;
-        public string Objectname;
-        public string Animatorname;
-        public string Prefabname;
+        public string Name = null;
+        public string Variablename = null;
+        public float Offensepower = 0f;
+        public float Defense = 0f;
+        public float HP = 0f;
+        public float Speed = 0f;
+        public string Objectname = null;
+        public string Animatorname = null;
+        public string Prefabname = null;
     }
 
 
@@ -24,20 +24,21 @@ public class Player : MonoBehaviour
     public float offensePower { get; set; }
     private float defense;
     private float hp;
+    public float HP { get { return hp; } }
 
     //이동 속도
     [SerializeField]
-    private float speed;
+    private float speed = 0f;
     public float Speed { get { return speed; } }
 
     //점프력
     [SerializeField]
-    private float jumpForce;
+    private float jumpForce = 0f;
     public float JumpForce { get { return jumpForce; } }
 
     //구르기 거리
     [SerializeField]
-    private float rollLength;
+    private float rollLength = 0f;
     public float RollLength { get { return rollLength; } }
 
     public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
