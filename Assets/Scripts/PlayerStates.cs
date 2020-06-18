@@ -246,7 +246,7 @@ public class AttackState : IPlayerState
     {
         if (player.hitTarget)
         {
-            player.hitTarget.Hit(0.1f); //테스트용으로 한방
+            player.hitTarget.Hit(player.offensePower); //테스트용으로 한방
             Debug.Log("몬스터 체력: " + player.hitTarget.HP);
         }
 
@@ -435,10 +435,6 @@ public class HitState : IPlayerState
         direction = player.transform.localScale;
 
         this.player.Anim.Play("Hit");
-        //플레이어가 피격당할 시 공중에 뜨게 되는데,
-        //동시에 OnCollisionExit2D()를 통해 공중에 떠있다는 것을 감지하게되면서 
-        //JumpState로 전이된다. 이를 방지 하기 위해 설정해주는 것이다
-        this.player.GetComponent<BoxCollider2D>().isTrigger = true;
 
         //플레이어가 피격시 공중으로 튕겨져 나감
         this.player.rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
@@ -446,28 +442,30 @@ public class HitState : IPlayerState
         //플레이어가 공중에 있음을 확인
         this.player.isGrounded = false;
 
+        this.player.playerHit = true;
+
     }
     void IPlayerState.Update()
     {
         if (direction.x > 0)
         {
-            player.transform.Translate(Vector2.left * (bounceLength / 2f) * Time.deltaTime, Space.World);
+            player.transform.Translate(Vector2.left * bounceLength * Time.deltaTime, Space.World);
         }
         else
         {
-            player.transform.Translate(Vector2.right * (bounceLength / 2f) * Time.deltaTime, Space.World);
+            player.transform.Translate(Vector2.right * bounceLength * Time.deltaTime, Space.World);
         }
 
         if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
         {
-            //다시 원상 복구 시켜 정상적으로 상태가 전이될 수 있게 한다.
-            //player.GetComponent<BoxCollider2D>().isTrigger = false;
-            player.SetState(new JumpState());
+            player.playerHit = false;
+            player.SetState(new IdleState());
         }
     }
 
     void IPlayerState.OnExit()
     {
+
     }
 }
 

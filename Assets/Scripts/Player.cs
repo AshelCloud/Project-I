@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     private PlayerData playerData;
     private int ID = 1;
 
-    private float offensePower;
+    public float offensePower { get; set; }
     private float defense;
     private float hp;
 
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     public bool rightMove { get; set; } = false;
     public bool leftMove { get; set; } = false;
 
-    private bool playerHit = false;
+    public bool playerHit { get; set; } = false;
 
     private IPlayerState _currentState;
 
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag == "Floor" && playerHit != true)
         {
             isGrounded = false;
             SetState(new JumpState());
@@ -184,6 +184,7 @@ public class Player : MonoBehaviour
             else
             {
                 SetState(new HitState());
+                
             }
         }
         
