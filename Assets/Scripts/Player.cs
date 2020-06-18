@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
     public bool leftMove { get; set; } = false;
 
     public bool playerHit { get; set; } = false;
-
+    public bool playerRoll { get; set; } = false;
     private IPlayerState _currentState;
 
     private void Awake()
@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor" && playerHit != true)
+        if (collision.gameObject.tag == "Floor" && playerHit != true && playerRoll != true)
         {
             isGrounded = false;
             SetState(new JumpState());

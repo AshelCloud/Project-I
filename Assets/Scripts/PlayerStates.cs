@@ -380,7 +380,7 @@ public class RollState : IPlayerState
         this.player = player;
         direction = player.transform.localScale;
         this.player.Anim.Play("Roll");
-
+        this.player.playerRoll = true;
         Debug.Log("RollState");
     }
 
@@ -415,6 +415,8 @@ public class RollState : IPlayerState
 
     void IPlayerState.OnExit()
     {
+        player.playerRoll = false;
+
     }
 
 }
