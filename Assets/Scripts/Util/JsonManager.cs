@@ -33,6 +33,13 @@ public class JsonManager
         }
     }
 
+    public static T LoadJson<T>(TextAsset textAsset)
+    {
+        string jsonData = Encoding.UTF8.GetString(textAsset.bytes, 0, textAsset.bytes.Length);
+
+        return JsonToObject<T>(jsonData);
+    }
+
     public static string ObjectToJson(object obj)
     {
         return JsonUtility.ToJson(obj);

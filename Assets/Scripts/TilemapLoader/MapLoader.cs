@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.Tilemaps;
 
 public class MapLoader : MonoBehaviour
@@ -10,7 +12,6 @@ public class MapLoader : MonoBehaviour
 
     //Application.dataPath와 연동시켜서 사용
     const string JsonFilePath = "/Resources/MapJsons/";
-    
     
     const string TileAssetFilePath = "TileAssets/";
     const string PrefabFilePath = "Prefabs/";
@@ -30,7 +31,16 @@ public class MapLoader : MonoBehaviour
 
     public IEnumerator JsonToTilemap(string fileName)
     {
-        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName).ToDictionary();
+        AssetBundle localAssetBundle =  AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+        if(localAssetBundle == null)
+        {
+            Debug.LogError("Failed to load AssetBundle!");
+        }
+
+        TextAsset json = localAssetBundle.LoadAsset<TextAsset>(fileName);
+
+        //mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName).ToDictionary();
+        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(json).ToDictionary();
 
         //현재 있는 맵들 다 삭제하고 진행
         foreach (var tilemap in tilemaps)
