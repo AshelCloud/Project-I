@@ -304,6 +304,8 @@ public class JumpState : IPlayerState
         //땅에 착지 했을 시에 취하는 입력들
         else
         {
+            player.rightMove = false;
+            player.leftMove = false;
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
             {
                 player.SetState(new RunState());
@@ -337,6 +339,7 @@ public class JumpState : IPlayerState
 
     void IPlayerState.OnExit()
     {
+
     }
 
     private void PlayJumpAnim()
@@ -346,7 +349,7 @@ public class JumpState : IPlayerState
             player.Anim.Play("Jump", 0, 0.2f);
         }
 
-        else if (player.rb.velocity.y < 8f && player.rb.velocity.y >= 0f)
+        else if (player.rb.velocity.y < 8f && player.rb.velocity.y > 0f)
         {
             player.Anim.Play("Jump", 0, 0.4f);
         }
@@ -359,8 +362,10 @@ public class JumpState : IPlayerState
 
         else
         {
+            this.player.isGrounded = true;
             //버그 발생함
-            //player.Anim.Play("Jump", 0, 0.8f);
+            player.Anim.Play("Jump", 0, 0.8f);
+            return;
         }
     }
 }
@@ -456,7 +461,7 @@ public class HitState : IPlayerState
         if (player.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
         {
             //다시 원상 복구 시켜 정상적으로 상태가 전이될 수 있게 한다.
-            player.GetComponent<BoxCollider2D>().isTrigger = false;
+            //player.GetComponent<BoxCollider2D>().isTrigger = false;
             player.SetState(new JumpState());
         }
     }
