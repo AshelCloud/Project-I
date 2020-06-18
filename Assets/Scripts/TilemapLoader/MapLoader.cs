@@ -31,7 +31,9 @@ public class MapLoader : MonoBehaviour
 
     public IEnumerator JsonToTilemap(string fileName)
     {
-        AssetBundle localAssetBundle =  AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+        //AssetBundle localAssetBundle =  AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+
+        AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
         if(localAssetBundle == null)
         {
             Debug.LogError("Failed to load AssetBundle!");
