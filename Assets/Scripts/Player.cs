@@ -1,12 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Runtime.InteropServices;
-using TMPro;
-using TreeEditor;
-using UnityEngine;
-using UnityEngine.Timeline;
-
+﻿using UnityEngine;
 
 
 public class Player : MonoBehaviour

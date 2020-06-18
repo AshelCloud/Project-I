@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 1018829598
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: jsons
+      Dependencies: {}
