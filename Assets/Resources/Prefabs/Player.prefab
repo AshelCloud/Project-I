@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 3905798396274382592}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,6 +175,7 @@ MonoBehaviour:
   speed: 10
   jumpForce: 15
   rollLength: 10
+  verticalMove: 4
 --- !u!50 &3905798396274382593
 Rigidbody2D:
   serializedVersion: 4

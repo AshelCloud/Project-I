@@ -25,7 +25,7 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(JsonToTilemap("Forest_0"));
+        StartCoroutine(JsonToTilemap("Forest_1"));
     }
 
     public IEnumerator JsonToTilemap(string fileName)

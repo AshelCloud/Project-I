@@ -41,6 +41,10 @@ public class Player : MonoBehaviour
     private float rollLength = 0f;
     public float RollLength { get { return rollLength; } }
 
+    [SerializeField]
+    private float verticalMove = 0f;
+    public float VerticalMove { get { return verticalMove; } }
+
     public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
 
@@ -57,6 +61,8 @@ public class Player : MonoBehaviour
     //플레이어 점프 방향 구분
     public bool rightMove { get; set; } = false;
     public bool leftMove { get; set; } = false;
+
+    public bool jumpOff { get; set; } = false;
 
     public bool playerHit { get; set; } = false;
     public bool playerRoll { get; set; } = false;
