@@ -25,7 +25,13 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(JsonToTilemap("Forest_0"));
+        LoadMap("Forest_0");
+        //StartCoroutine(JsonToTilemap("Forest_1"));
+    }
+
+    public void LoadMap(string fileName)
+    {
+        StartCoroutine(JsonToTilemap(fileName));
     }
 
     public IEnumerator JsonToTilemap(string fileName)
@@ -50,6 +56,13 @@ public class MapLoader : MonoBehaviour
         }
 
         //현재 있는 맵들 다 삭제하고 진행
+        var curPlayer = FindObjectOfType(typeof(Player)) as Player;
+        
+        if(curPlayer != null)
+        {
+            Destroy(curPlayer.gameObject);
+        }
+
         foreach (var tilemap in tilemaps)
         {
             if (tilemap != null)
@@ -60,7 +73,7 @@ public class MapLoader : MonoBehaviour
         tilemaps = null;
 
         //Destroy가 느리기때문에 다 삭제될때까지 기다림
-        yield return new WaitUntil(() => transform.childCount == 0);
+        yield return new WaitUntil(() => transform.childCount == 0 && curPlayer == null);
 
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
@@ -98,8 +111,23 @@ public class MapLoader : MonoBehaviour
             {
                 player.tag = "Player";
             }
+
+            if (!string.IsNullOrEmpty(data.Value.NextMapName))
+            {
+                GameManager.Instance.NextMapNameOfCurrentMap = data.Value.NextMapName;
+
+                Log.Print("Set To NextMap: " + data.Value.NextMapName);
+            }
+
+            if (!string.IsNullOrEmpty(data.Value.PreviousMapName))
+            {
+                GameManager.Instance.PreviousMapNameOfCurrentMap = data.Value.PreviousMapName;
+
+                Log.Print("Set To PreviousMap: " + data.Value.PreviousMapName);
+            }
         }
 
+        tilemaps = GetComponentsInChildren<Tilemap>();
         Log.Print("Success to Map load");
 
         yield return null;
