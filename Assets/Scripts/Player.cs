@@ -41,6 +41,10 @@ public class Player : MonoBehaviour
     private float rollLength = 0f;
     public float RollLength { get { return rollLength; } }
 
+    [SerializeField]
+    private float verticalMove = 0f;
+    public float VerticalMove { get { return verticalMove; } }
+
     public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
 
@@ -58,9 +62,13 @@ public class Player : MonoBehaviour
     public bool rightMove { get; set; } = false;
     public bool leftMove { get; set; } = false;
 
+    public bool jumpOff { get; set; } = false;
+
     public bool playerHit { get; set; } = false;
     public bool playerRoll { get; set; } = false;
     private IPlayerState _currentState;
+
+    public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
 
     private void Awake()
     {
@@ -109,6 +117,12 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        //else if (collision.gameObject.tag == "trap")
+        //{
+        //    SetState(new DeadState());
+        //}
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -135,7 +149,7 @@ public class Player : MonoBehaviour
             hitTarget = null;
         }
     }
-
+    
     private void LoadToJsonData(int ID)
     {
         //테이블 ID는 1부터 시작
