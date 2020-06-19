@@ -52,7 +52,7 @@ public class Monster : MonoBehaviour
         Anim = GetComponent<Animator>();
         if (Anim == null)
         {
-            Debug.LogWarning("GameObject Not Added Animator! Adding Animator In Script");
+            Log.PrintWarning("GameObject Not Added Animator! Adding Animator In Script");
 
             Anim = gameObject.AddComponent<Animator>();
         }
@@ -115,7 +115,7 @@ public class Monster : MonoBehaviour
         //ID가 기본값이면 에러로그 출력
         if (ID == 0)
         {
-            Debug.LogError("데이터 로드 실패! ID를 설정해주세요");
+            Log.PrintError("Failed to Monster Data, ID is null or 0");
             return;
         }
 
@@ -123,7 +123,7 @@ public class Monster : MonoBehaviour
         AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
         if (localAssetBundle == null)
         {
-            Debug.LogError("Failed to load AssetBundle!");
+            Log.PrintError("Failed to load AssetBundle!");
         }
 
         TextAsset monsterTable = localAssetBundle.LoadAsset<TextAsset>("MonsterTable");

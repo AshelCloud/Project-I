@@ -7,4 +7,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        Log.Print("GameManager Initialize");
+    }
 }

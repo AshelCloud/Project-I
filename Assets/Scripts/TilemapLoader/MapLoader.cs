@@ -9,9 +9,6 @@ using UnityEngine.Tilemaps;
 public class MapLoader : MonoBehaviour
 {
     private Dictionary<string, MapData> mapDatas;
-
-    //Application.dataPath와 연동시켜서 사용
-    const string JsonFilePath = "/Resources/MapJsons/";
     
     const string TileAssetFilePath = "TileAssets/";
     const string PrefabFilePath = "Prefabs/";
@@ -22,6 +19,8 @@ public class MapLoader : MonoBehaviour
     {
         mapDatas = new Dictionary<string, MapData>();
         tilemaps = GetComponentsInChildren<Tilemap>();
+
+        Log.Print("MapLoader Initialize");
     }
 
     private void Start()
@@ -31,18 +30,24 @@ public class MapLoader : MonoBehaviour
 
     public IEnumerator JsonToTilemap(string fileName)
     {
-        //AssetBundle localAssetBundle =  AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+        Log.Print("MapLoader Load Start");
 
         AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
         if(localAssetBundle == null)
         {
-            Debug.LogError("Failed to load AssetBundle!");
+            Log.PrintError("Failed to load AssetBundle!");
+            yield return null;
         }
 
         TextAsset json = localAssetBundle.LoadAsset<TextAsset>(fileName);
 
-        //mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(Application.dataPath + JsonFilePath, fileName).ToDictionary();
         mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(json).ToDictionary();
+
+        if(mapDatas == null)
+        {
+            Log.PrintError("Failed to load Json MapData");
+            yield return null;
+        }
 
         //현재 있는 맵들 다 삭제하고 진행
         foreach (var tilemap in tilemaps)
@@ -59,6 +64,7 @@ public class MapLoader : MonoBehaviour
 
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
+        Log.Print("Load to mapData");
         foreach (var data in mapDatas)
         {
             foreach (var tile in data.Value.Tiles)
@@ -79,10 +85,22 @@ public class MapLoader : MonoBehaviour
             //플레이어 생성코드
             //임시
             //필요시 삭제
+            Log.Print("Instantiate Player");
+
             var playerReosurce = Resources.Load<GameObject>(PrefabFilePath + "Player");
             var player = Instantiate(playerReosurce, data.Value.PlayerStartPosition, Quaternion.identity);
-            player.tag = "Player";
+
+            if(player == null)
+            {
+                Log.PrintError("NullExeption Player");
+            }
+            else
+            {
+                player.tag = "Player";
+            }
         }
+
+        Log.Print("Success to Map load");
 
         yield return null;
     }

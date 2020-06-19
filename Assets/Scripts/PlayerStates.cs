@@ -270,7 +270,6 @@ public class JumpState : IPlayerState
             this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
             this.player.isGrounded = false;
         }
-        Debug.Log("점프");
     }
 
     //공격 상태에 따른 행동들
@@ -479,7 +478,7 @@ public class DeadState : IPlayerState
     {
         this.player = player;
         player.Anim.Play("Die");
-        Debug.Log("플레이어 사망!");
+        Log.Print("Player Dead.");
     }
 
     void IPlayerState.Update()

@@ -144,12 +144,12 @@ public class Player : MonoBehaviour
         
         if (localAssetBundle == null)
         {
-            Debug.LogError("Failed to load AssetBundle!");
+            Log.PrintError("Failed to load AssetBundle!");
         }
 
         if (ID == 0)
         {
-            Debug.LogError("데이터 로드 실패! ID를 설정해주세요");
+            Log.PrintError("Failed to Player Data, ID is null or 0");
             return;
         }
 
