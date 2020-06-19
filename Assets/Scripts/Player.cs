@@ -118,10 +118,10 @@ public class Player : MonoBehaviour
             isGrounded = true;
         }
 
-        //else if (collision.gameObject.tag == "trap")
-        //{
-        //    SetState(new DeadState());
-        //}
+        else if (collision.gameObject.tag == "trap")
+        {
+            SetState(new DeadState());
+        }
 
     }
 

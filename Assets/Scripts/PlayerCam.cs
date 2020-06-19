@@ -39,12 +39,12 @@ public class PlayerCam : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(FindPlayer());
     }
 
     private void LateUpdate()
     {
-        if(target == null) { return; }
+        StartCoroutine(FindPlayer());
+        if (target == null) { return; }
 
         //카메라 위치 결정
         Vector3 desiredPosition = target.position + offset;
