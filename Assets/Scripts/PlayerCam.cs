@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -55,7 +56,6 @@ public class PlayerCam : MonoBehaviour
         float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
 
         transform.position = new Vector3(clampedX, clampedY, transform.position.z);
-
     }
 
     private IEnumerator FindPlayer()
