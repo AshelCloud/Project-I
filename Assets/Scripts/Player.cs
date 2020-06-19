@@ -68,6 +68,8 @@ public class Player : MonoBehaviour
     public bool playerRoll { get; set; } = false;
     private IPlayerState _currentState;
 
+    public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
+
     private void Awake()
     {
         LoadToJsonData(ID);
@@ -115,6 +117,12 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        //else if (collision.gameObject.tag == "trap")
+        //{
+        //    SetState(new DeadState());
+        //}
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -141,7 +149,7 @@ public class Player : MonoBehaviour
             hitTarget = null;
         }
     }
-
+    
     private void LoadToJsonData(int ID)
     {
         //테이블 ID는 1부터 시작

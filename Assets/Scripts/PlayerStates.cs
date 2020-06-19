@@ -353,7 +353,7 @@ public class JumpState : IPlayerState
         player.jumpOff = false;
         Physics2D.IgnoreLayerCollision(8, 10, false);
     }
-
+    
     private void PlayJumpAnim()
     {
         if (player.rb.velocity.y >= 8f)
@@ -464,6 +464,7 @@ public class HitState : IPlayerState
     }
     void IPlayerState.Update()
     {
+        player.spriteRenderer.color = new Color(255, 0, 0);
         if (direction.x > 0)
         {
             player.transform.Translate(Vector2.left * bounceLength * Time.deltaTime, Space.World);
@@ -482,7 +483,7 @@ public class HitState : IPlayerState
 
     void IPlayerState.OnExit()
     {
-
+        player.spriteRenderer.color = new Color(255, 255, 255);
     }
 }
 
