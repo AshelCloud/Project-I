@@ -39,7 +39,7 @@ public class MAttack : MBehaviour
 
         foreach (var result in results)
         {
-            if (result.transform.CompareTag("Player"))
+            if (result.transform.GetComponent<Player>() != null)
             {
                 player = result.transform.gameObject;
                 break;

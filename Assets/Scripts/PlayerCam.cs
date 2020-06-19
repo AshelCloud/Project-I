@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class PlayerCam : MonoBehaviour
 {
-
     private Transform target;
 
     [SerializeField]
