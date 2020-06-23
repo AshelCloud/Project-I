@@ -24,7 +24,6 @@ public class GreyWolf : Monster
     protected override void RunStartBehaviour()
     {
         StartTime = Time.time;
-        moveTime = 2f;
     }
 
     protected override void RunUpdateBehaviour()
