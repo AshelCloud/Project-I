@@ -28,7 +28,7 @@ public class MAttack : MBehaviour
     {
         Collider.enabled = false;
     }
-
+        
     private void AttackUpdate()
     {
         Vector2 end = new Vector2(Monster.transform.position.x + AttackRange * Monster.transform.lossyScale.x, Monster.transform.position.y);

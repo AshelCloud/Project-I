@@ -64,26 +64,36 @@ public class MBehaviourStack
     }
 
     /// <summary>
-    /// 현재 item이 상태전이에 성립되면 Push, 성립되지 않으면 return
+    /// 현재 item이 상태전이에 성립되면 Push 후 true
+    /// 만일 같은 상태를 Push하면 true
+    /// 모두 성립되지 않으면 false
     /// </summary>
     /// <param name="item"></param>
-    public void Push(MonsterBehaviour item)
+    public bool Push(MonsterBehaviour item)
     {
         //Empty일 경우 그냥 Push
         if(0 >= Behaviours.Count)
         {
             Behaviours.Push(item);
             
-            return;
+            return true;
         }
 
-        // >=를 쓰지않는 이유: 같은 행동이라면 == 이기때문에 거른다.
+        //같으면 Push하지 않고 return true
+        if(item == Behaviours.Peek())
+        {
+            return true;
+        }
+
+        //우선순위가 높으면 Push
         if(Prioritys[item] > Prioritys[Behaviours.Peek()])
         {
             Behaviours.Push(item);
 
-            return;
+            return true;
         }
+
+        return false;
     }
 
     public MonsterBehaviour Peek()
