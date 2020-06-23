@@ -24,8 +24,14 @@ public class MHit : MBehaviour
     {
         var curAnimatorStateInfo = Monster.Anim.GetCurrentAnimatorStateInfo(0);
 
-        if(curAnimatorStateInfo.normalizedTime >= 1f && curAnimatorStateInfo.IsName(AnimationName))
+        if(curAnimatorStateInfo.IsName(AnimationName))
         {
+            Monster.Renderer.color = Color.red;
+        }
+
+        if (curAnimatorStateInfo.normalizedTime >= 1f && curAnimatorStateInfo.IsName(AnimationName))
+        {
+            Monster.Renderer.color = Color.white;
             Monster.BehaviourStack.Pop();
         }
     }
