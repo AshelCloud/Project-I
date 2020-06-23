@@ -58,10 +58,6 @@ public class Player : MonoBehaviour
 
     public Monster hitTarget { get; set; }
 
-    //플레이어 점프 방향 구분
-    public bool rightMove { get; set; } = false;
-    public bool leftMove { get; set; } = false;
-
     public bool jumpOff { get; set; } = false;
 
     public bool playerHit { get; set; } = false;
@@ -87,13 +83,6 @@ public class Player : MonoBehaviour
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
-
-        //추후 필히 삭제
-        //피격 디버그
-        if (Input.GetKeyDown(KeyCode.Mouse2))
-        {
-            HitByMonster(0);
-        }
     }
 
     public void SetState(IPlayerState nextState)
@@ -113,15 +102,15 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Platform")
         {
             isGrounded = true;
         }
 
-        //else if (collision.gameObject.tag == "trap")
-        //{
-        //    SetState(new DeadState());
-        //}
+        else if (collision.gameObject.tag == "trap")
+        {
+            SetState(new DeadState());
+        }
 
     }
 
