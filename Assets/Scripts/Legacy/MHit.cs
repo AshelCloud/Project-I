@@ -3,36 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MHit : MBehaviour
+namespace Legacy
 {
-    public Monster Monster { get; private set; }
-
-    public MHit(Monster monster, string animationName, params Action[] actions)
+    public class MHit : MBehaviour
     {
-        Monster = monster;
-        AnimationName = animationName;
+        public Monster Monster { get; private set; }
 
-        foreach (var action in actions)
+        public MHit(Monster monster, string animationName, params Action[] actions)
         {
-            Update += action;
+            Monster = monster;
+            AnimationName = animationName;
+
+            foreach (var action in actions)
+            {
+                Update += action;
+            }
+
+            Update += HitUpdate;
         }
 
-        Update += HitUpdate;
-    }
-
-    private void HitUpdate()
-    {
-        var curAnimatorStateInfo = Monster.Anim.GetCurrentAnimatorStateInfo(0);
-
-        if(curAnimatorStateInfo.IsName(AnimationName))
+        private void HitUpdate()
         {
-            Monster.Renderer.color = Color.red;
-        }
+            var curAnimatorStateInfo = Monster.Anim.GetCurrentAnimatorStateInfo(0);
 
-        if (curAnimatorStateInfo.normalizedTime >= 1f && curAnimatorStateInfo.IsName(AnimationName))
-        {
-            Monster.Renderer.color = Color.white;
-            Monster.BehaviourStack.Pop();
+            if (curAnimatorStateInfo.IsName(AnimationName))
+            {
+                Monster.Renderer.color = Color.red;
+            }
+
+            if (curAnimatorStateInfo.normalizedTime >= 1f && curAnimatorStateInfo.IsName(AnimationName))
+            {
+                Monster.Renderer.color = Color.white;
+                Monster.BehaviourStack.Pop();
+            }
         }
     }
 }

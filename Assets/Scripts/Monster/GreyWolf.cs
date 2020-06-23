@@ -6,7 +6,7 @@ public class GreyWolf : Monster
     private float StartTime { get; set; }
     //몇초 마다 방향을 바꿀껀지
     private float MoveTime { get; set; }
-    private MAttackCollider AttackCollider { get; set; }
+    private Collider2D AttackCollider { get; set; }
 
     protected override void SetBehaviourStackSettings()
     {
@@ -98,7 +98,7 @@ public class GreyWolf : Monster
     }
     protected override void AttackStartBehaviour()
     {
-        AttackCollider = GetComponentInChildren<MAttackCollider>();
+        AttackCollider = GetComponentInChildren<MAttackCollider>().attackCollider;
         AttackCollider.enabled = false;
     }
     protected override void AttackUpdateBehaviour()
@@ -113,13 +113,16 @@ public class GreyWolf : Monster
             {
                 BehaviourStack.Pop();
             }
-
+            
+            AttackCollider.enabled = false;
             return;
         }
         if( BehaviourStack.Push(MonsterBehaviour.Attack) == false )
         {
+            AttackCollider.enabled = false;
             return;
         }
+
 
         RB.velocity = Vector2.zero;
 
@@ -143,5 +146,35 @@ public class GreyWolf : Monster
         Vector3 to = new Vector3(transform.position.x + AttackRange * transform.lossyScale.x, transform.position.y - 0.5f, transform.position.z);
 
         Gizmos.DrawLine(from, to);
+    }
+    protected override void HitUpdateBehaviour()
+    {
+        var curAnimatorStateInfo = Anim.GetCurrentAnimatorStateInfo(0);
+
+        if (curAnimatorStateInfo.IsName(BehaviourStack.AnimationNames[MonsterBehaviour.Hit]))
+        {
+            Renderer.color = Color.red;
+        }
+
+        if (curAnimatorStateInfo.normalizedTime >= 1f && curAnimatorStateInfo.IsName(BehaviourStack.AnimationNames[MonsterBehaviour.Hit]))
+        {
+            Renderer.color = Color.white;
+            BehaviourStack.Pop();
+        }
+    }
+    //TODO: 죽는건 상위 클래스에서 처리 하도록 바꾸기
+    protected override void DeadUpdateBehaviour()
+    {
+        if (HP > 0) { return; }
+
+        BehaviourStack.Push(MonsterBehaviour.Dead);
+
+        var curAnimatorStateInfo = Anim.GetCurrentAnimatorStateInfo(0);
+        //TODO: 애니메이션 끝난뒤 오브젝트 삭제
+        if (curAnimatorStateInfo.normalizedTime > 1f && curAnimatorStateInfo.IsName(BehaviourStack.AnimationNames[MonsterBehaviour.Dead]))
+        {
+            //TODO: FadeOut으로 교체
+            DestroyObject();
+        }
     }
 }

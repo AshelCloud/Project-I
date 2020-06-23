@@ -1,33 +1,35 @@
 ﻿using System;
-
-public class MDie : MBehaviour
+namespace Legacy
 {
-    public Monster Monster { get; private set; }
-
-    public MDie(Monster monster, string animationName, params Action[] actions)
+    public class MDie : MBehaviour
     {
-        Monster = monster;
-        AnimationName = animationName;
+        public Monster Monster { get; private set; }
 
-        foreach(var action in actions)
+        public MDie(Monster monster, string animationName, params Action[] actions)
         {
-            Update += action;
+            Monster = monster;
+            AnimationName = animationName;
+
+            foreach (var action in actions)
+            {
+                Update += action;
+            }
+
+            Update += DieUpdate;
         }
 
-        Update += DieUpdate;
-    }
-
-    private void DieUpdate()
-    {
-        if (Monster.HP > 0) { return; }
-
-        Monster.BehaviourStack.Push(MonsterBehaviour.Dead);
-
-        //TODO: 애니메이션 끝난뒤 오브젝트 삭제
-        if (Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && Monster.Anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+        private void DieUpdate()
         {
-            //TODO: FadeOut으로 교체
-            Monster.DestroyObject();
+            if (Monster.HP > 0) { return; }
+
+            Monster.BehaviourStack.Push(MonsterBehaviour.Dead);
+
+            //TODO: 애니메이션 끝난뒤 오브젝트 삭제
+            if (Monster.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && Monster.Anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+            {
+                //TODO: FadeOut으로 교체
+                Monster.DestroyObject();
+            }
         }
     }
 }

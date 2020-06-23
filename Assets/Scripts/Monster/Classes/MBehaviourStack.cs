@@ -50,7 +50,7 @@ public class MBehaviourStack
     }
 
     private Dictionary<MonsterBehaviour, string> _animationNames;
-    private Dictionary<MonsterBehaviour, string> AnimationNames
+    public Dictionary<MonsterBehaviour, string> AnimationNames
     {
         get
         {

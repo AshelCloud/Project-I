@@ -2,93 +2,96 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class MChase : MBehaviour
+namespace Legacy
 {
-    public Monster Monster { get; private set; }
-    public float Speed { get; set; }
-    public float ChaseRange { get; set; }
-
-    public MChase(Monster monster, string animationName, float speed = 0f, float range = 0f, params Action[] actions)
+    public class MChase : MBehaviour
     {
-        Monster = monster;
-        AnimationName = animationName;
-        Speed = speed;
-        ChaseRange = range;
+        public Monster Monster { get; private set; }
+        public float Speed { get; set; }
+        public float ChaseRange { get; set; }
 
-        foreach(var action in actions)
+        public MChase(Monster monster, string animationName, float speed = 0f, float range = 0f, params Action[] actions)
         {
-            Update += action;
-        }
+            Monster = monster;
+            AnimationName = animationName;
+            Speed = speed;
+            ChaseRange = range;
 
-        Update += ChaseUpdate;
-        OnGizmos += ChaseGizmos;
-    }
-
-    private void ChaseUpdate()
-    {
-        Vector2 start = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
-        Vector2 end = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
-
-        var results = Physics2D.LinecastAll(start, end);
-
-        GameObject player = null;
-
-        foreach (var result in results)
-        {
-            if (result.transform.GetComponent<Player>() != null)
+            foreach (var action in actions)
             {
-                player = result.transform.gameObject;
-                break;
-            }
-        }
-
-        if (player == null)
-        {
-            if(Monster.BehaviourStack.Peek() == MonsterBehaviour.Chase) 
-            {
-                Monster.BehaviourStack.Pop(); 
+                Update += action;
             }
 
-            return;
+            Update += ChaseUpdate;
+            OnGizmos += ChaseGizmos;
         }
 
-        Monster.BehaviourStack.Push(MonsterBehaviour.Chase);
-
-        Vector3 direction = player.transform.position - Monster.transform.position;
-        
-        var curSclae = Monster.transform.localScale;
-
-        float spd = Speed;
-        if (direction.normalized.x < 0)
+        private void ChaseUpdate()
         {
-            spd = -Speed;
+            Vector2 start = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
+            Vector2 end = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
 
-            if(curSclae.x > 0f)
+            var results = Physics2D.LinecastAll(start, end);
+
+            GameObject player = null;
+
+            foreach (var result in results)
             {
-                Monster.transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
+                if (result.transform.GetComponent<Player>() != null)
+                {
+                    player = result.transform.gameObject;
+                    break;
+                }
             }
 
-            //Monster.Renderer.flipX = true;
-        }
-        else
-        {
-            if (curSclae.x < 0f)
+            if (player == null)
             {
-                Monster.transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
+                if (Monster.BehaviourStack.Peek() == MonsterBehaviour.Chase)
+                {
+                    Monster.BehaviourStack.Pop();
+                }
+
+                return;
             }
-            //Monster.Renderer.flipX = false;
+
+            Monster.BehaviourStack.Push(MonsterBehaviour.Chase);
+
+            Vector3 direction = player.transform.position - Monster.transform.position;
+
+            var curSclae = Monster.transform.localScale;
+
+            float spd = Speed;
+            if (direction.normalized.x < 0)
+            {
+                spd = -Speed;
+
+                if (curSclae.x > 0f)
+                {
+                    Monster.transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
+                }
+
+                //Monster.Renderer.flipX = true;
+            }
+            else
+            {
+                if (curSclae.x < 0f)
+                {
+                    Monster.transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
+                }
+                //Monster.Renderer.flipX = false;
+            }
+
+            Monster.RB.velocity = new Vector2(spd * Time.deltaTime, Monster.RB.velocity.y);
         }
 
-        Monster.RB.velocity = new Vector2(spd * Time.deltaTime, Monster.RB.velocity.y);
-    }
+        private void ChaseGizmos()
+        {
+            Vector2 from = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
+            Vector2 to = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
 
-    private void ChaseGizmos()
-    {
-        Vector2 from = new Vector2(Monster.transform.position.x - ChaseRange, Monster.transform.position.y);
-        Vector2 to = new Vector2(Monster.transform.position.x + ChaseRange, Monster.transform.position.y);
+            Gizmos.color = Color.green;
 
-        Gizmos.color = Color.green;
-        
-        Gizmos.DrawLine(from, to);
+            Gizmos.DrawLine(from, to);
+        }
     }
 }
