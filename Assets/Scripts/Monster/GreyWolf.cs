@@ -2,10 +2,12 @@
 
 public class GreyWolf : Monster
 {
+    [Header("Patrol Time")]
+    public float moveTime = 2f;
+
     //Patrol 시간 체크용
     private float StartTime { get; set; }
     //몇초 마다 방향을 바꿀껀지
-    private float MoveTime { get; set; }
     private Collider2D AttackCollider { get; set; }
 
     protected override void SetBehaviourStackSettings()
@@ -22,7 +24,7 @@ public class GreyWolf : Monster
     protected override void RunStartBehaviour()
     {
         StartTime = Time.time;
-        MoveTime = 2f;
+        moveTime = 2f;
     }
 
     protected override void RunUpdateBehaviour()
@@ -31,7 +33,7 @@ public class GreyWolf : Monster
 
         var curSclae = transform.localScale;
 
-        if (Time.time - StartTime >= MoveTime)
+        if (Time.time - StartTime >= moveTime)
         {
             StartTime = Time.time;
             transform.localScale = new Vector3(-curSclae.x, curSclae.y, curSclae.z);
