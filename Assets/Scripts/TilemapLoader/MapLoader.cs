@@ -25,7 +25,7 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
-        LoadMap("Forest_0");
+        LoadMap("Forest_2");
         //StartCoroutine(JsonToTilemap("Forest_1"));
     }
 

@@ -15,7 +15,12 @@ public class MAttackCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player") || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        //if(collision.CompareTag("Player") || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        //{
+        //    collision.GetComponent<Player>().HitByMonster(Root.OffentPower);
+        //}
+
+        if(collision.GetComponent<Player>() != null )
         {
             collision.GetComponent<Player>().HitByMonster(Root.OffentPower);
         }
