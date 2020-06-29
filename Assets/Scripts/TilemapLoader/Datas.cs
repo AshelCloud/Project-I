@@ -104,7 +104,7 @@ public class MapData
     public List<TileData> Tiles;
     public List<PrefabData> Prefabs;
     public Vector3 PlayerStartPosition;
-    public Vector3 PlayerEndPosition;
-    public string NextMapName;
+    public List<Vector3> PlayerEndPosition;
+    public List<string> NextMapName;
     public string PreviousMapName;
 }

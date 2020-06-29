@@ -15,6 +15,9 @@ public class MapLoader : MonoBehaviour
 
     Tilemap[] tilemaps;
 
+    [SerializeField]
+    private string startMapName = "";
+
     private void Awake()
     {
         mapDatas = new Dictionary<string, MapData>();
@@ -25,7 +28,7 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
-        LoadMap("Forest_2");
+        LoadMap(startMapName);
         //StartCoroutine(JsonToTilemap("Forest_1"));
     }
 
@@ -92,7 +95,7 @@ public class MapLoader : MonoBehaviour
                 var tilemap = UpdateTilemapDataWithCreate(prefab.BaseTileMap);
 
                 GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + prefab.Name), prefab.Position, prefab.Rotation, tilemap.transform);
-                go.transform.localScale = prefab.Scale;
+                //go.transform.localScale = prefab.Scale;
             }
 
             //플레이어 생성코드
@@ -112,19 +115,20 @@ public class MapLoader : MonoBehaviour
                 player.tag = "Player";
             }
 
-            if (!string.IsNullOrEmpty(data.Value.NextMapName))
-            {
-                GameManager.Instance.NextMapNameOfCurrentMap = data.Value.NextMapName;
+            //TODO: Debug 코드 고치기
+            //if (!string.IsNullOrEmpty(data.Value.NextMapName))
+            //{
+            //    GameManager.Instance.NextMapNameOfCurrentMap = data.Value.NextMapName;
 
-                Log.Print("Set To NextMap: " + data.Value.NextMapName);
-            }
+            //    Log.Print("Set To NextMap: " + data.Value.NextMapName);
+            //}
 
-            if (!string.IsNullOrEmpty(data.Value.PreviousMapName))
-            {
-                GameManager.Instance.PreviousMapNameOfCurrentMap = data.Value.PreviousMapName;
+            //if (!string.IsNullOrEmpty(data.Value.PreviousMapName))
+            //{
+            //    GameManager.Instance.PreviousMapNameOfCurrentMap = data.Value.PreviousMapName;
 
-                Log.Print("Set To PreviousMap: " + data.Value.PreviousMapName);
-            }
+            //    Log.Print("Set To PreviousMap: " + data.Value.PreviousMapName);
+            //}
         }
 
         tilemaps = GetComponentsInChildren<Tilemap>();
