@@ -21,7 +21,7 @@ TagManager:
   - Player
   - Monster
   - Platform
-  - 
+  - Floor
   - 
   - PostProcessing
   - 

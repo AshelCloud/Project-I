@@ -22,8 +22,8 @@ public class Player : MonoBehaviour
     private int ID = 1;
 
     public float offensePower { get; set; }
-    private float defense;
-    private float hp;
+    private float defense = 0f;
+    private float hp = 0f;
     public float HP { get { return hp; } }
 
     //이동 속도
@@ -41,15 +41,15 @@ public class Player : MonoBehaviour
     private float rollLength = 0f;
     public float RollLength { get { return rollLength; } }
 
+    //공중 이동 능력
     [SerializeField]
     private float verticalMove = 0f;
     public float VerticalMove { get { return verticalMove; } }
 
-    public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
+    public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
 
     public bool isGrounded { get; set; } = false;
-    private float groundDistance;
 
 
     //공격 판정을 위한 GameObject
@@ -59,9 +59,9 @@ public class Player : MonoBehaviour
     public Monster hitTarget { get; set; }
 
     public bool jumpOff { get; set; } = false;
-
     public bool playerHit { get; set; } = false;
     public bool playerRoll { get; set; } = false;
+    public uint jumpCount { get; set; } = 0;
     private IPlayerState _currentState;
 
     public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
@@ -74,7 +74,6 @@ public class Player : MonoBehaviour
         sword = GameObject.Find("Sword");
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
-
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
