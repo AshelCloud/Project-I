@@ -223,4 +223,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b35cac36d8b25c4b8c5cb5448ad18a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Bite
   attackCollider: {fileID: 6694702145748275121}

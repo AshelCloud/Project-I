@@ -6,6 +6,7 @@ public class MAttackCollider : MonoBehaviour
 {
     private Monster Root { get; set; }
 
+    public string attackName;
     public Collider2D attackCollider;
 
     private void Awake()

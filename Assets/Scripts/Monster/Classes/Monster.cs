@@ -36,10 +36,11 @@ public partial class Monster : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if(Behaviours == null)  { return; }
+
         foreach (var action in Behaviours)
         {
             action.Value.OnGizmos?.Invoke();
         }
     }
-
 }
