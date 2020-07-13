@@ -4,7 +4,6 @@ public class GreyWolf : Monster
 {
     [Header("Patrol Time")]
     public float moveTime = 2f;
-
     //Patrol 시간 체크용
     private float StartTime { get; set; }
     //몇초 마다 방향을 바꿀껀지
