@@ -8,14 +8,17 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Player>() != null && !string.IsNullOrEmpty(MapName) )
+        if (collision.transform.root.GetComponent<Player>() != null )
         {
-            GameManager.Instance.LoadMap(MapName);
-        }
-        else
-        {
-            //TODO: 로그 자세히 쓰기
-            Log.PrintError("Portal Error");
+            if(string.IsNullOrEmpty(MapName))
+            {
+                //TODO: 로그 자세히 쓰기
+                Log.PrintError("Portal Error");
+            }
+            else
+            {
+                GameManager.Instance.LoadMap(MapName);
+            }
         }
     }
 }
