@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Legacy;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
@@ -18,6 +19,11 @@ public class WhiteWolf : Monster
             return _player;
         }
     }
+
+
+    private Collider2D BiteCollider { get; set; }
+    private Collider2D ClawCollider { get; set; }
+
     protected override void SetID()
     {
         ID = 2;
@@ -62,5 +68,28 @@ public class WhiteWolf : Monster
 
         //추적은 1.5배 빠르게 이동
         RB.velocity = new Vector2(spd * 1.5f * Time.deltaTime, RB.velocity.y);
+    }
+
+    protected override void AttackStartBehaviour()
+    {
+        foreach(var col in GetComponentsInChildren<MAttackCollider>())
+        {
+            if(col.attackName.Contains("Bite"))
+            {
+                BiteCollider = col.attackCollider;
+            }
+            else if(col.attackName.Contains("Claw"))
+            {
+                ClawCollider = col.attackCollider;
+            }
+        }
+
+        BiteCollider.enabled = false;
+        ClawCollider.enabled = false;
+    }
+
+    protected override void AttackUpdateBehaviour()
+    {
+        
     }
 }
