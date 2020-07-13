@@ -9,6 +9,7 @@ TagManager:
   - MonsterAttackCollider
   - Platform
   - trap
+  - Portal
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Player
   - Monster
   - Platform
-  - 
+  - Portal
   - 
   - PostProcessing
   - 

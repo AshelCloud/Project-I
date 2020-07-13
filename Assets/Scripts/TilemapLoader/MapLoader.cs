@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.TestTools;
 using UnityEngine.Tilemaps;
 
 public class MapLoader : MonoBehaviour
@@ -94,7 +95,35 @@ public class MapLoader : MonoBehaviour
             {
                 var tilemap = UpdateTilemapDataWithCreate(prefab.BaseTileMap);
 
-                GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + prefab.Name), prefab.Position, prefab.Rotation, tilemap.transform);
+                if(prefab.Tag.Contains("Portal"))
+                {
+                    GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + "Portal"), prefab.Position, prefab.Rotation, tilemap.transform);
+                    go.name = prefab.Name;
+
+                    var boxCollider = go.GetComponent<BoxCollider2D>();
+
+                    boxCollider.isTrigger = prefab.BoxCollider.IsTrigger;
+                    boxCollider.offset = prefab.BoxCollider.Offest;
+                    boxCollider.size = prefab.BoxCollider.Size;
+                    boxCollider.edgeRadius = prefab.BoxCollider.EdgeRadius;
+
+                    int mapIndex = int.Parse(go.name);
+
+                    var portal = go.GetComponent<Portal>();
+
+                    if(mapIndex <= 0)
+                    {
+                        portal.MapName = data.Value.PreviousMapName;
+                    }
+                    else
+                    {
+                        portal.MapName = data.Value.NextMapName[mapIndex - 1];
+                    }
+                }
+                else
+                {
+                    GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + prefab.Name), prefab.Position, prefab.Rotation, tilemap.transform);
+                }
                 //go.transform.localScale = prefab.Scale;
             }
 
@@ -104,6 +133,8 @@ public class MapLoader : MonoBehaviour
             Log.Print("Instantiate Player");
 
             var playerReosurce = Resources.Load<GameObject>(PrefabFilePath + "Player");
+
+            //TODO: 플레이어 위치 설정
             var player = Instantiate(playerReosurce, data.Value.PlayerStartPosition, Quaternion.identity);
 
             if(player == null)

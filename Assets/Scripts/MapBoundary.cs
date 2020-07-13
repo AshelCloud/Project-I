@@ -10,21 +10,4 @@ public class MapBoundary : MonoBehaviour
     {
         Bounds = GetComponent<BoxCollider2D>().bounds;
     }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.CompareTag("Player"))
-        {
-            var position = collision.transform.position.x - Bounds.min.x;
-
-            if(position >= Bounds.max.x)
-            {
-                GameManager.Instance.LoadNextMap();
-            }
-            else
-            {
-                GameManager.Instance.LoadPreviousMap();
-            }
-        }
-    }
 }
