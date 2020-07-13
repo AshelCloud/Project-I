@@ -213,6 +213,22 @@ public class MapLoader : MonoBehaviour
             collider.edgeRadius = colliderData.EdgeRadius;
         }
 
+        if(mapData.PlatformEffector.IsNotNull)
+        {
+            var effector = go.AddComponent<PlatformEffector2D>();
+            var effectorData = mapData.PlatformEffector;
+
+            effector.useColliderMask = effectorData.UseColliderMask;
+            effector.colliderMask = effectorData.ColliderMask;
+            effector.rotationalOffset = effectorData.RotationalOffset;
+            effector.useOneWay = effectorData.UseOneWay;
+            effector.useOneWayGrouping = effectorData.UseOneWayGroup;
+            effector.surfaceArc = effectorData.SurfaceArc;
+            effector.useSideFriction = effectorData.UseSideFriction;
+            effector.useSideBounce = effectorData.UseSideBounce;
+            effector.sideArc = effectorData.SideArc;
+        }
+
         map = go.GetComponent<Tilemap>();
 
         //정보 업데이트
