@@ -56,11 +56,11 @@ public class Player : MonoBehaviour
 
     public Monster hitTarget { get; set; }
 
-    public bool jumpOff { get; set; } = false;
+    public bool isJumpOff { get; set; } = false;
     public bool playerHit { get; set; } = false;
     public bool playerRoll { get; set; } = false;
 
-    public bool isGrounded { get; set; } = false;
+    //public bool isGrounded { get; set; } = false;
     public bool isTouchWall { get; set; } = false;
     public bool isCling { get; set; } = false;
     private IPlayerState _currentState;
@@ -83,7 +83,6 @@ public class Player : MonoBehaviour
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
-        isGround();
     }
 
     public void SetState(IPlayerState nextState)
@@ -233,19 +232,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void isGround()
+    public bool isGrounded()
     {
         var floorLayer = LayerMask.GetMask("Floor");
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
 
-        if(Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer))
+        if (Physics2D.Raycast(startPos, -transform.up, 0.3f, floorLayer).distance > 0)
         {
-            isGrounded = true;
+            return true;
         }
 
         else
         {
-            isGrounded = false;
+            return false;
         }
     }
 
@@ -259,6 +258,6 @@ public class Player : MonoBehaviour
         checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0, -0.2f));
+        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0, -0.3f));
     }
 }

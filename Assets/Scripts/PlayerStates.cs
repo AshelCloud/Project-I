@@ -43,7 +43,7 @@ public class IdleState : IPlayerState
     {
         player.anim.Play("Idle");
 
-        if (!player.isGrounded)
+        if (!player.isGrounded())
         {
             player.SetState(new JumpState());
         }
@@ -71,7 +71,7 @@ public class IdleState : IPlayerState
             //하향 점프
             else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.D))
             {
-                player.jumpOff = true;
+                player.isJumpOff = true;
                 player.SetState(new JumpState());
             }
 
@@ -275,16 +275,19 @@ public class JumpState : IPlayerState
     private Player player;
     private Vector2 direction;
     static private uint doubleJump = 0;
-
+    
+    float timer = 0.0f;
+    float delay = 0.05f;
     void IPlayerState.OnEnter(Player player)
     {
         this.player = player;
         direction = this.player.transform.localScale;
 
         Log.Print("Enter JumpState");
-
-        Log.Print("Is Grounded?: " + this.player.isGrounded + ", jumpOff?: " + this.player.jumpOff);
-
+        if(!this.player.isGrounded())
+        {
+            return;
+        }
         //벽에 매달린 상태의 점프
         if (player.isCling)
         {
@@ -292,7 +295,6 @@ public class JumpState : IPlayerState
             Log.Print("Player Doing cling jump");
             Log.Print("Jump Count: " + doubleJump);
             this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-            this.player.isGrounded = false;
             player.isCling = false;
         }
 
@@ -300,19 +302,16 @@ public class JumpState : IPlayerState
         else
         {
             //일반적인 점프
-            if (this.player.isGrounded && !this.player.jumpOff)
+            if (!this.player.isJumpOff)
             {
-                Log.Print("Jump Count: " + doubleJump);
                 this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-                this.player.isGrounded = false;
                 doubleJump++;
             }
 
             //하향 점프
-            else if (this.player.isGrounded && this.player.jumpOff)
+            else
             {
                 Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), true);
-                this.player.isGrounded = false;
             }
         }
     }
@@ -320,87 +319,91 @@ public class JumpState : IPlayerState
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
-        //플레이어의 공중 이동
-        if (!player.isGrounded)
+        //0.05초뒤 로직 처리
+        //버그 방지
+        timer += Time.deltaTime;
+        if (timer > delay)
         {
-            PlayJumpAnim();
-
-            if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
+            //플레이어의 공중 이동
+            if (!player.isGrounded())
             {
-                Log.Print("Jump Count: " + doubleJump);
-                player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-                player.isGrounded = false;
-                doubleJump++;
+                PlayJumpAnim();
+
+                if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
+                {
+                    Log.Print("Jump Count: " + doubleJump);
+                    player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+                    doubleJump++;
+                }
+
+                if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
+                {
+                    player.SetState(new ClingState());
+                }
+
+                //좌측이동
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    //플레이어 좌측 이동
+                    player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                    direction.x = Mathf.Abs(direction.x);                                                              //플레이어 방향전환
+                    player.transform.localScale = direction;
+                }
+
+                //우측이동
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    //플레이어 우측 이동
+                    player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                    direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
+                    player.transform.localScale = direction;
+                }
+
+                //제자리 점프
+                else
+                {
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
-            {
-                player.SetState(new ClingState());
-            }
-
-            //좌측이동
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                //플레이어 좌측 이동
-                player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
-                direction.x = Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-                player.transform.localScale = direction;
-            }
-
-            //우측이동
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                //플레이어 우측 이동
-                player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
-                direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-                player.transform.localScale = direction;
-            }
-
-            //제자리 점프
+            //땅에 착지 했을 시에 취하는 입력들
             else
             {
+                doubleJump = 0;
+                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+                {
+                    player.SetState(new RunState());
+                }
+
+                else if (Input.GetKey(KeyCode.A))
+                {
+                    player.SetState(new AttackState());
+                }
+
+                //구르기
+                else if (Input.GetKey(KeyCode.F))
+                {
+                    player.SetState(new RollState());
+                }
+
+                //아무 입력이 없으면 대기 상태로 전이
+                else if (!Input.anyKey)
+                {
+                    player.SetState(new IdleState());
+                }
+
+                //버그 방지
+                else
+                {
+                    player.SetState(new IdleState());
+                }
             }
         }
-
-        //땅에 착지 했을 시에 취하는 입력들
-        else
-        {
-            doubleJump = 0;
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-            {
-                player.SetState(new RunState());
-            }
-
-            else if (Input.GetKey(KeyCode.A))
-            {
-                player.SetState(new AttackState());
-            }
-
-            //구르기
-            else if (Input.GetKey(KeyCode.F))
-            {
-                player.SetState(new RollState());
-            }
-
-            //아무 입력이 없으면 대기 상태로 전이
-            else if (!Input.anyKey)
-            {
-                player.SetState(new IdleState());
-            }
-
-            //버그 방지
-            else
-            {
-                player.SetState(new IdleState());
-            }
-        }
-
     }
 
     void IPlayerState.OnExit()
     {
         Log.Print("End JumpState");
-        player.jumpOff = false;
+        player.isJumpOff = false;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), false);
     }
 
@@ -422,16 +425,15 @@ public class JumpState : IPlayerState
             player.anim.Play("Jump", 0, 0.6f);
         }
 
-        else if (player.jumpOff)
+        else if (player.isJumpOff)
         {
 
-            player.jumpOff = false;
+            player.isJumpOff = false;
             return;
         }
 
         else
         {
-            player.isGrounded = true;
             return;
         }
     }
@@ -544,7 +546,6 @@ public class HitState : IPlayerState
         this.player.rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
 
         //플레이어가 공중에 있음을 확인
-        this.player.isGrounded = false;
 
         this.player.playerHit = true;
 
