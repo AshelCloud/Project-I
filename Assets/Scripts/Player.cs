@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using UnityEditor;
 
 public class Player : MonoBehaviour
 {
@@ -49,9 +50,6 @@ public class Player : MonoBehaviour
     public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
 
-    public bool isGrounded { get; set; } = false;
-
-
     //공격 판정을 위한 GameObject
     private GameObject sword;
     public GameObject Sword { get { return sword; } }
@@ -61,7 +59,10 @@ public class Player : MonoBehaviour
     public bool jumpOff { get; set; } = false;
     public bool playerHit { get; set; } = false;
     public bool playerRoll { get; set; } = false;
-    public uint jumpCount { get; set; } = 0;
+
+    public bool isGrounded { get; set; } = false;
+    public bool isTouchWall { get; set; } = false;
+    public bool isCling { get; set; } = false;
     private IPlayerState _currentState;
 
     public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
@@ -82,6 +83,7 @@ public class Player : MonoBehaviour
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
+        isGround();
     }
 
     public void SetState(IPlayerState nextState)
@@ -99,28 +101,28 @@ public class Player : MonoBehaviour
         _currentState.OnEnter(this);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Platform")
-        {
-            isGrounded = true;
-        }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Platform")
+    //    {
+    //        isGrounded = true;
+    //    }
 
-        else if (collision.gameObject.tag == "trap")
-        {
-            SetState(new DeadState());
-        }
+    //    else if (collision.gameObject.tag == "trap")
+    //    {
+    //        SetState(new DeadState());
+    //    }
 
-    }
+    //}
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Floor" && playerHit != true && playerRoll != true)
-        {
-            isGrounded = false;
-            SetState(new JumpState());
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Floor" && playerHit != true && playerRoll != true)
+    //    {
+    //        isGrounded = false;
+    //        SetState(new JumpState());
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
@@ -198,5 +200,65 @@ public class Player : MonoBehaviour
             //yield return new WaitForSeconds(1f);
             playerHit = false;
         }
+    }
+
+    public bool CheckWall()
+    {
+        var floorLayer = LayerMask.GetMask("Floor");
+
+        var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
+
+        Vector3 rayDirection;
+
+        if (transform.localScale.x > 0)
+        {
+            rayDirection = transform.right;
+        }
+
+        else
+        {
+            rayDirection = -transform.right;
+        }
+
+        if (Physics2D.Raycast(checkPos, rayDirection, 0.9f, floorLayer))
+        {
+            Log.Print("CheckWall");
+            return true;
+        }
+
+        else
+        {
+            Log.Print("Nothing");
+            return false;
+        }
+    }
+
+    private void isGround()
+    {
+        var floorLayer = LayerMask.GetMask("Floor");
+        var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+
+        if(Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer))
+        {
+            isGrounded = true;
+        }
+
+        else
+        {
+            isGrounded = false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0.9f, 0));
+
+        checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0, -0.2f));
     }
 }

@@ -150,18 +150,18 @@ public class RunState : IPlayerState
     {
     }
 
-//    private void bool OnSlope()
-//    {
-//        if (!player.isGrounded)
-//        {
-//            return false;
-//        }
+    //    private void bool OnSlope()
+    //    {
+    //        if (!player.isGrounded)
+    //        {
+    //            return false;
+    //        }
 
-//        RayCastHit hit;
+    //        RayCastHit hit;
 
-//        if (Physics2D)
-//            }
-//     }
+    //        if (Physics2D)
+    //            }
+    //     }
 }
 
 //플레이어 공격 상태
@@ -277,7 +277,7 @@ public class JumpState : IPlayerState
     static private uint doubleJump = 0;
 
     void IPlayerState.OnEnter(Player player)
-    { 
+    {
         this.player = player;
         direction = this.player.transform.localScale;
 
@@ -285,20 +285,35 @@ public class JumpState : IPlayerState
 
         Log.Print("Is Grounded?: " + this.player.isGrounded + ", jumpOff?: " + this.player.jumpOff);
 
-        //일반적인 점프
-        if (this.player.isGrounded && !this.player.jumpOff)
+        //벽에 매달린 상태의 점프
+        if (player.isCling)
         {
+            doubleJump = 1;
+            Log.Print("Player Doing cling jump");
             Log.Print("Jump Count: " + doubleJump);
             this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
             this.player.isGrounded = false;
-            doubleJump++;
+            player.isCling = false;
         }
 
-        //하향 점프
-        else if (this.player.isGrounded && this.player.jumpOff)
+
+        else
         {
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), true);
-            this.player.isGrounded = false;
+            //일반적인 점프
+            if (this.player.isGrounded && !this.player.jumpOff)
+            {
+                Log.Print("Jump Count: " + doubleJump);
+                this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+                this.player.isGrounded = false;
+                doubleJump++;
+            }
+
+            //하향 점프
+            else if (this.player.isGrounded && this.player.jumpOff)
+            {
+                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), true);
+                this.player.isGrounded = false;
+            }
         }
     }
 
@@ -310,13 +325,6 @@ public class JumpState : IPlayerState
         {
             PlayJumpAnim();
 
-            //좌측이동
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                //플레이어 좌측 이동
-                player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
-            }
-
             if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
             {
                 Log.Print("Jump Count: " + doubleJump);
@@ -325,11 +333,27 @@ public class JumpState : IPlayerState
                 doubleJump++;
             }
 
+            if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
+            {
+                player.SetState(new ClingState());
+            }
+
+            //좌측이동
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                //플레이어 좌측 이동
+                player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                direction.x = Mathf.Abs(direction.x);                                                              //플레이어 방향전환
+                player.transform.localScale = direction;
+            }
+
             //우측이동
             else if (Input.GetKey(KeyCode.LeftArrow))
             {
                 //플레이어 우측 이동
                 player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
+                player.transform.localScale = direction;
             }
 
             //제자리 점프
@@ -400,7 +424,7 @@ public class JumpState : IPlayerState
 
         else if (player.jumpOff)
         {
-            
+
             player.jumpOff = false;
             return;
         }
@@ -412,24 +436,6 @@ public class JumpState : IPlayerState
         }
     }
 
-    private bool ReachWall()
-    {
-        var floorLayer = LayerMask.NameToLayer("Floor");
-        var startPos = new Vector2(player.transform.position.x, player.transform.position.y + 2f);
-
-        if (Physics2D.Raycast(player.transform.position, Vector2.right, 1f, floorLayer))
-        {
-            //var hit = Physics2D.LinecastAll(startPos, Vector2.right, 1f, floorLayer);
-
-            //Debug.DrawLine(startPos, hit.point);
-
-            return true;
-        }
-
-
-
-        return false;
-    }
 }
 
 //플레이어 구르기 상태
@@ -480,6 +486,38 @@ public class RollState : IPlayerState
     {
         player.playerRoll = false;
     }
+
+}
+
+public class ClingState : IPlayerState
+{
+    private Player player;
+    private Vector3 direction;
+
+
+    void IPlayerState.OnEnter(Player player)
+    {
+        this.player = player;
+        direction = this.player.transform.localScale;
+        player.isCling = true;
+    }
+
+    void IPlayerState.Update()
+    {
+        player.anim.Play("Wall_cling");
+
+        this.player.rb.velocity = Vector2.zero;
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            player.SetState(new JumpState());
+        }
+    }
+
+    void IPlayerState.OnExit()
+    { 
+    }
+
 
 }
 

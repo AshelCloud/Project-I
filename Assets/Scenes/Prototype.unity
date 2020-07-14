@@ -165,7 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 514734945}
   - component: {fileID: 514734944}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MapBoundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
