@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ddc06d132687f44b0e47f88bf265ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMapName: BossTest
+  startMapName: Forest_1
 --- !u!156049354 &167956407
 Grid:
   m_ObjectHideFlags: 0
@@ -403,87 +403,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1001 &1254574809
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1589748140, guid: 6e3c91f42bc616942ae73c0c243d2c9d, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1589748140, guid: 6e3c91f42bc616942ae73c0c243d2c9d, type: 3}
-      propertyPath: ID
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1589748140, guid: 6e3c91f42bc616942ae73c0c243d2c9d, type: 3}
-      propertyPath: onAwakeIdle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596920, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465777863101596926, guid: 6e3c91f42bc616942ae73c0c243d2c9d,
-        type: 3}
-      propertyPath: m_Name
-      value: Grey_wolf
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6e3c91f42bc616942ae73c0c243d2c9d, type: 3}
 --- !u!1 &1270531959
 GameObject:
   m_ObjectHideFlags: 0

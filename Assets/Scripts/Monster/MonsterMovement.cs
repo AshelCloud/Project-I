@@ -75,13 +75,13 @@ public partial class Monster : MonoBehaviour
         
     }
 
-
     private void Update()
     {
         Patrol();
 
         RayCasting();
     }
+
     //TODO: 보스몬스터 제외
     private void Patrol()
     {

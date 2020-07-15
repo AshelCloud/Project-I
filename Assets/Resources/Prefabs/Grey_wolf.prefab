@@ -163,6 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onAwakeIdle: 0
+  debug: 1
+  ID: 1
+  patrolTransitionTime: 3
 --- !u!1 &8980127533559822612
 GameObject:
   m_ObjectHideFlags: 0
