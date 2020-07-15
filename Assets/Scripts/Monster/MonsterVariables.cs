@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterVariables : MonoBehaviour
+//몬스터 스크립트의 모든 변수
+public partial class Monster : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    protected bool idle = true;
+    public bool Idle { get; }
 
-    // Update is called once per frame
-    void Update()
+    public const string m_Idle = "Idle";
+
+    private int hash_Idle;
+
+
+    protected Animator anim;
+
+    public Animator Anim
     {
-        
+        get
+        {
+            if(anim == null)
+            {
+                anim = GetComponent<Animator>();
+            }
+
+            return anim;
+        }
     }
 }
