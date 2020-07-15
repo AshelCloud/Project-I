@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using UnityEditor;
 
 public class Player : MonoBehaviour
 {
@@ -22,8 +23,8 @@ public class Player : MonoBehaviour
     private int ID = 1;
 
     public float offensePower { get; set; }
-    private float defense;
-    private float hp;
+    private float defense = 0f;
+    private float hp = 0f;
     public float HP { get { return hp; } }
 
     //이동 속도
@@ -41,16 +42,13 @@ public class Player : MonoBehaviour
     private float rollLength = 0f;
     public float RollLength { get { return rollLength; } }
 
+    //공중 이동 능력
     [SerializeField]
     private float verticalMove = 0f;
     public float VerticalMove { get { return verticalMove; } }
 
-    public Animator Anim { get { return gameObject.GetComponent<Animator>(); } }
+    public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
-
-    public bool isGrounded { get; set; } = false;
-    private float groundDistance;
-
 
     //공격 판정을 위한 GameObject
     private GameObject sword;
@@ -58,14 +56,13 @@ public class Player : MonoBehaviour
 
     public Monster hitTarget { get; set; }
 
-    //플레이어 점프 방향 구분
-    public bool rightMove { get; set; } = false;
-    public bool leftMove { get; set; } = false;
-
-    public bool jumpOff { get; set; } = false;
-
+    public bool isJumpOff { get; set; } = false;
     public bool playerHit { get; set; } = false;
     public bool playerRoll { get; set; } = false;
+
+    //public bool isGrounded { get; set; } = false;
+    public bool isTouchWall { get; set; } = false;
+    public bool isCling { get; set; } = false;
     private IPlayerState _currentState;
 
     public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
@@ -79,7 +76,6 @@ public class Player : MonoBehaviour
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
 
-
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 
@@ -87,13 +83,6 @@ public class Player : MonoBehaviour
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
-
-        //추후 필히 삭제
-        //피격 디버그
-        if (Input.GetKeyDown(KeyCode.Mouse2))
-        {
-            HitByMonster(0);
-        }
     }
 
     public void SetState(IPlayerState nextState)
@@ -111,28 +100,28 @@ public class Player : MonoBehaviour
         _currentState.OnEnter(this);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-        {
-            isGrounded = true;
-        }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Platform")
+    //    {
+    //        isGrounded = true;
+    //    }
 
-        else if (collision.gameObject.tag == "trap")
-        {
-            SetState(new DeadState());
-        }
+    //    else if (collision.gameObject.tag == "trap")
+    //    {
+    //        SetState(new DeadState());
+    //    }
 
-    }
+    //}
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Floor" && playerHit != true && playerRoll != true)
-        {
-            isGrounded = false;
-            SetState(new JumpState());
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Floor" && playerHit != true && playerRoll != true)
+    //    {
+    //        isGrounded = false;
+    //        SetState(new JumpState());
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
@@ -210,5 +199,65 @@ public class Player : MonoBehaviour
             //yield return new WaitForSeconds(1f);
             playerHit = false;
         }
+    }
+
+    public bool CheckWall()
+    {
+        var floorLayer = LayerMask.GetMask("Floor");
+
+        var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
+
+        Vector3 rayDirection;
+
+        if (transform.localScale.x > 0)
+        {
+            rayDirection = transform.right;
+        }
+
+        else
+        {
+            rayDirection = -transform.right;
+        }
+
+        if (Physics2D.Raycast(checkPos, rayDirection, 0.9f, floorLayer))
+        {
+            Log.Print("CheckWall");
+            return true;
+        }
+
+        else
+        {
+            Log.Print("Nothing");
+            return false;
+        }
+    }
+
+    public bool isGrounded()
+    {
+        var floorLayer = LayerMask.GetMask("Floor");
+        var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+
+        if (Physics2D.Raycast(startPos, -transform.up, 0.3f, floorLayer).distance > 0)
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0.9f, 0));
+
+        checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0, -0.3f));
     }
 }
