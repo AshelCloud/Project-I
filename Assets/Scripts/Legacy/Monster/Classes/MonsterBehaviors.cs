@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Legacy
+{
 public partial class Monster : MonoBehaviour
 {
     protected virtual void IdleStartBehaviour()
@@ -72,4 +74,5 @@ public partial class Monster : MonoBehaviour
 
         return null;
     }
+}
 }

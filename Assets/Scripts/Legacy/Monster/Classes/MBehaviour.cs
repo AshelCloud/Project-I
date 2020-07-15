@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Legacy
+{
 public class MBehaviour
 {
     public string BehaivorName { get; set; }
@@ -10,4 +12,5 @@ public class MBehaviour
     public Action Start { get; set; }
     public Action Update { get; set; }
     public Action OnGizmos { get; set; }
+}
 }

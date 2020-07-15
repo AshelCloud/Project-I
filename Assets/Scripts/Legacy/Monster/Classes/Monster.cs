@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+namespace Legacy
+{
 /// <summary>
 /// Monster의 최상위 클래스
 /// </summary>
@@ -43,4 +45,5 @@ public partial class Monster : MonoBehaviour
             action.Value.OnGizmos?.Invoke();
         }
     }
+}
 }

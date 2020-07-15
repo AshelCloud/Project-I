@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Legacy
+{
 public class MAttackCollider : MonoBehaviour
 {
     private Monster Root { get; set; }
@@ -26,4 +28,5 @@ public class MAttackCollider : MonoBehaviour
             collision.GetComponent<Player>().HitByMonster(Root.OffentPower);
         }
     }
+}
 }

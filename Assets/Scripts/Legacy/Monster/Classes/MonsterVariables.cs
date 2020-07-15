@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+namespace Legacy
+{
 public partial class Monster : MonoBehaviour
 {
     //데이터 클래스
@@ -40,4 +42,5 @@ public partial class Monster : MonoBehaviour
     public Rigidbody2D RB { get; set; }
     public MBehaviourStack BehaviourStack { get; set; }
     public bool Dead { get; set; }
+}
 }

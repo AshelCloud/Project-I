@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     private GameObject sword;
     public GameObject Sword { get { return sword; } }
 
-    public Monster hitTarget { get; set; }
+    public Legacy.Monster hitTarget { get; set; }
 
     //플레이어 점프 방향 구분
     public bool rightMove { get; set; } = false;
@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
     {
         if (collider.CompareTag("Monster"))
         {
-            hitTarget = collider.gameObject.GetComponent<Monster>();
+            hitTarget = collider.gameObject.GetComponent<Legacy.Monster>();
         }
     }
 

@@ -3,6 +3,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Video;
 
+namespace Legacy
+{
 public partial class Monster : MonoBehaviour
 {
     /// <summary>
@@ -151,4 +153,5 @@ public partial class Monster : MonoBehaviour
         Behaviours.Add("Hit", new MBehaviour() { Start = HitStartBehaviour, Update = HitUpdateBehaviour, OnGizmos = HitOnGizmosBehaviour });
         Behaviours.Add("Dead", new MBehaviour() { Start = DeadStartBehaviour, Update = DeadUpdateBehaviour, OnGizmos = DeadOnGizmosBehaviour });
     }
+}
 }

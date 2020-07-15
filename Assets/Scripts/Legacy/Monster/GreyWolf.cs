@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+namespace Legacy
+{
 public class GreyWolf : Monster
 {
     [Header("Patrol Time")]
@@ -177,4 +179,5 @@ public class GreyWolf : Monster
             DestroyObject();
         }
     }
+}
 }
