@@ -25,7 +25,7 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(JsonToTilemap("Forest_2"));
+        StartCoroutine(JsonToTilemap("Forest_0"));
     }
 
     public IEnumerator JsonToTilemap(string fileName)
@@ -78,6 +78,7 @@ public class MapLoader : MonoBehaviour
             {
                 var tilemap = UpdateTilemapDataWithCreate(prefab.BaseTileMap);
 
+                Log.Print(prefab.Name);
                 GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + prefab.Name), prefab.Position, prefab.Rotation, tilemap.transform);
                 go.transform.localScale = prefab.Scale;
             }
