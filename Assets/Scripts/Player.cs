@@ -100,29 +100,6 @@ public class Player : MonoBehaviour
         _currentState.OnEnter(this);
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Platform")
-    //    {
-    //        isGrounded = true;
-    //    }
-
-    //    else if (collision.gameObject.tag == "trap")
-    //    {
-    //        SetState(new DeadState());
-    //    }
-
-    //}
-
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Floor" && playerHit != true && playerRoll != true)
-    //    {
-    //        isGrounded = false;
-    //        SetState(new JumpState());
-    //    }
-    //}
-
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Monster"))
@@ -235,9 +212,12 @@ public class Player : MonoBehaviour
     public bool isGrounded()
     {
         var floorLayer = LayerMask.GetMask("Floor");
+        var platformLayer = LayerMask.GetMask("Platform");
+
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
 
-        if (Physics2D.Raycast(startPos, -transform.up, 0.3f, floorLayer).distance > 0)
+        if (Physics2D.Raycast(startPos, -transform.up, 0.3f, floorLayer).distance > 0 || 
+            Physics2D.Raycast(startPos, -transform.up, 0.9f, platformLayer).distance > 0)
         {
             return true;
         }

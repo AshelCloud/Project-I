@@ -491,6 +491,7 @@ public class RollState : IPlayerState
 
 }
 
+//벽에 매달린 상태
 public class ClingState : IPlayerState
 {
     private Player player;
@@ -510,9 +511,18 @@ public class ClingState : IPlayerState
 
         this.player.rb.velocity = Vector2.zero;
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (!player.isGrounded())
         {
-            player.SetState(new JumpState());
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                player.SetState(new JumpState());
+            }
+        }
+
+        else
+        {
+            player.SetState(new IdleState());
         }
     }
 

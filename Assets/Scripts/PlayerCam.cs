@@ -40,26 +40,37 @@ public class PlayerCam : MonoBehaviour
     private void Start()
     {
     }
-
     private void LateUpdate()
     {
-        StartCoroutine(FindPlayer());
-        if (target == null) { return; }
+        if (target == null) { StartCoroutine(FindPlayer()); }
 
-        //카메라 위치 결정
-        Vector3 desiredPosition = target.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        transform.position = smoothedPosition;
-        
-        float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
-        float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
+        else
+        {
+            //카메라 위치 결정
+            Vector3 desiredPosition = target.position + offset;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            transform.position = smoothedPosition;
 
-        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+            float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
+            float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
+
+            transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+        }
+
+
     }
 
     private IEnumerator FindPlayer()
     {
-        yield return null;
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        yield return new WaitForEndOfFrame();
+        if (GameObject.FindGameObjectWithTag("Player"))
+        {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
+        else
+        {
+            yield return null;
+        }
     }
 }

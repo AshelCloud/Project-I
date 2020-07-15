@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6465777863101596920}
   - component: {fileID: 6465777863101596927}
   - component: {fileID: 6465777863101596921}
-  - component: {fileID: 6465777863101596922}
   - component: {fileID: 6465777863101596923}
   - component: {fileID: 61261127759561220}
+  - component: {fileID: 1589748140}
   m_Layer: 9
   m_Name: Grey_wolf
   m_TagString: Monster
@@ -103,19 +103,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6465777863101596922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465777863101596926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e4c811b0ea14f1479638b8843f078b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveTime: 2
 --- !u!50 &6465777863101596923
 Rigidbody2D:
   serializedVersion: 4
@@ -163,6 +150,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.637179, y: 2.1396904}
   m_EdgeRadius: 0
+--- !u!114 &1589748140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6465777863101596926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa08a0c4496850f40bafe2b0f0f4c298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8980127533559822612
 GameObject:
   m_ObjectHideFlags: 0
