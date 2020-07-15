@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa08a0c4496850f40bafe2b0f0f4c298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAwakeIdle: 0
 --- !u!1 &8980127533559822612
 GameObject:
   m_ObjectHideFlags: 0
