@@ -167,7 +167,7 @@ MonoBehaviour:
   ID: 1
   patrolTransitionTime: 3
   attackDelay: 1
-  detectionRangeCorrection: -3
+  detectionRangeCorrection: 0
 --- !u!1 &8787160581082034503
 GameObject:
   m_ObjectHideFlags: 0

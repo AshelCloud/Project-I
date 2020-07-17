@@ -127,7 +127,7 @@ public partial class Monster : MonoBehaviour
     {
         Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-1f, 0f) : new Vector2(1f, 0f);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, DetectionRagne);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, AttackRange);
 
         foreach(RaycastHit2D hit in hits)
         {
@@ -162,7 +162,7 @@ public partial class Monster : MonoBehaviour
         {
             Gizmos.color = Color.blue;
             
-            Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-DetectionRagne, 0f) : new Vector2(DetectionRagne, 0f);
+            Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-AttackRange, 0f) : new Vector2(AttackRange, 0f);
             Gizmos.DrawRay(transform.position, direction);
         }
     }

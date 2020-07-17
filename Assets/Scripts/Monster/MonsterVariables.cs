@@ -11,6 +11,7 @@ public partial class Monster : MonoBehaviour
     public float patrolTransitionTime = 3f;
     public float attackDelay;
     public float detectionRangeCorrection;
+    public float attackRangeCorrection;
     #endregion
 
     #region Patrol
@@ -133,6 +134,11 @@ public partial class Monster : MonoBehaviour
     public float DetectionRagne
     {
         get { return detectionRange + detectionRangeCorrection; }
+    }
+
+    public float AttackRange
+    {
+        get { return attackRange + attackRangeCorrection; }
     }
 
     public float OffentPower { get { return offensePower; } }
