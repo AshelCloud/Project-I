@@ -63,6 +63,7 @@ public class PlayerCam : MonoBehaviour
     private IEnumerator FindPlayer()
     {
         yield return new WaitForEndOfFrame();
+        //null reference error 방지 예외처리
         if (GameObject.FindGameObjectWithTag("Player"))
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;

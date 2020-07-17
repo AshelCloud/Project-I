@@ -49,20 +49,14 @@ public class Player : MonoBehaviour
 
     public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
-
-    //공격 판정을 위한 GameObject
-    private GameObject sword;
-    public GameObject Sword { get { return sword; } }
+    public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
 
     public Monster hitTarget { get; set; }
 
     public bool isJumpOff { get; set; } = false;
-    public bool playerHit { get; set; } = false;
-    public bool playerRoll { get; set; } = false;
-
-    //public bool isGrounded { get; set; } = false;
-    public bool isTouchWall { get; set; } = false;
+    public bool isInvincible { get; set; } = false;
     public bool isCling { get; set; } = false;
+
     private IPlayerState _currentState;
 
     public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
@@ -72,7 +66,6 @@ public class Player : MonoBehaviour
         LoadToJsonData(ID);
         UpdateData();
 
-        sword = GameObject.Find("Sword");
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
 
@@ -83,6 +76,11 @@ public class Player : MonoBehaviour
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            HitByMonster(0);
+        }
     }
 
     public void SetState(IPlayerState nextState)
@@ -153,8 +151,8 @@ public class Player : MonoBehaviour
 
     public void HitByMonster(float damage)
     {
-        //플레이어가 맞은 상태가 아닐 때만
-        if (!playerHit)
+        //플레이어가 무적 상태가 아닐 때만
+        if (!isInvincible)
         {
             hp -= damage;
             if (hp <= 0)
@@ -170,11 +168,10 @@ public class Player : MonoBehaviour
             }
         }
         
-        //무적 상태 테스트
+        //무적 상태
         else
         {
-            //yield return new WaitForSeconds(1f);
-            playerHit = false;
+            return;
         }
     }
 
@@ -198,13 +195,13 @@ public class Player : MonoBehaviour
 
         if (Physics2D.Raycast(checkPos, rayDirection, 0.9f, floorLayer))
         {
-            Log.Print("CheckWall");
+            Log.Print("CheckWall True");
             return true;
         }
 
         else
         {
-            Log.Print("Nothing");
+            Log.Print("CheckWall False");
             return false;
         }
     }
@@ -217,7 +214,7 @@ public class Player : MonoBehaviour
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
 
         if (Physics2D.Raycast(startPos, -transform.up, 0.3f, floorLayer).distance > 0 || 
-            Physics2D.Raycast(startPos, -transform.up, 0.9f, platformLayer).distance > 0)
+            Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer).distance > 0)
         {
             return true;
         }
@@ -228,16 +225,13 @@ public class Player : MonoBehaviour
         }
     }
 
+   
+
     private void OnDrawGizmos()
     {
         var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
 
         Gizmos.color = Color.red;
         Gizmos.DrawLine(checkPos, checkPos + new Vector3(0.9f, 0));
-
-        checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0, -0.3f));
     }
 }
