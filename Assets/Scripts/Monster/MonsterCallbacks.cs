@@ -14,4 +14,37 @@ public partial class Monster : MonoBehaviour
     {
         idle = value;
     }
+
+    public virtual void AttackTrigger(int triggerIndex)
+    {
+        if(triggerIndex == -1)
+        {
+            foreach(AttackTrigger trigger in AttackTriggers)
+            {
+                trigger.Collider.enabled = true;
+            }
+
+            return;
+        }
+
+        if(triggerIndex == 0)
+        {
+            foreach(AttackTrigger trigger in AttackTriggers)
+            {
+                trigger.Collider.enabled = false;
+            }   
+
+            return;
+        }
+
+        List<AttackTrigger> At_L = AttackTriggers.FindAll(item => item.index == triggerIndex);
+
+        if(At_L != null)
+        {
+            foreach(AttackTrigger trigger in At_L)
+            {
+                trigger.Collider.enabled = true;
+            }
+        }
+    }
 }

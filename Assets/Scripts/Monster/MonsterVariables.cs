@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 //몬스터 스크립트의 모든 변수
@@ -12,6 +10,7 @@ public partial class Monster : MonoBehaviour
     public int ID = 0;
     public float patrolTransitionTime = 3f;
     public float attackDelay;
+    public float detectionRangeCorrection;
     #endregion
 
     #region Patrol
@@ -68,6 +67,8 @@ public partial class Monster : MonoBehaviour
     #endregion
 
     #region Attack & Damage
+    protected List<AttackTrigger> AttackTriggers;
+
     protected float attackTime;
     #endregion
 
@@ -127,6 +128,11 @@ public partial class Monster : MonoBehaviour
     {
         get { return isAttacking; }
         set { isAttacking = value; }
+    }
+
+    public float DetectionRagne
+    {
+        get { return detectionRange + detectionRangeCorrection; }
     }
     #endregion
 }

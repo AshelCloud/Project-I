@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -16,8 +17,6 @@ public partial class Monster : MonoBehaviour
         {
             idle = false;
         }
-
-        attackTime = patrolTime = Time.time;
 
         //TODO: ID 만들기
         bool result = LoadToJsonData(ID);
@@ -73,7 +72,9 @@ public partial class Monster : MonoBehaviour
 
     private void Start()
     {
-        
+        AttackTriggers = GetComponentsInChildren<AttackTrigger>(true).ToList();
+
+        attackTime = patrolTime = Time.time;
     }
 
     private void Update()
@@ -125,7 +126,7 @@ public partial class Monster : MonoBehaviour
     {
         Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-1f, 0f) : new Vector2(1f, 0f);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, detectionRange);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, DetectionRagne);
 
         foreach(RaycastHit2D hit in hits)
         {
@@ -160,7 +161,7 @@ public partial class Monster : MonoBehaviour
         {
             Gizmos.color = Color.blue;
             
-            Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-detectionRange, 0f) : new Vector2(detectionRange, 0f);
+            Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-DetectionRagne, 0f) : new Vector2(DetectionRagne, 0f);
             Gizmos.DrawRay(transform.position, direction);
         }
     }

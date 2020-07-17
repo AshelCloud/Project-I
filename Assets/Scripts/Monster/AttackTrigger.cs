@@ -34,4 +34,11 @@ public class AttackTrigger : MonoBehaviour
             Collider.enabled = false;
         }
     }
+
+
+    //TODO: 공격 기능 구현
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
 }

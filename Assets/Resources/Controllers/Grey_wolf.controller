@@ -58,6 +58,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1498b81178618848aaad4a086fde49a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackTrigger: 1
+  AttackActivation:
+    minValue: 0.60254925
+    maxValue: 0.8609503
 --- !u!1101 &1101348472318890106
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
