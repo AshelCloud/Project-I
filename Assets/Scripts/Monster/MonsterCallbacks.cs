@@ -18,17 +18,16 @@ public partial class Monster : MonoBehaviour
     public virtual void GetDamaged(float value)
     {
         //TODO: 데미지 입는거 구현 (애니메이션 포함)
+        if (death) { return; }
 
-        //if(death) { return; }
-
-        //if(HP > 0f)
-        //{
-        //    damaged = true;
-        //}
-        //else
-        //{
-        //    death = true;
-        //}
+        if (HP > 0f)
+        {
+            damaged = true;
+        }
+        else
+        {
+            death = true;
+        }
     }
 
     public virtual void AttackTrigger(int triggerIndex)
