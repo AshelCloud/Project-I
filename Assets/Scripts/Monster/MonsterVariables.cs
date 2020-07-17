@@ -134,5 +134,7 @@ public partial class Monster : MonoBehaviour
     {
         get { return detectionRange + detectionRangeCorrection; }
     }
+
+    public float OffentPower { get { return offensePower; } }
     #endregion
 }

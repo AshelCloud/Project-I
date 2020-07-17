@@ -9,6 +9,8 @@ public class AttackTrigger : MonoBehaviour
     private Monster myMonster;
     private Collider2D _collider;
 
+    private IDamageable enemy;
+
     public Collider2D Collider
     {
         get
@@ -35,10 +37,17 @@ public class AttackTrigger : MonoBehaviour
         }
     }
 
-
-    //TODO: 공격 기능 구현
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(collision.isTrigger) { return; }
+
+        enemy = collision.GetComponentInParent<IDamageable>();
+
+        if(enemy != null)
+        {
+            if(myMonster.GetComponent<IDamageable>() == enemy) { return; }
+
+            enemy.GetDamaged(myMonster.OffentPower);
+        }
     }
 }

@@ -18,7 +18,6 @@ public partial class Monster : MonoBehaviour
             idle = false;
         }
 
-        //TODO: ID 만들기
         bool result = LoadToJsonData(ID);
         if(result == false)
         {
@@ -26,6 +25,8 @@ public partial class Monster : MonoBehaviour
         }
 
         DataTableLinking();
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"));
     }
     protected virtual void GetHashIDs()
     {
