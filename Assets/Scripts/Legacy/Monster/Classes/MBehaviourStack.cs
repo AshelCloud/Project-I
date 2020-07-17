@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace Legacy
+{
 public enum MonsterBehaviour
 {
     Idle,
@@ -147,4 +150,17 @@ public class MBehaviourStack
         AnimationNames.Add(MonsterBehaviour.Hit, hit);
         AnimationNames.Add(MonsterBehaviour.Dead, dead);
     }
+
+    public void SetAnimationName(MonsterBehaviour key, string value)
+    {
+        if(AnimationNames.ContainsKey(key))
+        {
+            AnimationNames[key] = value;
+        }
+        else
+        {
+            AnimationNames.Add(key, value);
+        }
+    }
+}
 }

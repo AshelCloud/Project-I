@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ddc06d132687f44b0e47f88bf265ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMapName: BossTest
+  startMapName: Forest_1
 --- !u!156049354 &167956407
 Grid:
   m_ObjectHideFlags: 0
