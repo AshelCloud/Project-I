@@ -168,6 +168,7 @@ MonoBehaviour:
   patrolTransitionTime: 3
   attackDelay: 1
   detectionRangeCorrection: 0
+  attackRangeCorrection: 0
 --- !u!1 &8787160581082034503
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +179,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1028895951791636108}
   - component: {fileID: 6237532080455020490}
-  - component: {fileID: 390816178879216644}
   m_Layer: 0
   m_Name: BiteAttackTrigger
   m_TagString: Untagged
@@ -226,16 +226,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.5025396, y: 2.1634007}
   m_EdgeRadius: 0
---- !u!114 &390816178879216644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8787160581082034503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fefc44a8e10ffd479b52b491b09db45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 1

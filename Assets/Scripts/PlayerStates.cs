@@ -313,7 +313,7 @@ public class AttackState : IPlayerState
     {
         if (player.hitTarget)
         {
-            player.hitTarget.Hit(player.offensePower); //테스트용으로 한방
+            player.hitTarget.GetDamaged(player.offensePower); //테스트용으로 한방
             Log.Print("Monster HP: " + player.hitTarget.HP);
         }
 

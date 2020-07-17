@@ -51,7 +51,7 @@ public class Player : MonoBehaviour, IDamageable
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
     public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
 
-    public Legacy.Monster hitTarget { get; set; }
+    public Monster hitTarget { get; set; }
 
     public bool isJumpOff { get; set; } = false;
     public bool isInvincible { get; set; } = false;
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (collider.CompareTag("Monster"))
         {
-            hitTarget = collider.gameObject.GetComponent<Legacy.Monster>();
+            hitTarget = collider.gameObject.GetComponent<Monster>();
         }
     }
 

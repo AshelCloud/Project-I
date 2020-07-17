@@ -33,6 +33,8 @@ public partial class Monster : MonoBehaviour
         hash_Idle = Animator.StringToHash(m_Idle);
         hash_Attack = Animator.StringToHash(m_Attack);
         hash_Chase = Animator.StringToHash(m_Chase);
+        hash_Damaged = Animator.StringToHash(m_Damaged);
+        hash_Dead = Animator.StringToHash(m_Dead);
     }
     
     private bool LoadToJsonData(int ID)
@@ -65,7 +67,7 @@ public partial class Monster : MonoBehaviour
         animatorName = dataTable.AnimatorName;
         offensePower = dataTable.OffensePower;
         defense = dataTable.Defense;
-        HP = dataTable.HP;
+        hp = dataTable.HP;
         speed = dataTable.Speed;
         detectionRange = dataTable.DetectionRange;
         attackRange = dataTable.AttackRange;
@@ -171,6 +173,7 @@ public partial class Monster : MonoBehaviour
         Anim.SetBool(hash_Idle, Idle);
         Anim.SetBool(hash_Attack, Attack);
         Anim.SetBool(hash_Chase, Chase);
+        Anim.SetBool(hash_Damaged, Damaged);
     }
 
     private void OnDrawGizmos()

@@ -9,10 +9,14 @@ public class HitBehaviour : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         myMonster = animator.GetComponent<Monster>();
+
+        myMonster._Renderer.color = Color.red;
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         myMonster.Damaged = false;
+
+        myMonster._Renderer.color = Color.white;
     }
 }

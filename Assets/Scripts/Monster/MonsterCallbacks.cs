@@ -18,15 +18,17 @@ public partial class Monster : MonoBehaviour
     public virtual void GetDamaged(float value)
     {
         //TODO: 데미지 입는거 구현 (애니메이션 포함)
-        if (death) { return; }
+        if (dead) { return; }
 
-        if (HP > 0f)
+        hp -= value;
+
+        if (hp > 0f)
         {
             damaged = true;
         }
         else
         {
-            death = true;
+            SetDead();
         }
     }
 
@@ -70,5 +72,12 @@ public partial class Monster : MonoBehaviour
                 trigger.gameObject.SetActive(true);
             }
         }
+    }
+
+    public virtual void SetDead()
+    {
+        dead = true;
+
+        Anim.SetTrigger(hash_Dead);
     }
 }

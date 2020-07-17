@@ -23,15 +23,20 @@ public partial class Monster : MonoBehaviour
     public const string m_Idle = "Idle";
     public const string m_Chase = "Chase";
     public const string m_Attack = "Attack";
+    public const string m_Damaged = "Damaged";
+    public const string m_Dead = "Dead";
 
     private int hash_Idle;
     private int hash_Attack;
     private int hash_Chase;
+    private int hash_Damaged;
+    private int hash_Dead;
     #endregion
 
     #region Components
     protected Animator anim;
     protected Rigidbody2D _rigidbody;
+    protected SpriteRenderer _renderer;
     #endregion
 
     //플레이어를 의미
@@ -47,7 +52,7 @@ public partial class Monster : MonoBehaviour
             attack,
             isAttacking,
             damaged, 
-            death;
+            dead;
     #endregion
 
 
@@ -61,7 +66,7 @@ public partial class Monster : MonoBehaviour
     protected float
             offensePower,
             defense,
-            HP,
+            hp,
             speed;
 
     protected float 
@@ -105,6 +110,19 @@ public partial class Monster : MonoBehaviour
         }
     }
 
+    public SpriteRenderer _Renderer
+    {
+        get
+        {
+            if(_renderer == null)
+            {
+                _renderer = GetComponent<SpriteRenderer>();
+            }
+
+            return _renderer;
+        }
+    }
+
     public bool Attack
     {
         get { return attack; }
@@ -112,7 +130,7 @@ public partial class Monster : MonoBehaviour
         {
             if(value == false) { attack = value; } 
 
-            if(death) { return; }
+            if(dead) { return; }
 
             if(isAttacking == false)
             {
@@ -154,5 +172,7 @@ public partial class Monster : MonoBehaviour
     public float OffentPower { get { return offensePower; } }
 
     public float Speed { get { return speed; } }
+
+    public float HP { get { return hp; } }
     #endregion
 }
