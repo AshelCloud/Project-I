@@ -149,7 +149,7 @@ public class Player : MonoBehaviour, IDamageable
         speed = playerData.Speed;
     }
 
-    void IDamageable.GetDamaged(float value)
+    public void GetDamaged(float value)
     {
         Log.Print("Player hit");
         //플레이어가 무적 상태가 아닐 때만

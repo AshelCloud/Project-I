@@ -121,7 +121,7 @@ public class RunState : IPlayerState
 
         else if (isOnSlope)
         {
-            movement = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * 25 * slopeNormalPerp.x, player.Speed);
+            movement = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * 25 * slopeNormalPerp.x, -player.Speed);
             player.rb.AddForce(movement);
         }
 
@@ -195,7 +195,6 @@ public class RunState : IPlayerState
             slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
 
             slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
-            slopeDownAngleOld = Vector2.Angle(hit.normal, Vector2.up);
 
             if (slopeDownAngle != slopeDownAngleOld)
             {
@@ -204,11 +203,11 @@ public class RunState : IPlayerState
                 Log.Print("On Slope state: " + isOnSlope);
             }
 
-            else
-            {
-                isOnSlope = false;
-                Log.Print("On Slope state: " + isOnSlope);
-            }
+            //else
+            //{
+            //    isOnSlope = false;
+            //    Log.Print("On Slope state: " + isOnSlope);
+            //}
 
             slopeDownAngleOld = slopeDownAngle;
 
