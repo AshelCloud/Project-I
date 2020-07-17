@@ -5,11 +5,6 @@ using UnityEngine;
 //몬스터 로직
 public partial class Monster : MonoBehaviour
 {
-    protected virtual void GetHashIDs()
-    {
-        hash_Idle = Animator.StringToHash(m_Idle);
-    }
-
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -22,7 +17,7 @@ public partial class Monster : MonoBehaviour
             idle = false;
         }
 
-        patrolTime = Time.time;
+        attackTime = patrolTime = Time.time;
 
         //TODO: ID 만들기
         bool result = LoadToJsonData(ID);
@@ -33,6 +28,12 @@ public partial class Monster : MonoBehaviour
 
         DataTableLinking();
     }
+    protected virtual void GetHashIDs()
+    {
+        hash_Idle = Animator.StringToHash(m_Idle);
+        hash_Attack = Animator.StringToHash(m_Attack);
+    }
+    
     private bool LoadToJsonData(int ID)
     {
         //Json 파싱
@@ -80,12 +81,17 @@ public partial class Monster : MonoBehaviour
         Patrol();
 
         RayCasting();
+
+        AttackOnTarget();
     }
 
     //TODO: 보스몬스터 제외
     private void Patrol()
     {
-        if(Time.time - patrolTime > patrolTransitionTime)
+        if(IsAttacking) { return; }
+        if(Idle) { return; }
+
+        if (Time.time - patrolTime > patrolTransitionTime)
         {
             Vector3 scale = transform.lossyScale;
             scale.x = -scale.x;
@@ -101,10 +107,25 @@ public partial class Monster : MonoBehaviour
         _Rigidbody.velocity = velocity;
     }
 
+    private void AttackOnTarget()
+    {
+        if(target == null) 
+        {
+            SetIdle(false);
+
+            return; 
+        }
+
+        SetAttack();
+        SetIdle(true);
+    }
+
     //TODO: BoxCast로 변경
     private void RayCasting()
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, transform.right, detectionRange);
+        Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-1f, 0f) : new Vector2(1f, 0f);
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, detectionRange);
 
         foreach(RaycastHit2D hit in hits)
         {
@@ -130,6 +151,7 @@ public partial class Monster : MonoBehaviour
     public virtual void LinkingAnimator()
     {
         Anim.SetBool(hash_Idle, Idle);
+        Anim.SetBool(hash_Attack, Attack);
     }
 
     private void OnDrawGizmos()
@@ -137,7 +159,9 @@ public partial class Monster : MonoBehaviour
         if(debug)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + detectionRange, transform.position.y, transform.position.z));
+            
+            Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-detectionRange, 0f) : new Vector2(detectionRange, 0f);
+            Gizmos.DrawRay(transform.position, direction);
         }
     }
 }

@@ -11,17 +11,20 @@ public partial class Monster : MonoBehaviour
     public bool debug = true;
     public int ID = 0;
     public float patrolTransitionTime = 3f;
+    public float attackDelay;
     #endregion
 
     #region Patrol
-    protected double patrolTime;
+    protected float patrolTime;
     #endregion
 
 
     #region Animator Parameters
     public const string m_Idle = "Idle";
+    public const string m_Attack = "Attack";
 
     private int hash_Idle;
+    private int hash_Attack;
     #endregion
 
     #region Components
@@ -64,6 +67,10 @@ public partial class Monster : MonoBehaviour
             dropBundleID;
     #endregion
 
+    #region Attack & Damage
+    protected float attackTime;
+    #endregion
+
     #region Properties
     public Animator Anim
     {
@@ -102,9 +109,10 @@ public partial class Monster : MonoBehaviour
 
             if(isAttacking == false)
             {
-                if(value)
+                if(value && Time.time - attackTime >= attackDelay)
                 {
                     attack = value;
+                    attackTime = Time.time;
                     //TODO: 어택 아이디 구현
                 }
             }
@@ -115,5 +123,10 @@ public partial class Monster : MonoBehaviour
     public MonsterDataTable DataTable { get { return dataTable; } }
     public Transform Target { get { return target; } }
 
+    public bool IsAttacking 
+    {
+        get { return isAttacking; }
+        set { isAttacking = value; }
+    }
     #endregion
 }
