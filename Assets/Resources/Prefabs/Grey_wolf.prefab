@@ -167,6 +167,7 @@ MonoBehaviour:
   ID: 1
   patrolTransitionTime: 3
   attackDelay: 1
+  detectionRangeCorrection: -3
 --- !u!1 &8787160581082034503
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +210,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 1.594167, y: -0.5817003}

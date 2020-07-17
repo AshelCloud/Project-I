@@ -37,6 +37,7 @@ public partial class Monster : MonoBehaviour
             foreach(AttackTrigger trigger in AttackTriggers)
             {
                 trigger.Collider.enabled = true;
+                trigger.gameObject.SetActive(true);
             }
 
             return;
@@ -47,7 +48,8 @@ public partial class Monster : MonoBehaviour
             foreach(AttackTrigger trigger in AttackTriggers)
             {
                 trigger.Collider.enabled = false;
-            }   
+                trigger.gameObject.SetActive(false);
+            }
 
             return;
         }
@@ -59,6 +61,7 @@ public partial class Monster : MonoBehaviour
             foreach(AttackTrigger trigger in At_L)
             {
                 trigger.Collider.enabled = true;
+                trigger.gameObject.SetActive(true);
             }
         }
     }

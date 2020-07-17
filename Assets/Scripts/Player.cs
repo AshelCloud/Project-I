@@ -69,7 +69,8 @@ public class Player : MonoBehaviour, IDamageable
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
 
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
+        //TODO: 방법찾기
+        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 
     private void Update()
@@ -149,7 +150,7 @@ public class Player : MonoBehaviour, IDamageable
         speed = playerData.Speed;
     }
 
-    void IDamageable.GetDamaged(float value)
+    public void GetDamaged(float value)
     {
         Log.Print("Player hit");
         //플레이어가 무적 상태가 아닐 때만

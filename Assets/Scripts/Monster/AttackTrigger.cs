@@ -35,11 +35,13 @@ public class AttackTrigger : MonoBehaviour
             Collider.isTrigger = true;
             Collider.enabled = false;
         }
+
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.isTrigger) { return; }
+        if (collision.isTrigger) { return; }
 
         enemy = collision.GetComponentInParent<IDamageable>();
 
