@@ -160,7 +160,7 @@ public partial class Monster : MonoBehaviour
     {
         if(debug)
         {
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.red;
             
             Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-AttackRange, 0f) : new Vector2(AttackRange, 0f);
             Gizmos.DrawRay(transform.position, direction);
