@@ -60,8 +60,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackTrigger: 1
   AttackActivation:
-    minValue: 0.60254925
-    maxValue: 0.8609503
+    minValue: 0.64889896
+    maxValue: 0.85322547
 --- !u!1101 &1101291535364538804
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

@@ -21,10 +21,12 @@ public partial class Monster : MonoBehaviour
 
     #region Animator Parameters
     public const string m_Idle = "Idle";
+    public const string m_Chase = "Chase";
     public const string m_Attack = "Attack";
 
     private int hash_Idle;
     private int hash_Attack;
+    private int hash_Chase;
     #endregion
 
     #region Components
@@ -34,11 +36,14 @@ public partial class Monster : MonoBehaviour
 
     //플레이어를 의미
     protected Transform target;
+    protected RaycastHit2D targetRay;
+
 
     #region Animator Variables
     protected bool idle = true;
 
     protected bool 
+            chase,
             attack,
             isAttacking,
             damaged, 
@@ -122,6 +127,9 @@ public partial class Monster : MonoBehaviour
     }
 
     public bool Idle { get { return idle; } }
+
+    public bool Chase { get { return chase; } }
+
     public MonsterDataTable DataTable { get { return dataTable; } }
     public Transform Target { get { return target; } }
 
@@ -130,6 +138,8 @@ public partial class Monster : MonoBehaviour
         get { return isAttacking; }
         set { isAttacking = value; }
     }
+
+    public bool Damaged { set { damaged = value; } get { return damaged; } }
 
     public float DetectionRagne
     {
@@ -142,5 +152,7 @@ public partial class Monster : MonoBehaviour
     }
 
     public float OffentPower { get { return offensePower; } }
+
+    public float Speed { get { return speed; } }
     #endregion
 }

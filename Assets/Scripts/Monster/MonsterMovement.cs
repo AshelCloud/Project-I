@@ -32,6 +32,7 @@ public partial class Monster : MonoBehaviour
     {
         hash_Idle = Animator.StringToHash(m_Idle);
         hash_Attack = Animator.StringToHash(m_Attack);
+        hash_Chase = Animator.StringToHash(m_Chase);
     }
     
     private bool LoadToJsonData(int ID)
@@ -92,6 +93,7 @@ public partial class Monster : MonoBehaviour
     {
         if(IsAttacking) { return; }
         if(Idle) { return; }
+        if(Chase) { return; }
 
         if (Time.time - patrolTime > patrolTransitionTime)
         {
@@ -114,20 +116,33 @@ public partial class Monster : MonoBehaviour
         if(target == null) 
         {
             SetIdle(false);
+            SetChase(false);
 
             return; 
         }
 
-        SetAttack();
-        SetIdle(true);
+        if(targetRay.distance > AttackRange)
+        {
+            SetChase(true);
+
+           _Rigidbody.velocity = new Vector2(speed * Time.deltaTime * _Rigidbody.velocity.normalized.x, _Rigidbody.velocity.y);
+        }
+        else
+        {
+            SetChase(false);
+
+            SetAttack();
+            SetIdle(true);
+        }
     }
 
+    //감지 거리 > 공격 거리기 때문에 감지 거리로 RayCasting
     //TODO: BoxCast로 변경
     private void RayCasting()
     {
         Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-1f, 0f) : new Vector2(1f, 0f);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, AttackRange);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, DetectionRagne);
 
         foreach(RaycastHit2D hit in hits)
         {
@@ -136,6 +151,7 @@ public partial class Monster : MonoBehaviour
             if(isPlayer)
             {
                 target = hit.transform;
+                targetRay = hit;
 
                 return;
             }
@@ -154,6 +170,7 @@ public partial class Monster : MonoBehaviour
     {
         Anim.SetBool(hash_Idle, Idle);
         Anim.SetBool(hash_Attack, Attack);
+        Anim.SetBool(hash_Chase, Chase);
     }
 
     private void OnDrawGizmos()
@@ -163,7 +180,15 @@ public partial class Monster : MonoBehaviour
             Gizmos.color = Color.red;
             
             Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-AttackRange, 0f) : new Vector2(AttackRange, 0f);
+
             Gizmos.DrawRay(transform.position, direction);
+
+            Gizmos.color = Color.blue;
+
+            direction = transform.lossyScale.x < 0f ? new Vector2(-DetectionRagne, 0f) : new Vector2(DetectionRagne, 0f);
+            Vector3 pos = transform.position;
+            pos.y -= 0.3f;
+            Gizmos.DrawRay(pos, direction);
         }
     }
 }

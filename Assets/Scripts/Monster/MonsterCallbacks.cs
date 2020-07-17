@@ -30,6 +30,12 @@ public partial class Monster : MonoBehaviour
         }
     }
 
+    public virtual void SetChase(bool value)
+    {
+        chase = value;
+
+    }
+
     public virtual void AttackTrigger(int triggerIndex)
     {
         if(triggerIndex == -1)
