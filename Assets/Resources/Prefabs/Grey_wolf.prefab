@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 1028895951791636108}
   - component: {fileID: 6237532080455020490}
   - component: {fileID: 390816178879216644}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: BiteAttackTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
