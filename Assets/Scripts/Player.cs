@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEditor;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [System.Serializable]
     private class PlayerData
@@ -147,6 +147,33 @@ public class Player : MonoBehaviour
         defense = playerData.Defense;
         hp = playerData.HP;
         speed = playerData.Speed;
+    }
+
+    void IDamageable.GetDamaged(float value)
+    {
+        Log.Print("Player hit");
+        //플레이어가 무적 상태가 아닐 때만
+        if (!isInvincible)
+        {
+            hp -= value;
+            if (hp <= 0)
+            {
+                //죽음 상태 부분구현
+                SetState(new DeadState());
+            }
+
+            else
+            {
+                SetState(new HitState());
+
+            }
+        }
+
+        //무적 상태
+        else
+        {
+            return;
+        }
     }
 
     public void HitByMonster(float damage)

@@ -25,7 +25,7 @@ public class MAttackCollider : MonoBehaviour
 
         if(collision.GetComponent<Player>() != null )
         {
-            collision.GetComponent<Player>().HitByMonster(Root.OffentPower);
+            //collision.GetComponent<Player>().HitByMonster(Root.OffentPower);
         }
     }
 }
