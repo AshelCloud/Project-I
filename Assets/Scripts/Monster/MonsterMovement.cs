@@ -123,11 +123,12 @@ public partial class Monster : MonoBehaviour
             return; 
         }
 
-        if(targetRay.distance > AttackRange)
+        float distance = Vector2.Distance(transform.position, target.position);
+        Log.Print("Distance:  " + distance);
+
+        if (distance > AttackRange)
         {
             SetChase(true);
-
-           _Rigidbody.velocity = new Vector2(speed * Time.deltaTime * _Rigidbody.velocity.normalized.x, _Rigidbody.velocity.y);
         }
         else
         {
@@ -139,13 +140,13 @@ public partial class Monster : MonoBehaviour
     }
 
     //감지 거리 > 공격 거리기 때문에 감지 거리로 RayCasting
-    //TODO: BoxCast로 변경
     private void RayCasting()
     {
-        Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-1f, 0f) : new Vector2(1f, 0f);
+        //Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-1f, 0f) : new Vector2(1f, 0f);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, DetectionRagne);
+        //RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, DetectionRagne);
 
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, DetectionRagne, Vector2.up, 0f);
         foreach(RaycastHit2D hit in hits)
         {
             bool isPlayer = hit.collider.gameObject.GetComponent<Player>();
@@ -180,18 +181,15 @@ public partial class Monster : MonoBehaviour
     {
         if(debug)
         {
+            Gizmos.color = Color.blue;
+            
+            Gizmos.DrawWireSphere(transform.position, DetectionRagne);
+            
             Gizmos.color = Color.red;
             
             Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-AttackRange, 0f) : new Vector2(AttackRange, 0f);
+            Gizmos.DrawLine(transform.position, transform.position + (Vector3)direction);
 
-            Gizmos.DrawRay(transform.position, direction);
-
-            Gizmos.color = Color.blue;
-
-            direction = transform.lossyScale.x < 0f ? new Vector2(-DetectionRagne, 0f) : new Vector2(DetectionRagne, 0f);
-            Vector3 pos = transform.position;
-            pos.y -= 0.3f;
-            Gizmos.DrawRay(pos, direction);
         }
     }
 }

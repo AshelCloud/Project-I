@@ -135,9 +135,9 @@ GameObject:
   - component: {fileID: 8265732067302166084}
   - component: {fileID: 8265732067302166085}
   - component: {fileID: 8265732067302166086}
-  - component: {fileID: 8265732067302166087}
   - component: {fileID: 8265732067302166104}
   - component: {fileID: 8265732067302166105}
+  - component: {fileID: 1466622238047903872}
   m_Layer: 9
   m_Name: White_wolf
   m_TagString: Monster
@@ -228,19 +228,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8265732067302166087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265732067302166106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e2aade40334ad45b579c5cb9d6cba7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRate: 0.96
 --- !u!50 &8265732067302166104
 Rigidbody2D:
   serializedVersion: 4
@@ -288,3 +275,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.407879, y: 2.0562334}
   m_EdgeRadius: 0
+--- !u!114 &1466622238047903872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265732067302166106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa08a0c4496850f40bafe2b0f0f4c298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onAwakeIdle: 0
+  debug: 1
+  ID: 2
+  patrolTransitionTime: 3
+  attackDelay: 0
+  detectionRangeCorrection: 0
+  attackRangeCorrection: 0
