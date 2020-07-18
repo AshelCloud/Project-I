@@ -121,7 +121,7 @@ public class RunState : IPlayerState
 
         else if (isOnSlope)
         {
-            movement = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * 25 * slopeNormalPerp.x, player.Speed);
+            movement = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * 25 * slopeNormalPerp.x, -player.Speed);
             player.rb.AddForce(movement);
         }
 
@@ -195,20 +195,18 @@ public class RunState : IPlayerState
             slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
 
             slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
-            slopeDownAngleOld = Vector2.Angle(hit.normal, Vector2.up);
 
             if (slopeDownAngle != slopeDownAngleOld)
             {
 
                 isOnSlope = true;
-                Log.Print("On Slope state: " + isOnSlope);
             }
 
-            else
-            {
-                isOnSlope = false;
-                Log.Print("On Slope state: " + isOnSlope);
-            }
+            //else
+            //{
+            //    isOnSlope = false;
+            //    Log.Print("On Slope state: " + isOnSlope);
+            //}
 
             slopeDownAngleOld = slopeDownAngle;
 
@@ -400,7 +398,8 @@ public class JumpState : IPlayerState
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     //플레이어 좌측 이동
-                    player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                    player.rb.AddForce(new Vector2(player.VerticalMove * 25, 0.0f), ForceMode2D.Force);
+                    //player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
                     direction.x = Mathf.Abs(direction.x);                                                              //플레이어 방향전환
                     player.transform.localScale = direction;
                 }
@@ -409,7 +408,8 @@ public class JumpState : IPlayerState
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     //플레이어 우측 이동
-                    player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                    player.rb.AddForce(new Vector2(-player.VerticalMove * 25, 0.0f), ForceMode2D.Force);
+                    //player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
                     direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
                     player.transform.localScale = direction;
                 }
@@ -517,7 +517,7 @@ public class RollState : IPlayerState
 
         if (direction.x > 0)
         {
-            player.transform.Translate(Vector2.right * player.RollLength * Time.deltaTime, Space.World);
+            player.rb.AddForce(new Vector2(player.RollLength * 25, 0.0f), ForceMode2D.Force);
             direction.x = Mathf.Abs(direction.x);
             player.transform.localScale = direction;
 
@@ -525,7 +525,7 @@ public class RollState : IPlayerState
 
         else
         {
-            player.transform.Translate(Vector2.right * -player.RollLength * Time.deltaTime, Space.World);
+            player.rb.AddForce(new Vector2(-player.RollLength * 25, 0.0f), ForceMode2D.Force);
             direction.x = -Mathf.Abs(direction.x);
             player.transform.localScale = direction;
         }
