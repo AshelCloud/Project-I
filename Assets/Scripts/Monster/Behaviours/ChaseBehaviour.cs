@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ChaseBehaviour : StateMachineBehaviour
 {
@@ -18,7 +19,18 @@ public class ChaseBehaviour : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        int dir = myMonster.transform.lossyScale.x < 0f ? -1 : 1;
+        float dir = (myMonster.Target.position - myMonster.transform.position).normalized.x;
+        dir = Mathf.Clamp01(dir) == 0f ? -1f : 1f;
+
+        //TODO: 개선
+        if(dir < 0f && myMonster.transform.lossyScale.x > 0f)
+        {
+            myMonster.SetTurn();
+        }
+        else if(dir > 0f && myMonster.transform.lossyScale.x < 0f)
+        {
+            myMonster.SetTurn();
+        }
 
         _Rigidbody2D.velocity = new Vector2(dir * speed * Time.deltaTime, _Rigidbody2D.velocity.y);
     }

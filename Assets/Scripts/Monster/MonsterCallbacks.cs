@@ -80,4 +80,12 @@ public partial class Monster : MonoBehaviour
 
         Anim.SetTrigger(hash_Dead);
     }
+
+    public virtual void SetTurn()
+    {
+        Vector3 scale = transform.lossyScale;
+        scale.x = -scale.x;
+
+        transform.localScale = scale;
+    }
 }

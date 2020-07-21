@@ -99,10 +99,7 @@ public partial class Monster : MonoBehaviour
 
         if (Time.time - patrolTime > patrolTransitionTime)
         {
-            Vector3 scale = transform.lossyScale;
-            scale.x = -scale.x;
-
-            transform.localScale = scale;
+            SetTurn();  
 
             patrolTime = Time.time;
         }
@@ -124,7 +121,6 @@ public partial class Monster : MonoBehaviour
         }
 
         float distance = Vector2.Distance(transform.position, target.position);
-        Log.Print("Distance:  " + distance);
 
         if (distance > AttackRange)
         {
