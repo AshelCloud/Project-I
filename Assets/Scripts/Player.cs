@@ -51,6 +51,10 @@ public class Player : MonoBehaviour, IDamageable
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
     public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
 
+    private PlatformEffector2D platform = null;
+
+    public PlatformEffector2D Platform { get { return platform; } }
+
     public Monster hitTarget { get; set; }
 
     public bool isJumpOff { get; set; } = false;
@@ -65,7 +69,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         LoadToJsonData(ID);
         UpdateData();
-
+        hp = 10000;
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
 
@@ -220,7 +224,7 @@ public class Player : MonoBehaviour, IDamageable
             rayDirection = -transform.right;
         }
 
-        if (Physics2D.Raycast(checkPos, rayDirection, 0.9f, floorLayer))
+        if (Physics2D.Raycast(checkPos, rayDirection, 0.6f, floorLayer))
         {
             Log.Print("CheckWall True");
             return true;
@@ -240,9 +244,27 @@ public class Player : MonoBehaviour, IDamageable
 
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
 
-        if (Physics2D.Raycast(startPos, -transform.up, 0.3f, floorLayer).distance > 0 || 
-            Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer).distance > 0)
+        if (Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer).distance > 0 || 
+            Physics2D.Raycast(startPos, -transform.up, 0.2f, platformLayer).distance > 0)
         {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool isOnPlatform()
+    {
+        var platformLayer = LayerMask.GetMask("Platform");
+
+        var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+
+        if (Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer))
+        {
+            platform = Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer).collider.GetComponent<PlatformEffector2D>();
             return true;
         }
 
@@ -259,6 +281,6 @@ public class Player : MonoBehaviour, IDamageable
         var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0.9f, 0));
+        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0.6f, 0));
     }
 }

@@ -110,38 +110,39 @@ public class RunState : IPlayerState
 
     void IPlayerState.Update()
     {
-        movement = new Vector2(Input.GetAxis("Horizontal") * player.Speed * 25, 0.0f);
         SlopeCheck();
+        movement = new Vector2(Input.GetAxis("Horizontal") * player.Speed * 25, 0.0f);
+
+        //좌측이동
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
+
+        }
+
+        //우측이동
+        else
+        {
+            direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
+        }
+
+        player.transform.localScale = direction;
         player.anim.Play("Run");
 
-        if (!isOnSlope)
+        if (player.isGrounded() && !isOnSlope)
         {
             player.rb.AddForce(movement);
         }
 
-        else if (isOnSlope)
+        else if (player.isGrounded() && isOnSlope)
         {
             movement = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * 25 * slopeNormalPerp.x, -player.Speed);
             player.rb.AddForce(movement);
         }
 
-        else if (!player.isGrounded())
+        else
         {
-
-        }
-
-        //좌측이동
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-            player.transform.localScale = direction;
-        }
-
-        //우측이동
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
-            player.transform.localScale = direction;
+            player.SetState(new JumpState());
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -165,7 +166,6 @@ public class RunState : IPlayerState
         {
             player.SetState(new IdleState());          //아무 입력이 없으면 대기 상태로 전이
         }
-
     }
 
     void IPlayerState.OnExit()
@@ -364,7 +364,15 @@ public class JumpState : IPlayerState
             //하향 점프
             else
             {
-                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), true);
+                if(player.isOnPlatform())
+                {
+                    player.Platform.rotationalOffset = 180;
+                }
+
+                else
+                {
+
+                }
             }
         }
     }
@@ -398,8 +406,7 @@ public class JumpState : IPlayerState
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     //플레이어 좌측 이동
-                    player.rb.AddForce(new Vector2(player.VerticalMove * 25, 0.0f), ForceMode2D.Force);
-                    //player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                    player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
                     direction.x = Mathf.Abs(direction.x);                                                              //플레이어 방향전환
                     player.transform.localScale = direction;
                 }
@@ -408,8 +415,7 @@ public class JumpState : IPlayerState
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     //플레이어 우측 이동
-                    player.rb.AddForce(new Vector2(-player.VerticalMove * 25, 0.0f), ForceMode2D.Force);
-                    //player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
+                    player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
                     direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
                     player.transform.localScale = direction;
                 }
@@ -417,6 +423,7 @@ public class JumpState : IPlayerState
                 //제자리 점프
                 else
                 {
+                    return;
                 }
             }
 
@@ -459,7 +466,7 @@ public class JumpState : IPlayerState
     {
         Log.Print("End JumpState");
         player.isJumpOff = false;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), false);
+        if(player.Platform != null) { player.Platform.rotationalOffset = 0; }
     }
 
     private void PlayJumpAnim()
@@ -617,22 +624,28 @@ public class HitState : IPlayerState
         //플레이어가 피격시 공중으로 튕겨져 나감
         this.player.rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
 
-        Log.Print("플레이어 타격!");
-        Log.Print("현재 플레이어 체력: " + player.HP);
+        Log.Print("Current player HP: " + player.HP);
     }
     void IPlayerState.Update()
     {
         player.spriteRenderer.color = new Color(255, 0, 0);
-        if (direction.x > 0)
+
+        if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.99f)
         {
-            player.transform.Translate(Vector2.left * bounceLength * Time.deltaTime, Space.World);
-        }
-        else
-        {
-            player.transform.Translate(Vector2.right * bounceLength * Time.deltaTime, Space.World);
+
+            if (direction.x > 0)
+            {
+                player.rb.AddForce(new Vector2(-bounceLength * 25, 0.0f), ForceMode2D.Force);
+                //player.transform.Translate(Vector2.left * bounceLength * Time.deltaTime, Space.World);
+            }
+            else
+            {
+                player.rb.AddForce(new Vector2(bounceLength * 25, 0.0f), ForceMode2D.Force);
+                //player.transform.Translate(Vector2.right * bounceLength * Time.deltaTime, Space.World);
+            }
         }
 
-        if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+        else
         {
             player.SetState(new IdleState());
         }
