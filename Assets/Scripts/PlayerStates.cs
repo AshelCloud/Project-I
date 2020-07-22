@@ -341,17 +341,18 @@ public class JumpState : IPlayerState
         if (player.isCling)
         {
             doubleJump = 1;
-            Log.Print("Player Doing cling jump");
-            Log.Print("Jump Count: " + doubleJump);
+            Log.Print("Player Cling jump");
             this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
             player.isCling = false;
         }
 
+        //공중에 있을 때 점프 단계 건너뛰게 한다.
         if (!this.player.isGrounded())
         {
             return;
         }
 
+        //바닥에 있을 때
         else
         {
             //일반적인 점프
@@ -366,6 +367,7 @@ public class JumpState : IPlayerState
             {
                 if(player.isOnPlatform())
                 {
+                    //Platform Effecter Offset 변경되며 플랫폼 아래로 내려감
                     player.Platform.rotationalOffset = 180;
                 }
 
@@ -380,8 +382,7 @@ public class JumpState : IPlayerState
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
-        //0.05초뒤 로직 처리
-        //버그 방지
+        //0.05초뒤 로직 처리 하여 버그 방지
         timer += Time.deltaTime;
         if (timer > delay)
         {
@@ -390,13 +391,14 @@ public class JumpState : IPlayerState
             {
                 PlayJumpAnim();
 
+                //더블 점프
                 if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
                 {
-                    Log.Print("Jump Count: " + doubleJump);
                     player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
                     doubleJump++;
                 }
 
+                //벽에 매달리기
                 if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
                 {
                     player.SetState(new ClingState());
@@ -427,15 +429,19 @@ public class JumpState : IPlayerState
                 }
             }
 
-            //땅에 착지 했을 시에 취하는 입력들
+            //땅에 착지 후 취하는 입력들
             else
             {
+                //더블 점프 횟수 초기화
                 doubleJump = 0;
+
+                //이동
                 if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
                 {
                     player.SetState(new RunState());
                 }
 
+                //공격
                 else if (Input.GetKey(KeyCode.A))
                 {
                     player.SetState(new AttackState());
@@ -447,13 +453,7 @@ public class JumpState : IPlayerState
                     player.SetState(new RollState());
                 }
 
-                //아무 입력이 없으면 대기 상태로 전이
-                else if (!Input.anyKey)
-                {
-                    player.SetState(new IdleState());
-                }
-
-                //버그 방지
+                //아무 행동도 취하지 않을시 대기
                 else
                 {
                     player.SetState(new IdleState());
@@ -469,29 +469,25 @@ public class JumpState : IPlayerState
         if(player.Platform != null) { player.Platform.rotationalOffset = 0; }
     }
 
+    //점프 애니메이션 재생
     private void PlayJumpAnim()
     {
+        //점프 시작
         if (player.rb.velocity.y >= 8f)
         {
             player.anim.Play("Jump", 0, 0.2f);
         }
 
+        //공중
         else if (player.rb.velocity.y < 8f && player.rb.velocity.y > 0f)
         {
             player.anim.Play("Jump", 0, 0.4f);
         }
 
-        //값이 작아질 수록 하강속도가 빨라짐
+        //하강
         else if (player.rb.velocity.y < 0f)
         {
             player.anim.Play("Jump", 0, 0.6f);
-        }
-
-        else if (player.isJumpOff)
-        {
-
-            player.isJumpOff = false;
-            return;
         }
 
         else
