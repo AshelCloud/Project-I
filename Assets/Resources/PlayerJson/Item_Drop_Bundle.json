@@ -1,0 +1,75 @@
+﻿{
+  "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" ],
+  "values": [
+    {
+      "DropBundleName": "drop_bundle_1",
+      "Quantity": [20, 50, 70, 200],
+      "ItemID": [21, 21, 21, 21],
+      "Percentage": [70, 20, 8, 2],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_2",
+      "Quantity": 300,
+      "ItemID": 21,
+      "Percentage": 100,
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_3",
+      "Quantity": [40, 70, 100, 200],
+      "ItemID": [21, 21, 21, 21],
+      "Percentage": [70, 20, 8, 2],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_4",
+      "Quantity": [60, 100, 150, 400],
+      "ItemID": [21, 21, 21, 21],
+      "Percentage": [70, 20, 8, 2],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_5",
+      "Quantity": [30, 60, 80, 1],
+      "ItemID": [21, 21, 21, 4],
+      "Percentage": [50, 25, 15, 10],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_6",
+      "Quantity": [30, 60, 80, 1],
+      "ItemID": [21, 21, 21, 5],
+      "Percentage": [50, 35, 10, 5],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_7",
+      "Quantity": [30, 60, 80, 1],
+      "ItemID": [21, 21, 21, 9],
+      "Percentage": [50, 25, 15, 10],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_8",
+      "Quantity": [30, 60, 80, 1],
+      "ItemID": [21, 21, 21, 10],
+      "Percentage": [50, 35, 10, 5],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_9",
+      "Quantity": [30, 60, 80, 1],
+      "ItemID": [21, 21, 21, 14],
+      "Percentage": [50, 25, 15, 10],
+      "ProbabilitySum": "100%"
+    },
+    {
+      "DropBundleName": "drop_bundle_9",
+      "Quantity": [30, 60, 80, 1],
+      "ItemID": [21, 21, 21, 15],
+      "Percentage": [70, 20, 8, 2],
+      "ProbabilitySum": "100%"
+    }
+  ]
+}
