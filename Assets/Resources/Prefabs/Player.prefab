@@ -174,8 +174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   jumpForce: 15
-  rollLength: 10
-  verticalMove: 5
+  rollForce: 10
+  airMovingSpeed: 5
 --- !u!50 &3905798396274382593
 Rigidbody2D:
   serializedVersion: 4

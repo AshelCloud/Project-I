@@ -21,7 +21,9 @@ public class Player : MonoBehaviour, IDamageable
 
 
     private PlayerData playerData;
-    private int ID = 1;
+
+    //기본값 = 1
+    private const int ID = 1;
 
     public float offensePower { get; set; }
     private float defense = 0f;
@@ -40,13 +42,13 @@ public class Player : MonoBehaviour, IDamageable
 
     //구르기 거리
     [SerializeField]
-    private float rollLength = 0f;
-    public float RollLength { get { return rollLength; } }
+    private float rollForce = 0f;
+    public float RollForce { get { return rollForce; } }
 
     //공중 이동 능력
     [SerializeField]
-    private float verticalMove = 0f;
-    public float VerticalMove { get { return verticalMove; } }
+    private float airMovingSpeed = 0f;
+    public float AirMovingSpeed { get { return airMovingSpeed; } }
 
     public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
@@ -58,7 +60,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public Monster hitTarget { get; set; }
 
-    public bool isJumpOff { get; set; } = false;
+    public bool isJumpDown { get; set; } = false;
     public bool isInvincible { get; set; } = false;
     public bool isCling { get; set; } = false;
 
@@ -105,7 +107,6 @@ public class Player : MonoBehaviour, IDamageable
             hitTarget = collider.gameObject.GetComponent<Monster>();
         }
     }
-
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.CompareTag("Monster"))
@@ -216,6 +217,7 @@ public class Player : MonoBehaviour, IDamageable
 
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
 
+        //바닥 체크
         if (Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer).distance > 0)
         {
             if (Platform != null)
@@ -230,7 +232,7 @@ public class Player : MonoBehaviour, IDamageable
             }
         }
 
-        //하강 점프 예외 처리
+        //플랫폼 체크
         else if (Physics2D.Raycast(startPos, -transform.up, 0.2f, platformLayer).distance > 0)
         {
             platform = Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer).collider.GetComponent<PlatformEffector2D>();

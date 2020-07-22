@@ -67,10 +67,10 @@ public class IdleState : IPlayerState
                 player.SetState(new JumpState());
             }
 
-            //하향 점프
+            //플랫폼 하강 점프
             else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.D))
             {
-                player.isJumpOff = true;
+                player.isJumpDown = true;
                 player.SetState(new JumpState());
             }
 
@@ -311,7 +311,7 @@ public class AttackState : IPlayerState
     {
         if (player.hitTarget)
         {
-            player.hitTarget.GetDamaged(player.offensePower); //테스트용으로 한방
+            player.hitTarget.GetDamaged(player.offensePower);
             Log.Print("Monster HP: " + player.hitTarget.HP);
         }
 
@@ -356,7 +356,7 @@ public class JumpState : IPlayerState
         else
         {
             //일반적인 점프
-            if (!this.player.isJumpOff)
+            if (!this.player.isJumpDown)
             {
                 this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
                 doubleJump++;
@@ -386,7 +386,7 @@ public class JumpState : IPlayerState
         timer += Time.deltaTime;
         if (timer > delay)
         {
-            //플레이어의 공중 이동
+            //공중 상태
             if (!player.isGrounded())
             {
                 PlayJumpAnim();
@@ -408,18 +408,14 @@ public class JumpState : IPlayerState
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     //플레이어 좌측 이동
-                    player.transform.Translate(Vector2.right.normalized * player.VerticalMove * Time.deltaTime, Space.World);
-                    direction.x = Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-                    player.transform.localScale = direction;
+                    player.transform.Translate(Vector2.right.normalized * player.AirMovingSpeed * Time.deltaTime, Space.World);
                 }
 
                 //우측이동
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     //플레이어 우측 이동
-                    player.transform.Translate(Vector2.left.normalized * player.VerticalMove * Time.deltaTime, Space.World);
-                    direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-                    player.transform.localScale = direction;
+                    player.transform.Translate(Vector2.left.normalized * player.AirMovingSpeed * Time.deltaTime, Space.World);
                 }
 
                 //제자리 점프
@@ -429,7 +425,7 @@ public class JumpState : IPlayerState
                 }
             }
 
-            //땅에 착지 후 취하는 입력들
+            //땅에 착지
             else
             {
                 //더블 점프 횟수 초기화
@@ -465,8 +461,7 @@ public class JumpState : IPlayerState
     void IPlayerState.OnExit()
     {
         Log.Print("End JumpState");
-        player.isJumpOff = false;
-        //if(player.Platform != null) { player.Platform.rotationalOffset = 0; }
+        player.isJumpDown = false;
     }
 
     //점프 애니메이션 재생
@@ -520,7 +515,7 @@ public class RollState : IPlayerState
 
         if (direction.x > 0)
         {
-            player.rb.AddForce(new Vector2(player.RollLength * 25, 0.0f), ForceMode2D.Force);
+            player.rb.AddForce(new Vector2(player.RollForce * 25, 0.0f), ForceMode2D.Force);
             direction.x = Mathf.Abs(direction.x);
             player.transform.localScale = direction;
 
@@ -528,7 +523,7 @@ public class RollState : IPlayerState
 
         else
         {
-            player.rb.AddForce(new Vector2(-player.RollLength * 25, 0.0f), ForceMode2D.Force);
+            player.rb.AddForce(new Vector2(-player.RollForce * 25, 0.0f), ForceMode2D.Force);
             direction.x = -Mathf.Abs(direction.x);
             player.transform.localScale = direction;
         }
