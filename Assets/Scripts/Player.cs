@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using UnityEditor;
+using UnityEditor.Experimental.UIElements.GraphView;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -80,11 +81,6 @@ public class Player : MonoBehaviour, IDamageable
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
-
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            HitByMonster(0);
-        }
     }
 
     public void SetState(IPlayerState nextState)
@@ -162,7 +158,7 @@ public class Player : MonoBehaviour, IDamageable
             hp -= value;
             if (hp <= 0)
             {
-                //죽음 상태 부분구현
+                //***죽음 상태 미완성***
                 SetState(new DeadState());
             }
 
@@ -173,32 +169,6 @@ public class Player : MonoBehaviour, IDamageable
             }
         }
 
-        //무적 상태
-        else
-        {
-            return;
-        }
-    }
-
-    public void HitByMonster(float damage)
-    {
-        //플레이어가 무적 상태가 아닐 때만
-        if (!isInvincible)
-        {
-            hp -= damage;
-            if (hp <= 0)
-            {
-                //죽음 상태 부분구현
-                SetState(new DeadState());
-            }
-
-            else
-            {
-                SetState(new HitState());
-                
-            }
-        }
-        
         //무적 상태
         else
         {
@@ -214,11 +184,13 @@ public class Player : MonoBehaviour, IDamageable
 
         Vector3 rayDirection;
 
+        //우측 확인
         if (transform.localScale.x > 0)
         {
             rayDirection = transform.right;
         }
 
+        //좌측 확인
         else
         {
             rayDirection = -transform.right;
@@ -244,25 +216,22 @@ public class Player : MonoBehaviour, IDamageable
 
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
 
-        if (Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer).distance > 0 || 
-            Physics2D.Raycast(startPos, -transform.up, 0.2f, platformLayer).distance > 0)
+        if (Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer).distance > 0)
         {
-            return true;
+            if (Platform != null)
+            {
+                Platform.rotationalOffset = 0;
+                return true;
+            }
+
+            else
+            {
+                return true;
+            }
         }
 
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool isOnPlatform()
-    {
-        var platformLayer = LayerMask.GetMask("Platform");
-
-        var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
-
-        if (Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer))
+        //하강 점프 예외 처리
+        else if (Physics2D.Raycast(startPos, -transform.up, 0.2f, platformLayer).distance > 0)
         {
             platform = Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer).collider.GetComponent<PlatformEffector2D>();
             return true;
@@ -274,7 +243,6 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-   
 
     private void OnDrawGizmos()
     {

@@ -365,7 +365,7 @@ public class JumpState : IPlayerState
             //하향 점프
             else
             {
-                if(player.isOnPlatform())
+                if(player.isGrounded())
                 {
                     //Platform Effecter Offset 변경되며 플랫폼 아래로 내려감
                     player.Platform.rotationalOffset = 180;
@@ -466,7 +466,7 @@ public class JumpState : IPlayerState
     {
         Log.Print("End JumpState");
         player.isJumpOff = false;
-        if(player.Platform != null) { player.Platform.rotationalOffset = 0; }
+        //if(player.Platform != null) { player.Platform.rotationalOffset = 0; }
     }
 
     //점프 애니메이션 재생
