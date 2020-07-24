@@ -27,11 +27,14 @@ public partial class Monster : MonoBehaviour
         DataTableLinking();
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"));
+
+        attackID = 1;
     }
     protected virtual void GetHashIDs()
     {
         hash_Idle = Animator.StringToHash(m_Idle);
         hash_Attack = Animator.StringToHash(m_Attack);
+        hash_AttackID = Animator.StringToHash(m_AttackID);
         hash_Chase = Animator.StringToHash(m_Chase);
         hash_Damaged = Animator.StringToHash(m_Damaged);
         hash_Dead = Animator.StringToHash(m_Dead);
@@ -169,6 +172,7 @@ public partial class Monster : MonoBehaviour
     {
         Anim.SetBool(hash_Idle, Idle);
         Anim.SetBool(hash_Attack, Attack);
+        Anim.SetInteger(hash_AttackID, AttackID);
         Anim.SetBool(hash_Chase, Chase);
         Anim.SetBool(hash_Damaged, Damaged);
     }
@@ -183,8 +187,10 @@ public partial class Monster : MonoBehaviour
             
             Gizmos.color = Color.red;
             
-            Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-AttackRange, 0f) : new Vector2(AttackRange, 0f);
-            Gizmos.DrawLine(transform.position, transform.position + (Vector3)direction);
+            Gizmos.DrawWireSphere(transform.position, AttackRange);
+
+            //Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-AttackRange, 0f) : new Vector2(AttackRange, 0f);
+            //Gizmos.DrawLine(transform.position, transform.position + (Vector3)direction);
 
         }
     }

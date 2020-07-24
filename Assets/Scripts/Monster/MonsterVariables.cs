@@ -23,11 +23,13 @@ public partial class Monster : MonoBehaviour
     public const string m_Idle = "Idle";
     public const string m_Chase = "Chase";
     public const string m_Attack = "Attack";
+    public const string m_AttackID = "AttackID";
     public const string m_Damaged = "Damaged";
     public const string m_Dead = "Dead";
 
     private int hash_Idle;
     private int hash_Attack;
+    private int hash_AttackID;
     private int hash_Chase;
     private int hash_Damaged;
     private int hash_Dead;
@@ -46,6 +48,8 @@ public partial class Monster : MonoBehaviour
 
     #region Animator Variables
     protected bool idle = true;
+
+    protected int attackID;
 
     protected bool 
             chase,
@@ -150,6 +154,8 @@ public partial class Monster : MonoBehaviour
 
     public MonsterDataTable DataTable { get { return dataTable; } }
     public Transform Target { get { return target; } }
+
+    public int AttackID { get { return attackID; } }
 
     public bool IsAttacking 
     {

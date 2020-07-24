@@ -14,31 +14,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: AttackID
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Idle
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Damaged
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -52,6 +52,19 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!114 &114034492162782872
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a036d827997b5743a445c46efdafc63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedCorrection: 2
 --- !u!114 &114145105678778190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,8 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackTrigger: 1
   AttackActivation:
-    minValue: 0
-    maxValue: 1
+    minValue: 0.43076923
+    maxValue: 0.72307694
 --- !u!114 &114724061643977454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -80,10 +93,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1498b81178618848aaad4a086fde49a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackTrigger: 1
+  AttackTrigger: 2
   AttackActivation:
-    minValue: 0
-    maxValue: 1
+    minValue: 0.3846154
+    maxValue: 0.61538476
 --- !u!1101 &1101330321859967162
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -350,7 +363,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101984494364165390}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 114034492162782872}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
