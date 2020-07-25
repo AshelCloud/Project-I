@@ -27,9 +27,8 @@ public partial class Monster : MonoBehaviour
         DataTableLinking();
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"));
-
-        attackID = 1;
     }
+
     protected virtual void GetHashIDs()
     {
         hash_Idle = Animator.StringToHash(m_Idle);

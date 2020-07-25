@@ -240,7 +240,8 @@ MonoBehaviour:
   patrolTransitionTime: 3
   attackDelay: 1
   detectionRangeCorrection: 0
-  attackRangeCorrection: 3
+  attackRangeCorrection: 2.5
+  totalAttack: 2
 --- !u!1 &8915423766932923395
 GameObject:
   m_ObjectHideFlags: 0

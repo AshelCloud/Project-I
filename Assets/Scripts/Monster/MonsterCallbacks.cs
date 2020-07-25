@@ -7,7 +7,19 @@ public partial class Monster : MonoBehaviour
 {
     public virtual void SetAttack()
     {
+        attackID = -1;
         Attack = true;
+    }
+
+    public virtual void SetAttack(int id)
+    {
+        attackID = id;
+        Attack = true;
+    }
+
+    public virtual int SetRandomAttackID()
+    {
+        return Random.Range(1, totalAttack + 1);
     }
 
     public virtual void SetIdle(bool value)

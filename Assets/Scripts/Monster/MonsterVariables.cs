@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 //몬스터 스크립트의 모든 변수
 public partial class Monster : MonoBehaviour
@@ -12,6 +13,7 @@ public partial class Monster : MonoBehaviour
     public float attackDelay;
     public float detectionRangeCorrection;
     public float attackRangeCorrection;
+    public int totalAttack;
     #endregion
 
     #region Patrol
@@ -142,7 +144,8 @@ public partial class Monster : MonoBehaviour
                 {
                     attack = value;
                     attackTime = Time.time;
-                    //TODO: 어택 아이디 구현
+                    
+                    if(AttackID <= 0) { attackID = SetRandomAttackID(); }
                 }
             }
         }

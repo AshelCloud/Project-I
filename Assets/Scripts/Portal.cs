@@ -6,6 +6,11 @@ public class Portal : MonoBehaviour
 {
     public string MapName { get; set; }
 
+    private void Start()
+    {
+        Log.Print("MapName: " + MapName);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.root.GetComponent<Player>() != null )

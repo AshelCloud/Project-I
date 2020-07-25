@@ -169,6 +169,10 @@ MonoBehaviour:
   attackDelay: 1
   detectionRangeCorrection: 0
   attackRangeCorrection: 0
+  totalAttack: 1
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8787160581082034503
 GameObject:
   m_ObjectHideFlags: 0
