@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -57,6 +58,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public PlatformEffector2D Platform { get { return platform; } }
 
+    private Image HealthInterface = null;
+
     public Monster hitTarget { get; set; }
 
     public bool isJumpDown { get; set; } = false;
@@ -71,17 +74,24 @@ public class Player : MonoBehaviour, IDamageable
     {
         LoadToJsonData(ID);
         UpdateData();
-        hp = 10000;
+        hp = 100;
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 
+    private void Start()
+    {
+        HealthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
+    }
+
     private void Update()
     {
         //현재 상태에 따른 행동 실행
         _currentState.Update();
+
+        HealthInterface.fillAmount = hp / 100;
     }
 
     public void SetState(IPlayerState nextState)
