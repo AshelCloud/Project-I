@@ -7,40 +7,53 @@ public class AttackBehaviour : StateMachineBehaviour
     [MinMaxRange(0f, 1f)]
     public RangeFloat AttackActivation = new RangeFloat(0f, 1f);
 
-    private Monster monster;
+    private Monster myMonster;
 
     private bool isOn, isOff;
 
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        monster = animator.GetComponent<Monster>();
-        monster.IsAttacking = true;
-        monster.Attack = false;
+        myMonster = animator.GetComponent<Monster>();
+        myMonster.IsAttacking = true;
+        myMonster.Attack = false;
 
         isOn = isOff = false;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        monster.IsAttacking = true;
+        myMonster.IsAttacking = true;
+
+        float dir = (myMonster.Target.position - myMonster.transform.position).normalized.x;
+        dir = Mathf.Clamp01(dir) == 0f ? -1f : 1f;
+
+        //TODO: 개선
+        if (dir < 0f && myMonster.transform.lossyScale.x > 0f)
+        {
+            myMonster.SetTurn();
+        }
+        else if (dir > 0f && myMonster.transform.lossyScale.x < 0f)
+        {
+            myMonster.SetTurn();
+        }
 
         if (isOn == false && (stateInfo.normalizedTime % 1) >= AttackActivation.minValue)
         {
-            monster.AttackTrigger(AttackTrigger);
+            myMonster.AttackTrigger(AttackTrigger);
             isOn = true;
         }
         if (isOff == false && (stateInfo.normalizedTime % 1) >= AttackActivation.maxValue)
         {
-            monster.AttackTrigger(0);
+            myMonster.AttackTrigger(0);
             isOff = true;
         }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        monster.AttackTrigger(0);
+        myMonster.AttackTrigger(0);
         isOn = isOff = false;
-        monster.IsAttacking = false;
+        myMonster.IsAttacking = false;
     }
 }

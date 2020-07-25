@@ -122,10 +122,12 @@ public partial class Monster : MonoBehaviour
             return; 
         }
 
+
         float distance = Vector2.Distance(transform.position, target.position);
 
         if (distance > AttackRange)
         {
+            SetIdle(false);
             SetChase(true);
         }
         else
