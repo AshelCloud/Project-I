@@ -58,7 +58,9 @@ public class Player : MonoBehaviour, IDamageable
 
     public PlatformEffector2D Platform { get { return platform; } }
 
-    private Image HealthInterface = null;
+    private Image healthInterface = null;
+
+    private Button restartButton = null;
 
     public Monster hitTarget { get; set; }
 
@@ -83,7 +85,8 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        HealthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
+        healthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
+        restartButton = GameObject.Find("Restart").GetComponent<Button>();
     }
 
     private void Update()
@@ -91,7 +94,7 @@ public class Player : MonoBehaviour, IDamageable
         //현재 상태에 따른 행동 실행
         _currentState.Update();
 
-        HealthInterface.fillAmount = hp / 100;
+        healthInterface.fillAmount = hp / 100;
     }
 
     public void SetState(IPlayerState nextState)
