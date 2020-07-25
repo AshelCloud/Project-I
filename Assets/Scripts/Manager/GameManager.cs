@@ -26,23 +26,8 @@ public class GameManager : MonoBehaviour
         Log.Print("GameManager Initialize");
     }
 
-    public void LoadMap(int? index)
+    public void LoadMap(string mapName, bool isPrevious)
     {
-        
-    }
-
-    public void LoadMap(string mapName)
-    {
-        mapLoader.LoadMap(mapName);
-    }
-
-    public void LoadNextMap()
-    {
-        mapLoader.LoadMap(NextMapNameOfCurrentMap);
-    }
-
-    public void LoadPreviousMap()
-    {
-        mapLoader.LoadMap(PreviousMapNameOfCurrentMap);
+        mapLoader.LoadMap(mapName, isPrevious);
     }
 }

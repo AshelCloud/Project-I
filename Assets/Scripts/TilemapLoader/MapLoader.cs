@@ -19,6 +19,8 @@ public class MapLoader : MonoBehaviour
     [SerializeField]
     private string startMapName = "";
 
+    public string CurrentMapName { get; set; }
+
     private void Awake()
     {
         mapDatas = new Dictionary<string, MapData>();
@@ -29,16 +31,16 @@ public class MapLoader : MonoBehaviour
 
     private void Start()
     {
-        LoadMap(startMapName);
+        LoadMap(startMapName, false);
         //StartCoroutine(JsonToTilemap("Forest_1"));
     }
 
-    public void LoadMap(string fileName)
+    public void LoadMap(string fileName, bool isPrevious)
     {
-        StartCoroutine(JsonToTilemap(fileName));
+        StartCoroutine(JsonToTilemap(fileName, isPrevious));
     }
 
-    public IEnumerator JsonToTilemap(string fileName)
+    public IEnumerator JsonToTilemap(string fileName, bool isPrevious)
     {
         Log.Print("MapLoader Load Start");
 
@@ -114,10 +116,12 @@ public class MapLoader : MonoBehaviour
                     if(mapIndex <= 0)
                     {
                         portal.MapName = data.Value.PreviousMapName;
+                        portal.IsPrevious = true;
                     }
                     else
                     {
                         portal.MapName = data.Value.NextMapName[mapIndex - 1];
+                        portal.IsPrevious = false;
                     }
                 }
                 else
@@ -135,9 +139,9 @@ public class MapLoader : MonoBehaviour
             var playerReosurce = Resources.Load<GameObject>(PrefabFilePath + "Player");
 
             //TODO: 플레이어 위치 설정
+            //TODO: 플레이어 재생성이 아닌 위치만 재조정하도록 변경
             var player = Instantiate(playerReosurce, data.Value.PlayerStartPosition, Quaternion.identity);
-
-            if(player == null)
+            if (player == null)
             {
                 Log.PrintError("NullExeption Player");
             }
@@ -145,6 +149,16 @@ public class MapLoader : MonoBehaviour
             {
                 player.tag = "Player";
             }
+
+            if (isPrevious)
+            {
+                var position = GetEndPositionOfMap(fileName);
+                position.x -= 3f;
+
+                player.transform.position = position;
+            }
+
+            CurrentMapName = fileName;
 
             //TODO: Debug 코드 고치기
             //if (!string.IsNullOrEmpty(data.Value.NextMapName))
@@ -277,5 +291,23 @@ public class MapLoader : MonoBehaviour
         map.orientation = mapData.Orientation;
 
         return map;
+    }
+
+    private Vector3 GetEndPositionOfMap(string mapName)
+    {
+        foreach (var data in mapDatas)
+        {
+            int index = 0;
+
+            foreach(var nextMapName in data.Value.NextMapName)
+            {
+                if(nextMapName == CurrentMapName)
+                {
+                    return data.Value.PlayerEndPosition[index];
+                }
+                index ++;
+            }
+        }
+        return Vector3.zero;
     }
 }

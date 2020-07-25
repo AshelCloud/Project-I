@@ -6,10 +6,7 @@ public class Portal : MonoBehaviour
 {
     public string MapName { get; set; }
 
-    private void Start()
-    {
-        Log.Print("MapName: " + MapName);
-    }
+    public bool IsPrevious { get; set; }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,7 +19,7 @@ public class Portal : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.LoadMap(MapName);
+                GameManager.Instance.LoadMap(MapName, IsPrevious);
             }
         }
     }
