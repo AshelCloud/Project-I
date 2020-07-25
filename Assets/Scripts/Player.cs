@@ -219,8 +219,10 @@ public class Player : MonoBehaviour, IDamageable
         //바닥 체크
         if (Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer).distance > 0)
         {
+            //하강 점프 완료 후
             if (Platform != null)
             {
+                //다시 플랫폼으로 올라갈 수 있도록 오프셋 초기화
                 Platform.rotationalOffset = 0;
                 return true;
             }

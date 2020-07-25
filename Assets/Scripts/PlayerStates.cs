@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
 using TMPro;
@@ -327,6 +328,9 @@ public class JumpState : IPlayerState
     private Player player;
     private Vector2 direction;
     static private uint doubleJump = 0;
+
+    private bool leftMove = false;
+    private bool rightMove = false;
     
     float timer = 0.0f;
     float delay = 0.05f;
@@ -338,9 +342,9 @@ public class JumpState : IPlayerState
         direction = this.player.transform.localScale;
 
         //벽에 매달린 상태의 점프
-        if (player.isCling)
+        if (player.isCling && !player.isGrounded())
         {
-            doubleJump = 1;
+            doubleJump++;
             Log.Print("Player Cling jump");
             this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
             player.isCling = false;
@@ -360,6 +364,7 @@ public class JumpState : IPlayerState
             {
                 this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
                 doubleJump++;
+                Log.Print("Jump Count: " + doubleJump);
             }
 
             //하향 점프
@@ -395,25 +400,31 @@ public class JumpState : IPlayerState
                 if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
                 {
                     player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+                    Log.Print("Jump Count: " + doubleJump);
                     doubleJump++;
                 }
 
                 //벽에 매달리기
                 if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
                 {
+                    doubleJump = 0;
                     player.SetState(new ClingState());
                 }
 
                 //좌측이동
-                if (Input.GetKey(KeyCode.RightArrow))
+                if (Input.GetKey(KeyCode.RightArrow) && !leftMove)
                 {
+                    rightMove = true;
+                    ChangeDirection();
                     //플레이어 좌측 이동
                     player.transform.Translate(Vector2.right.normalized * player.AirMovingSpeed * Time.deltaTime, Space.World);
                 }
 
                 //우측이동
-                else if (Input.GetKey(KeyCode.LeftArrow))
+                else if (Input.GetKey(KeyCode.LeftArrow) && !rightMove)
                 {
+                    leftMove = true;
+                    ChangeDirection();
                     //플레이어 우측 이동
                     player.transform.Translate(Vector2.left.normalized * player.AirMovingSpeed * Time.deltaTime, Space.World);
                 }
@@ -421,7 +432,7 @@ public class JumpState : IPlayerState
                 //제자리 점프
                 else
                 {
-                    return;
+                    ChangeDirection();
                 }
             }
 
@@ -460,6 +471,9 @@ public class JumpState : IPlayerState
 
     void IPlayerState.OnExit()
     {
+        rightMove = false;
+        leftMove = false;
+
         Log.Print("End JumpState");
         player.isJumpDown = false;
     }
@@ -491,6 +505,23 @@ public class JumpState : IPlayerState
         }
     }
 
+    private void ChangeDirection()
+    {
+        //좌측이동
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
+
+        }
+
+        //우측이동
+        else if(Input.GetKey(KeyCode.RightArrow))
+        {
+            direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
+        }
+
+        player.transform.localScale = direction;
+    }
 }
 
 //플레이어 구르기 상태
@@ -586,6 +617,7 @@ public class ClingState : IPlayerState
 
     void IPlayerState.OnExit()
     {
+        
         Log.Print("Exit ClingState");
     }
 
