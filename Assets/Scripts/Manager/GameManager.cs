@@ -9,9 +9,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public string NextMapNameOfCurrentMap { get; set; }
-    public string PreviousMapNameOfCurrentMap { get; set; }
-
     public MapLoader mapLoader;
 
     private void Awake()
