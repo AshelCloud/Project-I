@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -18,7 +19,6 @@ public class Player : MonoBehaviour, IDamageable
         public string Animatorname = null;
         public string Prefabname = null;
     }
-
 
     private PlayerData playerData;
 
@@ -45,11 +45,6 @@ public class Player : MonoBehaviour, IDamageable
     private float rollForce = 0f;
     public float RollForce { get { return rollForce; } }
 
-    //공중 이동 능력
-    [SerializeField]
-    private float airMovingSpeed = 0f;
-    public float AirMovingSpeed { get { return airMovingSpeed; } }
-
     public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
     public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
@@ -67,7 +62,7 @@ public class Player : MonoBehaviour, IDamageable
     public bool isJumpDown { get; set; } = false;
     public bool isInvincible { get; set; } = false;
     public bool isCling { get; set; } = false;
-
+    public bool isHit { get; set; } = false;
     private IPlayerState _currentState;
 
     public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
@@ -86,7 +81,7 @@ public class Player : MonoBehaviour, IDamageable
     private void Start()
     {
         healthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
-        restartButton = GameObject.Find("Restart").GetComponent<Button>();
+        //restartButton = GameObject.Find("Restart").GetComponent<Button>();
     }
 
     private void Update()
@@ -95,6 +90,11 @@ public class Player : MonoBehaviour, IDamageable
         _currentState.Update();
 
         healthInterface.fillAmount = hp / 100;
+    }
+
+    private void FixedUpdate()
+    {
+        GroundFriction();
     }
 
     public void SetState(IPlayerState nextState)
@@ -259,6 +259,14 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    void GroundFriction()
+    {
+        if(isGrounded())
+        {
+            var currentVelocity = rb.velocity.x;
+            rb.velocity = new Vector2(Mathf.SmoothDamp(rb.velocity.x, 0f, ref currentVelocity, 0.1f), rb.velocity.y);
+        }
+    }
 
     private void OnDrawGizmos()
     {

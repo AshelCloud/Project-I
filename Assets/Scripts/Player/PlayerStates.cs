@@ -118,7 +118,6 @@ public class RunState : IPlayerState
         if (Input.GetAxis("Horizontal") < 0)
         {
             direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-
         }
 
         //우측이동
@@ -132,13 +131,13 @@ public class RunState : IPlayerState
 
         if (player.isGrounded() && !isOnSlope)
         {
-            player.rb.AddForce(movement);
+            player.rb.velocity = new Vector2(direction.x * player.Speed, player.rb.velocity.y);
         }
 
         else if (player.isGrounded() && isOnSlope)
         {
-            movement = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * 25 * slopeNormalPerp.x, -player.Speed);
-            player.rb.AddForce(movement);
+            player.rb.velocity = new Vector2(direction.x * player.Speed, player.rb.velocity.y);
+            player.rb.velocity = new Vector2(-direction.x * player.Speed * slopeNormalPerp.x, -player.Speed);
         }
 
         else
@@ -341,6 +340,8 @@ public class JumpState : IPlayerState
         this.player = player;
         direction = this.player.transform.localScale;
 
+        this.player.rb.velocity /= 2;
+
         //벽에 매달린 상태의 점프
         if (player.isCling && !player.isGrounded())
         {
@@ -392,7 +393,7 @@ public class JumpState : IPlayerState
         if (timer > delay)
         {
             //공중 상태
-            if (!player.isGrounded())
+            if (!player.isGrounded() && !player.isHit)
             {
                 PlayJumpAnim();
 
@@ -417,7 +418,7 @@ public class JumpState : IPlayerState
                     rightMove = true;
                     ChangeDirection();
                     //플레이어 좌측 이동
-                    player.transform.Translate(Vector2.right.normalized * player.AirMovingSpeed * Time.deltaTime, Space.World);
+                    player.rb.AddForce(new Vector2(player.Speed / 2, 0.0f), ForceMode2D.Force);
                 }
 
                 //우측이동
@@ -426,7 +427,7 @@ public class JumpState : IPlayerState
                     leftMove = true;
                     ChangeDirection();
                     //플레이어 우측 이동
-                    player.transform.Translate(Vector2.left.normalized * player.AirMovingSpeed * Time.deltaTime, Space.World);
+                    player.rb.AddForce(new Vector2(-player.Speed / 2, 0.0f), ForceMode2D.Force);
                 }
 
                 //제자리 점프
@@ -539,25 +540,26 @@ public class RollState : IPlayerState
 
         //무적 활성화
         this.player.isInvincible = true;
+
+        if (direction.x > 0)
+        {
+            player.rb.AddForce(new Vector2(player.RollForce, 0.0f), ForceMode2D.Impulse);
+            direction.x = Mathf.Abs(direction.x);
+            player.transform.localScale = direction;
+        }
+
+        else
+        {
+            player.rb.AddForce(new Vector2(-player.RollForce, 0.0f), ForceMode2D.Impulse);
+            direction.x = -Mathf.Abs(direction.x);
+            player.transform.localScale = direction;
+        }
     }
 
     void IPlayerState.Update()
     {
 
-        if (direction.x > 0)
-        {
-            player.rb.AddForce(new Vector2(player.RollForce * 25, 0.0f), ForceMode2D.Force);
-            direction.x = Mathf.Abs(direction.x);
-            player.transform.localScale = direction;
 
-        }
-
-        else
-        {
-            player.rb.AddForce(new Vector2(-player.RollForce * 25, 0.0f), ForceMode2D.Force);
-            direction.x = -Mathf.Abs(direction.x);
-            player.transform.localScale = direction;
-        }
 
         if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && !Input.anyKeyDown)
         {
@@ -584,14 +586,11 @@ public class RollState : IPlayerState
 public class ClingState : IPlayerState
 {
     private Player player;
-    private Vector3 direction;
-
 
     void IPlayerState.OnEnter(Player player)
     {
         Log.Print("Enter ClingState");
         this.player = player;
-        direction = this.player.transform.localScale;
         player.isCling = true;
     }
 
@@ -629,55 +628,56 @@ public class HitState : IPlayerState
     private Player player;
     private Vector2 direction;
 
-    //튕겨져 나가는 거리
-    private const float bounceLength = 8;
+    float timer = 0.0f;
+    float delay = 0.5f;
 
-    //튕겨져 나가는 힘
-    private const float bounceForce = 12;
+    private float bounceLength = 5;
 
     void IPlayerState.OnEnter(Player player)
     {
         Log.Print("Enter HitState");
         this.player = player;
+
         //플레이어 방향
         direction = player.transform.localScale;
 
-        this.player.anim.Play("Hit");
+        this.player.isHit = true;
 
         //플레이어가 피격시 공중으로 튕겨져 나감
-        this.player.rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
+        if (direction.x > 0)
+        {
+            var bounceForce = new Vector2(-bounceLength, 10);
+            this.player.rb.AddForce(bounceForce, ForceMode2D.Impulse);
+        }
+        else
+        {
+            var bounceForce = new Vector2(bounceLength, 10);
+            this.player.rb.AddForce(bounceForce, ForceMode2D.Impulse);
+        }
+
 
         Log.Print("Current player HP: " + player.HP);
     }
     void IPlayerState.Update()
     {
+        timer += Time.deltaTime;
+
         player.spriteRenderer.color = new Color(255, 0, 0);
 
-        if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.99f)
-        {
+        player.anim.Play("Hit");
 
-            if (direction.x > 0)
-            {
-                player.rb.AddForce(new Vector2(-bounceLength * 25, 0.0f), ForceMode2D.Force);
-                //player.transform.Translate(Vector2.left * bounceLength * Time.deltaTime, Space.World);
-            }
-            else
-            {
-                player.rb.AddForce(new Vector2(bounceLength * 25, 0.0f), ForceMode2D.Force);
-                //player.transform.Translate(Vector2.right * bounceLength * Time.deltaTime, Space.World);
-            }
-        }
-
-        else
+        if (timer > delay)
         {
+            Log.Print("Hit anim end");
             player.SetState(new IdleState());
         }
     }
 
     void IPlayerState.OnExit()
     {
-        Log.Print("Exit HitState");
+        player.isHit = false;
         player.spriteRenderer.color = new Color(255, 255, 255);
+        Log.Print("Exit HitState");
     }
 }
 
