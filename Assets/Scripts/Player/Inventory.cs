@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Dynamic;
 using System.Reflection.Emit;
+using UnityEditor.Experimental.UIElements;
 using UnityEngine;
+
 
 public class Inventory : MonoBehaviour
 {
@@ -63,6 +66,41 @@ public class Inventory : MonoBehaviour
 
     public void PutItemInventory(Item item)
     {
+        if(item.Type == "Helm")
+        {
+
+        }        
+
+        else if(item.Type == "Armor")
+        {
+
+        }        
+
+        else if(item.Type == "Accessories")
+        {
+
+        }  
+        
+        else if(item.Type == "Weapon")
+        {
+
+        }
+        
+        else if(item.Type == "Money")
+        {
+
+        }
+
+        else if(item.Type == "Material")
+        {
+
+        }
+
+        else
+        {
+            Log.PrintError("Unkown type item!");
+        }
+
         Log.Print("Get item: " + item.Name);
         inventory.Add(item);
     }

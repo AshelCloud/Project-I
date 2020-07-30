@@ -5,16 +5,6 @@ using UnityEngine;
 using System.IO;
 using System.Diagnostics.PerformanceData;
 
-enum ItemType
-{
-    HELM,
-    ARMOR,
-    ACCESSORIE,
-    WEAPON,
-    MONEY,
-    MATERIAL
-}
-
 public class Item : MonoBehaviour
 {
     [System.Serializable]
@@ -47,6 +37,7 @@ public class Item : MonoBehaviour
     private string graphicAssetsName = null;
 
     public string Name { get { return itemName; } }
+    public string Type { get { return itemType; } }
 
     private void Awake()
     {
