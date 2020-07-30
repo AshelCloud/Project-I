@@ -70,7 +70,7 @@ public class Player : MonoBehaviour, IDamageable
     private void Awake()
     {
         LoadToJsonData(ID);
-        UpdateData();
+        SetData();
         hp = 100;
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
@@ -154,7 +154,7 @@ public class Player : MonoBehaviour, IDamageable
         playerData = playerDatas[ID.ToString()];
     }
 
-    private void UpdateData()
+    private void SetData()
     {
         offensePower = playerData.Offensepower;
         defense = playerData.Defense;
