@@ -274,6 +274,21 @@ public class MapLoader : MonoBehaviour
             effector.sideArc = effectorData.SideArc;
         }
 
+        if(mapData.BoxCollider.IsNotNull)
+        {
+            var collider = go.AddComponent<BoxCollider2D>();
+            var colliderData = mapData.BoxCollider;
+
+            collider.sharedMaterial = colliderData.Material;
+            collider.isTrigger = colliderData.IsTrigger;
+            collider.usedByEffector = colliderData.UsedByEffector;
+            collider.usedByComposite = colliderData.UsedByComposite;
+            collider.autoTiling = colliderData.AutoTiling;
+            collider.offset = colliderData.Offest;
+            collider.size = colliderData.Size;
+            collider.edgeRadius = colliderData.EdgeRadius;
+        }
+
         map = go.GetComponent<Tilemap>();
 
         //정보 업데이트
