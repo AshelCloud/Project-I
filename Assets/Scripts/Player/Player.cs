@@ -26,9 +26,15 @@ public class Player : MonoBehaviour, IDamageable
     //기본값 = 1
     private const int ID = 1;
 
-    public float offensePower { get; set; }
+
+    [SerializeField]
+    private float offensePower = 0;
+    public float OffensePower { get { return offensePower; } }
+
     private float defense = 0f;
     private float hp = 0f;
+
+    
     public float HP { get { return hp; } }
 
     //이동 속도
