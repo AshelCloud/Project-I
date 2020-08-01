@@ -234,13 +234,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa08a0c4496850f40bafe2b0f0f4c298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onAwakeIdle: 0
+  onAwakeIdle: 1
   debug: 1
   ID: 2
-  patrolTransitionTime: 3
-  attackDelay: 1
+  patrolTransitionTime: 7
+  attackDelay: 2
   detectionRangeCorrection: 0
-  attackRangeCorrection: 2.5
+  attackRangeCorrection: 2.2
   totalAttack: 2
 --- !u!1 &8915423766932923395
 GameObject:
