@@ -137,6 +137,16 @@ public class Player : MonoBehaviour, IDamageable
         _currentState.OnEnter(this);
     }
 
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("trap"))
+        {
+            GetDamaged(1000f);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Monster"))
