@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7225978612350917872}
   - component: {fileID: 2964208196667197896}
   - component: {fileID: 114006603505605822}
+  - component: {fileID: 58908841699313998}
   m_Layer: 0
   m_Name: Bundle
   m_TagString: Untagged
@@ -92,3 +93,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd6d98e99c7948448906e598cd5a70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 1
+--- !u!58 &58908841699313998
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7625427802618265754}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.75

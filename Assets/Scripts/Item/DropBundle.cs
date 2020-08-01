@@ -46,9 +46,10 @@ public class DropBundle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "player")
+        if(collision.tag == "Player")
         {
             Log.Print("Get gold: " + DroppingBundle().ToString());
+            Destroy(gameObject);
         }
     }
 
@@ -91,18 +92,18 @@ public class DropBundle : MonoBehaviour
     private int DroppingBundle()
     {
         int probability = Random.Range(1, 100);
+        int percent = 0;
         int cost = 0;
-        for(int i = 0; i< percentage.Count; i++)
+        for (int i = 0; i < percentage.Count; i++)
         {
-            if (probability >= 100 - percentage[i])
+            percent = 100 - percentage[i];
+            if (probability >= percent)
             {
+                Log.Print(probability.ToString() + "%" + percent.ToString() + "%");
                 cost = quantity[i];
-                return cost;
             }
         }
-
         return cost;
-        
     }
 }
 
