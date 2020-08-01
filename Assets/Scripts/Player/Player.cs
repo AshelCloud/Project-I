@@ -3,6 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using NUnit.Framework.Internal.Execution;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -47,10 +48,13 @@ public class Player : MonoBehaviour, IDamageable
 
     public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
+    public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
     public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
 
-    private PlatformEffector2D platform = null;
+    private GameObject sword = null;
+    public GameObject Sword { get { return sword; } }
 
+    private PlatformEffector2D platform = null;
     public PlatformEffector2D Platform { get { return platform; } }
 
     private Image healthInterface = null;
@@ -63,14 +67,15 @@ public class Player : MonoBehaviour, IDamageable
     public bool isInvincible { get; set; } = false;
     public bool isCling { get; set; } = false;
     public bool isHit { get; set; } = false;
+
     private IPlayerState _currentState;
 
-    public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
+
 
     private void Awake()
     {
         LoadToJsonData(ID);
-        UpdateData();
+        SetData();
         hp = 100;
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
@@ -81,6 +86,10 @@ public class Player : MonoBehaviour, IDamageable
     private void Start()
     {
         healthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
+
+        sword = GameObject.FindGameObjectWithTag("Weapon");
+
+        sword.SetActive(false);
         //restartButton = GameObject.Find("Restart").GetComponent<Button>();
     }
 
@@ -154,7 +163,7 @@ public class Player : MonoBehaviour, IDamageable
         playerData = playerDatas[ID.ToString()];
     }
 
-    private void UpdateData()
+    private void SetData()
     {
         offensePower = playerData.Offensepower;
         defense = playerData.Defense;

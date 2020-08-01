@@ -10,6 +10,7 @@ TagManager:
   - Platform
   - trap
   - Portal
+  - Weapon
   layers:
   - Default
   - TransparentFX
