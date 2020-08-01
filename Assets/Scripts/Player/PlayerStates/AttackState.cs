@@ -99,7 +99,7 @@ public class AttackState : IPlayerState
     {
         if (player.hitTarget)
         {
-            player.hitTarget.GetDamaged(player.offensePower);
+            player.hitTarget.GetDamaged(player.OffensePower);
             Log.Print("Monster HP: " + player.hitTarget.HP);
         }
 
