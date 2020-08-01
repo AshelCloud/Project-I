@@ -83,8 +83,6 @@ public class MapLoader : MonoBehaviour
 
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
-        localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "tiles"));
-
         Log.Print("Load to mapData");
         foreach (var data in mapDatas)
         {
@@ -93,8 +91,8 @@ public class MapLoader : MonoBehaviour
                 var tilemap = UpdateTilemapDataWithCreate(tile.BaseTilemap);
 
                 //tilemap.SetTile(tile.LocalPlace, Resources.Load<Tile>(TileAssetFilePath + tile.Name));
-                //tilemap.SetTile(tile.LocalPlace, ResourcesContainer.Load<Tile>(TileAssetFilePath + tile.Name));
-                tilemap.SetTile(tile.LocalPlace, localAssetBundle.LoadAsset<Tile>(tile.Name));
+                tilemap.SetTile(tile.LocalPlace, ResourcesContainer.Load<Tile>(tile.Name));
+                //tilemap.SetTile(tile.LocalPlace, localAssetBundle.LoadAsset<Tile>(tile.Name));
                 tilemap.SetTransformMatrix(tile.LocalPlace, tile.Matrix);
             }
             foreach (var prefab in data.Value.Prefabs)
