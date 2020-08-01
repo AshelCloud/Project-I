@@ -109,7 +109,10 @@ public class Player : MonoBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        GroundFriction();
+        if(rb.velocity.y <= -15)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -15);
+        }
     }
 
     public void SetState(IPlayerState nextState)
@@ -271,15 +274,6 @@ public class Player : MonoBehaviour, IDamageable
         else
         {
             return false;
-        }
-    }
-
-    void GroundFriction()
-    {
-        if(isGrounded())
-        {
-            var currentVelocity = rb.velocity.x;
-            rb.velocity = new Vector2(Mathf.SmoothDamp(rb.velocity.x, 0f, ref currentVelocity, 0.1f), rb.velocity.y);
         }
     }
 

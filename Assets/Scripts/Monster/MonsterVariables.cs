@@ -142,10 +142,15 @@ public partial class Monster : MonoBehaviour
             {
                 if(value && Time.time - attackTime >= attackDelay)
                 {
+                    Log.Print("Monster: Attack");
                     attack = value;
                     attackTime = Time.time;
                     
-                    if(AttackID <= 0) { attackID = SetRandomAttackID(); }
+                    if(AttackID <= 0) 
+                    {
+                        Log.Print("Monster: Set Random Attack");
+                        attackID = SetRandomAttackID();
+                    }
                 }
             }
         }

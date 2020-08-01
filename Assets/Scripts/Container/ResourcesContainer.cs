@@ -23,16 +23,23 @@ public class ResourcesContainer : MonoBehaviour
         }
     }
 
-    public static T Load<T>(string path) where T : Object
+    public static T Load<T>(string _name) where T : Object
     {
-        if(Cache.ContainsKey(path))
+        if(Cache.ContainsKey(_name))
         {
-            return (T)Cache[path];
+            return (T)Cache[_name];
         }
 
-        Cache[path] = Resources.Load<T>(path);
+        return default;
+    }
 
-        return (T)Cache[path];
+    public static void LoadAll(string subFloderPath)
+    {
+        Object[] _t = Resources.LoadAll(subFloderPath);
+        foreach(var t in _t)
+        {
+            Cache[t.name] = t;
+        }
     }
 
     //public static GameObject Instance(string key)

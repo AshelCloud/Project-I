@@ -21,14 +21,13 @@ public class JumpState : IPlayerState
         this.player = player;
         direction = this.player.transform.localScale;
 
-        this.player.rb.velocity /= 2;
 
         //벽에 매달린 상태의 점프
         if (player.isCling && !player.isGrounded())
         {
             doubleJump++;
             Log.Print("Player Cling jump");
-            this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+            this.player.rb.AddForce(Vector2.up * player.JumpForce * 1.5f, ForceMode2D.Impulse);
             player.isCling = false;
         }
 
@@ -73,6 +72,7 @@ public class JumpState : IPlayerState
         timer += Time.deltaTime;
         if (timer > delay)
         {
+            Log.Print(player.rb.velocity.ToString());
             //공중 상태
             if (!player.isGrounded() && !player.isHit)
             {
@@ -81,7 +81,22 @@ public class JumpState : IPlayerState
                 //더블 점프
                 if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
                 {
-                    player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+                    //
+                    if (player.rb.velocity.y < 0 && player.rb.velocity.y >= -5)
+                    {
+                        player.rb.AddForce(Vector2.up * player.JumpForce * 1.5f, ForceMode2D.Impulse);
+                    }
+
+                    else if(player.rb.velocity.y < -5)
+                    {
+                        Log.Print("Super Jump");
+                        player.rb.AddForce(Vector2.up * player.JumpForce * 2f, ForceMode2D.Impulse);
+                    }
+
+                    else
+                    {
+                        player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+                    }
                     Log.Print("Jump Count: " + doubleJump);
                     doubleJump++;
                 }
@@ -99,7 +114,12 @@ public class JumpState : IPlayerState
                     rightMove = true;
                     ChangeDirection();
                     //플레이어 좌측 이동
-                    player.rb.AddForce(new Vector2(player.Speed / 2, 0.0f), ForceMode2D.Force);
+                    player.rb.AddForce(new Vector2(player.Speed, 0.0f), ForceMode2D.Force);
+
+                    if (player.rb.velocity.x >= 10f)
+                    {
+                        player.rb.velocity = new Vector2(10f, player.rb.velocity.y);
+                    }
                 }
 
                 //우측이동
@@ -108,7 +128,12 @@ public class JumpState : IPlayerState
                     leftMove = true;
                     ChangeDirection();
                     //플레이어 우측 이동
-                    player.rb.AddForce(new Vector2(-player.Speed / 2, 0.0f), ForceMode2D.Force);
+                    player.rb.AddForce(new Vector2(-player.Speed, 0.0f), ForceMode2D.Force);
+
+                    if(player.rb.velocity.x <= -10f)
+                    {
+                        player.rb.velocity = new Vector2(-10f, player.rb.velocity.y);
+                    }
                 }
 
                 //제자리 점프

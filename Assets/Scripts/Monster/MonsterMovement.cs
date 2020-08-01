@@ -8,6 +8,7 @@ public partial class Monster : MonoBehaviour
 {
     private void Awake()
     {
+        Log.Print("Monster: Initialization");
         anim = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -31,6 +32,7 @@ public partial class Monster : MonoBehaviour
 
     protected virtual void GetHashIDs()
     {
+        Log.Print("Monster: Get Hash IDs");
         hash_Idle = Animator.StringToHash(m_Idle);
         hash_Attack = Animator.StringToHash(m_Attack);
         hash_AttackID = Animator.StringToHash(m_AttackID);
@@ -41,6 +43,7 @@ public partial class Monster : MonoBehaviour
     
     private bool LoadToJsonData(int ID)
     {
+        Log.Print("Monster: Load JsonData to Monster ID");
         //Json 파싱
         AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
         if (localAssetBundle == null)
@@ -65,6 +68,8 @@ public partial class Monster : MonoBehaviour
 
     private void DataTableLinking()
     {
+        Log.Print("Monster: DataTable Linking");
+
         objectName = dataTable.ObjectName;
         animatorName = dataTable.AnimatorName;
         offensePower = dataTable.OffensePower;
@@ -101,6 +106,7 @@ public partial class Monster : MonoBehaviour
 
         if (Time.time - patrolTime > patrolTransitionTime)
         {
+            Log.Print("Monster: Change Direction Patrol");
             SetTurn();  
 
             patrolTime = Time.time;
@@ -142,10 +148,6 @@ public partial class Monster : MonoBehaviour
     //감지 거리 > 공격 거리기 때문에 감지 거리로 RayCasting
     private void RayCasting()
     {
-        //Vector2 direction = transform.lossyScale.x < 0f ? new Vector2(-1f, 0f) : new Vector2(1f, 0f);
-
-        //RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, DetectionRagne);
-
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, DetectionRagne, Vector2.up, 0f);
         foreach(RaycastHit2D hit in hits)
         {

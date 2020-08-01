@@ -11,6 +11,8 @@ TagManager:
   - trap
   - Portal
   - Weapon
+  - Climb
+  - Object
   layers:
   - Default
   - TransparentFX

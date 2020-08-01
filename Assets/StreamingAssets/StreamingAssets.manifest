@@ -1,10 +1,11 @@
 ManifestFileVersion: 0
-CRC: 751176861
+<<<<<<< HEAD
+CRC: 2407391857
+=======
+CRC: 293019848
+>>>>>>> 515fb48cbfc1c6d7b5dbf43830d2fa39788381fc
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: jsons
-      Dependencies: {}
-    Info_1:
-      Name: tiles
       Dependencies: {}
