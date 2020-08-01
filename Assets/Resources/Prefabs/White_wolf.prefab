@@ -239,7 +239,7 @@ MonoBehaviour:
   ID: 2
   patrolTransitionTime: 7
   attackDelay: 2
-  detectionRangeCorrection: 0
+  detectionRangeCorrection: 50
   attackRangeCorrection: 2.2
   totalAttack: 2
 --- !u!1 &8915423766932923395

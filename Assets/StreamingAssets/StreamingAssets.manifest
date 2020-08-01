@@ -1,10 +1,7 @@
 ManifestFileVersion: 0
-CRC: 751176861
+CRC: 1898300306
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: jsons
-      Dependencies: {}
-    Info_1:
-      Name: tiles
       Dependencies: {}
