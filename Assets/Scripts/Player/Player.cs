@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private IPlayerState _currentState;
 
-
+    private MapLoader mapLoader = null;
 
     private void Awake()
     {
@@ -96,6 +96,8 @@ public class Player : MonoBehaviour, IDamageable
         sword = GameObject.FindGameObjectWithTag("Weapon");
 
         sword.SetActive(false);
+
+        mapLoader = GameObject.Find("Grid").GetComponent<MapLoader>();
         //restartButton = GameObject.Find("Restart").GetComponent<Button>();
     }
 
@@ -105,6 +107,11 @@ public class Player : MonoBehaviour, IDamageable
         _currentState.Update();
 
         healthInterface.fillAmount = hp / 100;
+
+        if(Input.GetKeyDown(KeyCode.Mouse2))
+        {
+            mapLoader.LoadMap(mapLoader.CurrentMapName, false);
+        }
     }
 
     private void FixedUpdate()
