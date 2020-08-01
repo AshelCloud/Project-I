@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.Experimental.AI;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class DropBundle : MonoBehaviour
 {
@@ -43,6 +44,14 @@ public class DropBundle : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "player")
+        {
+            Log.Print("Get gold: " + DroppingBundle().ToString());
+        }
+    }
+
     private void LoadToJsonData(int ID)
     {
         //테이블 ID는 1부터 시작
@@ -79,10 +88,21 @@ public class DropBundle : MonoBehaviour
         probabilitySum = bundleData.ProbabilitySum;
     }
 
-    private void DroppingBundle()
+    private int DroppingBundle()
     {
-        Random r = new Random();
-        quantity.Count;
+        int probability = Random.Range(1, 100);
+        int cost = 0;
+        for(int i = 0; i< percentage.Count; i++)
+        {
+            if (probability >= 100 - percentage[i])
+            {
+                cost = quantity[i];
+                return cost;
+            }
+        }
+
+        return cost;
+        
     }
 }
 
