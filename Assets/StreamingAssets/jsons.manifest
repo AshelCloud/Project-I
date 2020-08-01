@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 59639243
+CRC: 262296830
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2d47ad8bdc28fd16da240eff0ac3c40d
+    Hash: 52e00ffde6238003ec457d9e73f9acf5
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -17,7 +17,6 @@ Assets:
 - Assets/Resources/MapJsons/Forest_6.json
 - Assets/Resources/MapJsons/Forest_2-1.json
 - Assets/Resources/MapJsons/Forest_2.json
-- Assets/Resources/MapJsons/Forest_7.json
 - Assets/Resources/MapJsons/Forest_6-1.json
 - Assets/Resources/MapJsons/Forest_3.json
 - Assets/Resources/MapJsons/Forest_0.json
@@ -25,5 +24,6 @@ Assets:
 - Assets/Resources/MapJsons/Forest_5.json
 - Assets/Resources/MonsterJsons/MonsterTable.json
 - Assets/Resources/MapJsons/Forest_3-1.json
+- Assets/Resources/MapJsons/BossTest.json
 - Assets/Resources/MapJsons/Forest_1.json
 Dependencies: []
