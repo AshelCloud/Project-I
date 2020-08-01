@@ -24,7 +24,7 @@ public class RunState : IPlayerState
     void IPlayerState.Update()
     {
         SlopeCheck();
-        movement = new Vector2(Input.GetAxis("Horizontal") * player.Speed * 25, 0.0f);
+        player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
 
         //좌측이동
         if (Input.GetAxis("Horizontal") < 0)
@@ -37,19 +37,19 @@ public class RunState : IPlayerState
         {
             direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
         }
-
         player.transform.localScale = direction;
+
         player.anim.Play("Run");
 
         if (player.isGrounded() && !isOnSlope)
         {
-            player.rb.velocity = new Vector2(direction.x * player.Speed, player.rb.velocity.y);
+            player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, 0.0f);
         }
 
         else if (player.isGrounded() && isOnSlope)
         {
-            player.rb.velocity = new Vector2(direction.x * player.Speed, player.rb.velocity.y);
-            player.rb.velocity = new Vector2(-direction.x * player.Speed * slopeNormalPerp.x, -player.Speed);
+            player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
+                                             -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
         }
 
         else
@@ -89,12 +89,13 @@ public class RunState : IPlayerState
     {
         Vector2 checkPos = player.transform.position + new Vector3(0.0f, player.cc2D.size.y / 4);
 
+        //SlopeCheckHorizontal(checkPos);
         SlopeCheckVertical(checkPos);
     }
 
     private void SlopeCheckHorizontal(Vector2 checkPos)
     {
-
+        
     }
 
     private void SlopeCheckVertical(Vector2 checkPos)
