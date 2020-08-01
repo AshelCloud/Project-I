@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 558648089
+CRC: 262296830
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4902a8f6c7463b2df39fce4fe9054d25
+    Hash: 52e00ffde6238003ec457d9e73f9acf5
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -13,6 +13,7 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/Resources/MapJsons/Forest_4.json
+- Assets/Resources/MapJsons/Forest_8.json
 - Assets/Resources/MapJsons/Forest_6.json
 - Assets/Resources/MapJsons/Forest_2-1.json
 - Assets/Resources/MapJsons/Forest_2.json
