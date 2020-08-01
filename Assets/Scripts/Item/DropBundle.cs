@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.Experimental.AI;
 
 public class DropBundle : MonoBehaviour
 {
@@ -9,36 +10,37 @@ public class DropBundle : MonoBehaviour
     private class DropBundleData
     {
         public string DropBundleName = null;
-        public int[] Quantity = new int[4] { 0, 0, 0, 0 };
-        public int[] ItemID = new int[4] { 0, 0, 0, 0 };
-        public int[] Percentage = new int[4] { 0, 0, 0, 0 };
+        public List<int> Quantity;
+        public List<int> ItemID;
+        public List<int> Percentage;
         public string ProbabilitySum = null;
     }
 
     private DropBundleData bundleData;
 
-    private int ID = 1;
+    public int ID = 2;
 
     private string dropBundleName = null;
-    private int[] quantity = new int[4] { 0, 0, 0, 0 };
-    private int[] itemID = new int[4] { 0, 0, 0, 0 };
-    private int[] percentage = new int[4] { 0, 0, 0, 0 };
+    private List<int> quantity;
+    private List<int> itemID;
+    private List<int> percentage;
     private string probabilitySum = null;
 
     private void Awake()
     {
         LoadToJsonData(ID);
+        SetData();
     }
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void LoadToJsonData(int ID)
@@ -58,7 +60,7 @@ public class DropBundle : MonoBehaviour
             return;
         }
 
-        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Characters_Table");
+        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Item_Bundle_Table");
 
         //Json 파싱
         var bundleDatas = JsonManager.LoadJson<Serialization<string, DropBundleData>>(json).ToDictionary();
@@ -67,4 +69,21 @@ public class DropBundle : MonoBehaviour
         //ID는 각 몬스터 스크립트에서 할당
         bundleData = bundleDatas[ID.ToString()];
     }
+
+    private void SetData()
+    {
+        dropBundleName = bundleData.DropBundleName;
+        quantity = bundleData.Quantity;
+        itemID = bundleData.ItemID;
+        percentage = bundleData.Percentage;
+        probabilitySum = bundleData.ProbabilitySum;
+    }
+
+    private void DroppingBundle()
+    {
+        Random r = new Random();
+        quantity.Count;
+    }
 }
+
+

@@ -73,7 +73,7 @@ public class Item : MonoBehaviour
             return;
         }
 
-        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Characters_Table");
+        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Item_Table");
 
         //Json 파싱
         var itemDatas = JsonManager.LoadJson<Serialization<string, ItemData>>(json).ToDictionary();
