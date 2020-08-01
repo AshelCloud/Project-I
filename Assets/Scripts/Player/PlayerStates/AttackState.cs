@@ -18,6 +18,7 @@ public class AttackState : IPlayerState
     {
         Log.Print("Enter AttackState");
         this.player = player;
+        player.Sword.SetActive(true);
         currentAnim = 1;
         attackAnim = 1;
     }
@@ -85,6 +86,8 @@ public class AttackState : IPlayerState
     {
         Log.Print("Exit AttackState");
         //공격 애니메이션 최초 단계로 초기화
+
+        player.Sword.SetActive(false);
         currentAnim = 1;
         attackAnim = 1;
 
