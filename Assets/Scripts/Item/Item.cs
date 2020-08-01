@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
+using System.Diagnostics.PerformanceData;
 
 public class Item : MonoBehaviour
 {
@@ -22,33 +23,35 @@ public class Item : MonoBehaviour
 
     private ItemData itemData;
 
-    protected string itemName = null;
-    protected string variableName = null;
-    protected string itemType = null;
-    protected string offensePower = null;
-    protected float hp = 0f;
-    protected float speed = 0f;
-    protected string getPlace = null;
-    protected string specialEffects = null;
-    protected string graphicAssetsName = null;
+    [SerializeField]
+    private int ID = 1;
 
-    protected int ID = 1;
+    private string itemName = null;
+    private string variableName = null;
+    private string itemType = null;
+    private string offensePower = null;
+    private float hp = 0f;
+    private float speed = 0f;
+    private string getPlace = null;
+    private string specialEffects = null;
+    private string graphicAssetsName = null;
 
-    void Awake()
+    public string Name { get { return itemName; } }
+    public string Type { get { return itemType; } }
+
+    private void Awake()
     {
-        itemName = itemData.Name;
-        variableName = itemData.VariableName;
-        itemType = itemData.ItemType;
-        offensePower = itemData.OffensePower;
-        hp = itemData.HP;
-        speed = itemData.Speed;
-        getPlace = itemData.GetPlace;
-        specialEffects = itemData.SpecialEffects;
-        graphicAssetsName = itemData.GraphicAssetsName;
+        LoadToJsonData(ID);
+        SetData();
+    }
+
+    private void Start()
+    {
+
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }
@@ -70,7 +73,7 @@ public class Item : MonoBehaviour
             return;
         }
 
-        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Characters_Table");
+        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Item_Table");
 
         //Json 파싱
         var itemDatas = JsonManager.LoadJson<Serialization<string, ItemData>>(json).ToDictionary();
@@ -78,5 +81,18 @@ public class Item : MonoBehaviour
         //ID 값으로 해당되는 Data 저장
         //ID는 각 몬스터 스크립트에서 할당
         itemData = itemDatas[ID.ToString()];
+    }
+
+    private void SetData()
+    {
+        itemName = itemData.Name;
+        variableName = itemData.VariableName;
+        itemType = itemData.ItemType;
+        offensePower = itemData.OffensePower;
+        hp = itemData.HP;
+        speed = itemData.Speed;
+        getPlace = itemData.GetPlace;
+        specialEffects = itemData.SpecialEffects;
+        graphicAssetsName = itemData.GraphicAssetsName;
     }
 }
