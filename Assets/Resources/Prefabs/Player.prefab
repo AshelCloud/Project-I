@@ -175,7 +175,7 @@ MonoBehaviour:
   offensePower: 5
   speed: 10
   jumpForce: 12
-  rollForce: 20
+  rollForce: 10
 --- !u!50 &3905798396274382593
 Rigidbody2D:
   serializedVersion: 4

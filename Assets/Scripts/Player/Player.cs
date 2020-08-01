@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private IPlayerState _currentState;
 
-
+    private MapLoader mapLoader = null;
 
     private void Awake()
     {
@@ -96,6 +96,8 @@ public class Player : MonoBehaviour, IDamageable
         sword = GameObject.FindGameObjectWithTag("Weapon");
 
         sword.SetActive(false);
+
+        mapLoader = GameObject.Find("Grid").GetComponent<MapLoader>();
         //restartButton = GameObject.Find("Restart").GetComponent<Button>();
     }
 
@@ -105,6 +107,11 @@ public class Player : MonoBehaviour, IDamageable
         _currentState.Update();
 
         healthInterface.fillAmount = hp / 100;
+
+        if(Input.GetKeyDown(KeyCode.Mouse2))
+        {
+            mapLoader.LoadMap(mapLoader.CurrentMapName, false);
+        }
     }
 
     private void FixedUpdate()
@@ -128,6 +135,16 @@ public class Player : MonoBehaviour, IDamageable
 
         //다음 상태 진입
         _currentState.OnEnter(this);
+    }
+
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("trap"))
+        {
+            GetDamaged(1000f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -246,9 +263,9 @@ public class Player : MonoBehaviour, IDamageable
         var platformLayer = LayerMask.GetMask("Platform");
 
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
-
-        //바닥 체크
-        if (Physics2D.Raycast(startPos, -transform.up, 0.2f, floorLayer).distance > 0)
+        var boxSize = new Vector2(0.5f, 0.5f);
+        //바닥 체크   
+        if (Physics2D.BoxCast(startPos, boxSize, 0f, Vector2.down, 0.2f, floorLayer).collider != null)
         {
             //하강 점프 완료 후
             if (Platform != null)
@@ -265,9 +282,9 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         //플랫폼 체크
-        else if (Physics2D.Raycast(startPos, -transform.up, 0.2f, platformLayer).distance > 0)
+        else if (Physics2D.BoxCast(startPos, boxSize, 0f, Vector2.down, 0.2f, platformLayer).collider != null)
         {
-            platform = Physics2D.Raycast(startPos, -transform.up, 0.3f, platformLayer).collider.GetComponent<PlatformEffector2D>();
+            platform = Physics2D.BoxCast(startPos, boxSize, 0f, Vector2.down, 0.2f, platformLayer).collider.GetComponent<PlatformEffector2D>();
             return true;
         }
 
@@ -279,9 +296,10 @@ public class Player : MonoBehaviour, IDamageable
 
     private void OnDrawGizmos()
     {
-        var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
+        var checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+        var boxSize = new Vector3(0.5f, 0.5f, 0f);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(checkPos, checkPos + new Vector3(0.6f, 0));
+        Gizmos.DrawWireCube(checkPos, boxSize);
     }
 }

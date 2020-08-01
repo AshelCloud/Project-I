@@ -72,7 +72,6 @@ public class JumpState : IPlayerState
         timer += Time.deltaTime;
         if (timer > delay)
         {
-            Log.Print(player.rb.velocity.ToString());
             //공중 상태
             if (!player.isGrounded() && !player.isHit)
             {
@@ -81,7 +80,7 @@ public class JumpState : IPlayerState
                 //더블 점프
                 if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
                 {
-                    //
+                    //임시처리
                     if (player.rb.velocity.y < 0 && player.rb.velocity.y >= -5)
                     {
                         player.rb.AddForce(Vector2.up * player.JumpForce * 1.5f, ForceMode2D.Impulse);
@@ -89,7 +88,6 @@ public class JumpState : IPlayerState
 
                     else if(player.rb.velocity.y < -5)
                     {
-                        Log.Print("Super Jump");
                         player.rb.AddForce(Vector2.up * player.JumpForce * 2f, ForceMode2D.Impulse);
                     }
 
