@@ -90,9 +90,9 @@ public class MapLoader : MonoBehaviour
             {
                 var tilemap = UpdateTilemapDataWithCreate(tile.BaseTilemap);
 
-                //tilemap.SetTile(tile.LocalPlace, Resources.Load<Tile>(TileAssetFilePath + tile.Name));
-                tilemap.SetTile(tile.LocalPlace, ResourcesContainer.Load<Tile>(tile.Name));
+                tilemap.SetTile(tile.LocalPlace, Resources.Load<Tile>(TileAssetFilePath + tile.Name));
                 //tilemap.SetTile(tile.LocalPlace, localAssetBundle.LoadAsset<Tile>(tile.Name));
+                //tilemap.SetTile(tile.LocalPlace, ResourcesContainer.Load<Tile>(tile.Name));
                 tilemap.SetTransformMatrix(tile.LocalPlace, tile.Matrix);
             }
             foreach (var prefab in data.Value.Prefabs)
