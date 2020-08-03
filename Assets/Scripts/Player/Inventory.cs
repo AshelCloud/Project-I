@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -35,7 +36,9 @@ public class Inventory : MonoBehaviour
 
     private List<Item> inventory;
 
-    static int gold = 0;
+    private static int currentGold = 0;
+
+    private Text goldText = null;
 
     private void Awake()
     {
@@ -48,16 +51,14 @@ public class Inventory : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        goldText = gameObject.GetComponentInChildren<Text>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        goldText.text = currentGold.ToString();
     }
 
     public void PutItemInventory(Item item)
@@ -81,11 +82,6 @@ public class Inventory : MonoBehaviour
         {
 
         }
-        
-        else if(item.Type == "Money")
-        {
-
-        }
 
         else if(item.Type == "Material")
         {
@@ -99,5 +95,10 @@ public class Inventory : MonoBehaviour
 
         Log.Print("Get item: " + item.Name);
         inventory.Add(item);
+    }
+
+    public void GetGold(int deposit)
+    {
+        currentGold += deposit;
     }
 }
