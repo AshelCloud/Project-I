@@ -8,6 +8,8 @@ public class RollState : IPlayerState
     private Player player;
     private Vector2 direction;
 
+    private float multiplyForceValue = 0f;
+
     void IPlayerState.OnEnter(Player player)
     {
         Log.Print("Enter RollState");
@@ -15,35 +17,22 @@ public class RollState : IPlayerState
         direction = player.transform.localScale;
         this.player.anim.Play("Roll");
 
+        multiplyForceValue = player.RollForce;
+
         //무적 활성화
         this.player.isInvincible = true;
 
-        if (direction.x > 0)
-        {
-            player.rb.AddForce(new Vector2(player.RollForce, 0.0f), ForceMode2D.Impulse);
-            direction.x = Mathf.Abs(direction.x);
-            player.transform.localScale = direction;
-        }
-
-        else
-        {
-            player.rb.AddForce(new Vector2(-player.RollForce, 0.0f), ForceMode2D.Impulse);
-            direction.x = -Mathf.Abs(direction.x);
-            player.transform.localScale = direction;
-        }
+        DoRoll();
     }
 
     void IPlayerState.Update()
     {
-
-
-
         if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && !Input.anyKeyDown)
         {
             player.SetState(new IdleState());
         }
 
-        if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)))
+        else if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)))
         {
             player.SetState(new RunState());
         }
@@ -57,5 +46,37 @@ public class RollState : IPlayerState
         player.isInvincible = false;
     }
 
+    private void StandRoll()
+    {
+        if((player.rb.velocity.x >= 0f && player.rb.velocity.x <= 5f) ||
+           (player.rb.velocity.x <= 0f && player.rb.velocity.x >= -5f))
+        {
+            multiplyForceValue *= 1.75f;
+        }
+
+        else
+        {
+            multiplyForceValue = player.RollForce;
+        }
+    }
+
+    private void DoRoll()
+    {
+        StandRoll();
+
+        if (direction.x > 0)
+        {
+            player.rb.AddForce(new Vector2(multiplyForceValue, 0.0f), ForceMode2D.Impulse);
+            direction.x = Mathf.Abs(direction.x);
+            player.transform.localScale = direction;
+        }
+
+        else
+        {
+            player.rb.AddForce(new Vector2(-multiplyForceValue, 0.0f), ForceMode2D.Impulse);
+            direction.x = -Mathf.Abs(direction.x);
+            player.transform.localScale = direction;
+        }
+    }
 }
 
