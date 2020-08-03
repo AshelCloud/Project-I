@@ -32,9 +32,8 @@ public class Player : MonoBehaviour, IDamageable
     public float OffensePower { get { return offensePower; } }
 
     private float defense = 0f;
-    private float hp = 0f;
 
-    
+    static private float hp = 0f;
     public float HP { get { return hp; } }
 
     //이동 속도
@@ -82,7 +81,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         LoadToJsonData(ID);
         SetData();
-        hp = 100;
+
         //최초 게임 실행 시 대기 상태로 설정
         SetState(new IdleState());
 
@@ -193,7 +192,10 @@ public class Player : MonoBehaviour, IDamageable
     {
         offensePower = playerData.Offensepower;
         defense = playerData.Defense;
-        hp = playerData.HP;
+        if (hp <= 0)
+        {
+            hp = playerData.HP;
+        }
         speed = playerData.Speed;
     }
 

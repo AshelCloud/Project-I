@@ -6,7 +6,7 @@
       "Variablename": "Player",
       "Offensepower": 5,
       "Defense": 5,
-      "HP": 5000,
+      "HP": 100,
       "Speed": 10,
       "Objectname": "Player",
       "Animatorname": "Player",
