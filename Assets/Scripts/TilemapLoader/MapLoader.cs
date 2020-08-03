@@ -295,10 +295,32 @@ public class MapLoader : MonoBehaviour
 
         //정보 업데이트
         //데이터테이블 변경시 같이 변경해야함
-        //TODO: string Null 체크
-        map.transform.name = mapData.Name;
-        map.tag = mapData.Tag;
-        map.gameObject.layer = LayerMask.NameToLayer(mapData.Tag) == -1 ? 0 : LayerMask.NameToLayer(mapData.Tag);
+        if(string.IsNullOrEmpty(mapData.Name))
+        {
+            Log.PrintWarning("MapData Name is NULL or Empty");
+        }
+        else
+        {
+            map.transform.name = mapData.Name;
+        }
+        if(string.IsNullOrEmpty(mapData.Tag))
+        {
+            Log.PrintWarning("MapData Tag is NULL or Empty");
+        }
+        else
+        {
+            map.tag = mapData.Tag;
+        }
+        if(LayerMask.NameToLayer(mapData.Tag) == -1)
+        {
+            map.gameObject.layer = 0;
+            Log.PrintWarning("No Layer with same name as the MapData Tag");
+        }
+        else
+        {
+            map.gameObject.layer = LayerMask.NameToLayer(mapData.Tag);
+        }
+        //map.gameObject.layer = LayerMask.NameToLayer(mapData.Tag) == -1 ? 0 : LayerMask.NameToLayer(mapData.Tag);
         map.transform.position = mapData.Position;
         map.transform.rotation = mapData.Rotation;
         map.transform.localScale = mapData.Scale;
