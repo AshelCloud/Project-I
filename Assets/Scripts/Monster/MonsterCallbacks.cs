@@ -29,7 +29,6 @@ public partial class Monster : MonoBehaviour
 
     public virtual void GetDamaged(float value)
     {
-        //TODO: 데미지 입는거 구현 (애니메이션 포함)
         if (dead) { return; }
 
         hp -= value;

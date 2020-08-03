@@ -41,7 +41,10 @@ public class Loader : MonoBehaviour
 
     public void Enable()
     {
-        //TODO: Disable랑 반대로
+        GetComponent<Image>().enabled = true;
+        bar.SetActive(true);
+        barImage.gameObject.SetActive(true);
+        descriptionText.gameObject.SetActive(true);
     }
 
     public void Disable()
