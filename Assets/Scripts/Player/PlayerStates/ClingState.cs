@@ -7,6 +7,9 @@ public class ClingState : IPlayerState
 {
     private Player player;
 
+    float timer = 0.0f;
+    float delay = 0.5f;
+
     void IPlayerState.OnEnter(Player player)
     {
         Log.Print("Enter ClingState");
@@ -20,16 +23,27 @@ public class ClingState : IPlayerState
 
         this.player.rb.velocity = Vector2.zero;
 
+        timer += Time.deltaTime;
+
         if (!player.isGrounded() && player.CheckWall())
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (timer > delay)
             {
-                player.SetState(new JumpState());
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    player.SetState(new JumpState());
+                }
+
+                else if (Input.GetKeyDown(KeyCode.S))
+                {
+                    player.isCling = false;
+                    player.SetState(new IdleState());
+                }
             }
         }
-
         else
         {
+            player.isCling = false;
             player.SetState(new IdleState());
         }
     }
@@ -37,6 +51,5 @@ public class ClingState : IPlayerState
     void IPlayerState.OnExit()
     {
         Log.Print("Exit ClingState");
-        player.isCling = false;
     }
 }

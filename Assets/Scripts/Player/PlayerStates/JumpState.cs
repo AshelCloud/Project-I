@@ -13,7 +13,7 @@ public class JumpState : IPlayerState
     private bool rightMove = false;
 
     float timer = 0.0f;
-    float delay = 0.075f;
+    float delay = 0.05f;
     void IPlayerState.OnEnter(Player player)
     {
         Log.Print("Enter JumpState");
