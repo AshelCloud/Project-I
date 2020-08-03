@@ -87,6 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e3cc52c8a677a4f8cdbd596f820056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeSpeed: 1
+  backgroundImage: {fileID: 921187376175442904}
   bar: {fileID: 922714248283884428}
   barImage: {fileID: 963497896400599742}
   descriptionText: {fileID: 921187376719224599}

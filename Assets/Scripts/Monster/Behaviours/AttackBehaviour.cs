@@ -11,7 +11,6 @@ public class AttackBehaviour : StateMachineBehaviour
 
     private bool isOn, isOff;
 
-
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         myMonster = animator.GetComponent<Monster>();
