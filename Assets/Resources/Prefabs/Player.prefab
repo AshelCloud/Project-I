@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offensePower: 5
   speed: 7
-  jumpForce: 10
+  jumpForce: 16
   rollForce: 10
 --- !u!50 &3905798396274382593
 Rigidbody2D:

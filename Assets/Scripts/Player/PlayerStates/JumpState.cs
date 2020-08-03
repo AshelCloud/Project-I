@@ -26,7 +26,7 @@ public class JumpState : IPlayerState
         {
             doubleJump++;
             Log.Print("Player Cling jump");
-            this.player.rb.AddForce(Vector2.up * player.JumpForce * 1.5f, ForceMode2D.Impulse);
+            this.player.rb.AddForce(Vector2.up * player.JumpForce * 1.25f, ForceMode2D.Impulse);
             player.isCling = false;
         }
 
@@ -79,19 +79,19 @@ public class JumpState : IPlayerState
                 if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
                 {
                     //임시처리
-                    if (player.rb.velocity.y < 0 && player.rb.velocity.y >= -5)
+                    if (player.rb.velocity.y < 3 && player.rb.velocity.y >= -5)
                     {
-                        player.rb.AddForce(Vector2.up * player.JumpForce * 1.5f, ForceMode2D.Impulse);
+                        player.rb.AddForce(Vector2.up * player.JumpForce * 1.05f, ForceMode2D.Impulse);
                     }
 
                     else if(player.rb.velocity.y < -5)
                     {
-                        player.rb.AddForce(Vector2.up * player.JumpForce * 2f, ForceMode2D.Impulse);
+                        player.rb.AddForce(Vector2.up * player.JumpForce * 1.5f, ForceMode2D.Impulse);
                     }
 
                     else
                     {
-                        player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+                        player.rb.AddForce(Vector2.up * player.JumpForce * 0.5f, ForceMode2D.Impulse);
                     }
                     Log.Print("Jump Count: " + doubleJump);
                     doubleJump++;
