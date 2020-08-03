@@ -20,7 +20,7 @@ public class ClingState : IPlayerState
 
         this.player.rb.velocity = Vector2.zero;
 
-        if (!player.isGrounded())
+        if (!player.isGrounded() && player.CheckWall())
         {
             if (Input.GetKeyDown(KeyCode.D))
             {
@@ -36,7 +36,7 @@ public class ClingState : IPlayerState
 
     void IPlayerState.OnExit()
     {
-
         Log.Print("Exit ClingState");
+        player.isCling = false;
     }
 }
