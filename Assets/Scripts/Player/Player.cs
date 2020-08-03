@@ -109,6 +109,7 @@ public class Player : MonoBehaviour, IDamageable
 
         if(Input.GetKeyDown(KeyCode.Mouse2))
         {
+            hp = playerData.HP;
             mapLoader.LoadMap(mapLoader.CurrentMapName, false);
         }
     }
@@ -265,7 +266,7 @@ public class Player : MonoBehaviour, IDamageable
         var platformLayer = LayerMask.GetMask("Platform");
 
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
-        var boxSize = new Vector2(0.5f, 0.5f);
+        var boxSize = new Vector2(0.8f, 0.05f);
         //바닥 체크   
         if (Physics2D.BoxCast(startPos, boxSize, 0f, Vector2.down, 0.2f, floorLayer).collider != null)
         {
@@ -299,7 +300,7 @@ public class Player : MonoBehaviour, IDamageable
     private void OnDrawGizmos()
     {
         var checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
-        var boxSize = new Vector3(0.5f, 0.5f, 0f);
+        var boxSize = new Vector3(0.7f, 0.05f, 0f);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(checkPos, boxSize);

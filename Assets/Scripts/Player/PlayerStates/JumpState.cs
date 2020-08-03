@@ -13,14 +13,13 @@ public class JumpState : IPlayerState
     private bool rightMove = false;
 
     float timer = 0.0f;
-    float delay = 0.05f;
+    float delay = 0.075f;
     void IPlayerState.OnEnter(Player player)
     {
         Log.Print("Enter JumpState");
 
         this.player = player;
         direction = this.player.transform.localScale;
-
 
         //벽에 매달린 상태의 점프
         if (player.isCling && !player.isGrounded())
@@ -45,7 +44,6 @@ public class JumpState : IPlayerState
             {
                 this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
                 doubleJump++;
-                Log.Print("Jump Count: " + doubleJump);
             }
 
             //하향 점프
@@ -68,7 +66,7 @@ public class JumpState : IPlayerState
     //공격 상태에 따른 행동들
     void IPlayerState.Update()
     {
-        //0.05초뒤 로직 처리 하여 버그 방지
+        //로직 지연 처리 하여 버그 방지
         timer += Time.deltaTime;
         if (timer > delay)
         {
