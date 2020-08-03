@@ -92,17 +92,22 @@ public class DropBundle : MonoBehaviour
     private int DroppingBundle()
     {
         int probability = Random.Range(1, 100);
-        int percent = 0;
         int cost = 0;
         for (int i = 0; i < percentage.Count; i++)
         {
-            percent = 100 - percentage[i];
-            if (probability >= percent)
+            if (probability <= percentage[i])
             {
-                Log.Print(probability.ToString() + "%" + percent.ToString() + "%");
+                Log.Print(probability.ToString() + ", " + percentage[i].ToString() + "%");
                 cost = quantity[i];
+                break;
+            }
+
+            else
+            {
+                probability -= percentage[i];
             }
         }
+        
         return cost;
     }
 }
