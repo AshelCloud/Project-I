@@ -170,6 +170,7 @@ MonoBehaviour:
   detectionRangeCorrection: 0
   attackRangeCorrection: 0
   totalAttack: 1
+  havePatrol: 1
 --- !u!1 &8787160581082034503
 GameObject:
   m_ObjectHideFlags: 0

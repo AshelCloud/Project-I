@@ -97,12 +97,12 @@ public partial class Monster : MonoBehaviour
         AttackOnTarget();
     }
 
-    //TODO: 보스몬스터 제외
     private void Patrol()
     {
         if(IsAttacking) { return; }
-        if(Idle) { return; }
-        if(Chase) { return; }
+        if(Idle || Chase) { return; }
+        if(havePatrol == false) { return; }
+        
 
         if (Time.time - patrolTime > patrolTransitionTime)
         {

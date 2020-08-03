@@ -14,6 +14,10 @@ public partial class Monster : MonoBehaviour
     public float detectionRangeCorrection;
     public float attackRangeCorrection;
     public int totalAttack;
+
+    [Tooltip("이 몬스터는 주변을 배회하는 행동을 가집니까?")]
+    [Header("Behaviours")]
+    public bool havePatrol;
     #endregion
 
     #region Patrol
