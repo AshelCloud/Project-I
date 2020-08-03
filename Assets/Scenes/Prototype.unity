@@ -332,6 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c5df631182b5545a727fd95f92556b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loader: {fileID: 845088650}
   mapLoader: {fileID: 789544100}
 --- !u!4 &263423787
 Transform:
@@ -567,6 +568,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Name: 
+  m_EditorClassIdentifier: 
   <Bounds>k__BackingField:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
@@ -628,6 +633,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &845088650 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1343541315, guid: 2b69316db84ea2648a233a96454708f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1618768516}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e3cc52c8a677a4f8cdbd596f820056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &903194148
 GameObject:
   m_ObjectHideFlags: 0

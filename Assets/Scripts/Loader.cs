@@ -16,12 +16,12 @@ public class Loader : MonoBehaviour
     public Image barImage;
     public Text descriptionText;
 
-    private bool Loaded { get; set; }
+    public bool Loaded { get; set; }
     private bool IsInGame { get; set; }
 
     Coroutine CurrentCoroutine { get; set; }
 
-    private void Start()
+    public void ActiveLoading()
     {
         Loaded = false;
         IsInGame = false;
@@ -29,7 +29,7 @@ public class Loader : MonoBehaviour
         CurrentCoroutine = StartCoroutine(Loading());
     }
 
-    private void Update()
+    public void ActiveFadeOut()
     {
         if(Loaded && IsInGame == false)
         {

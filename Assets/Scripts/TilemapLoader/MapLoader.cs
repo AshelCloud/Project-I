@@ -18,8 +18,11 @@ public class MapLoader : MonoBehaviour
 
     [SerializeField]
     private string startMapName = "";
+    public string StartMapName { get { return startMapName; } }
 
     public string CurrentMapName { get; set; }
+
+    public bool IsLoadedMap { get; set; }
 
     private void Awake()
     {
@@ -29,14 +32,16 @@ public class MapLoader : MonoBehaviour
         Log.Print("MapLoader Initialize");
     }
 
-    private void Start()
-    {
-        LoadMap(startMapName, false);
-        //StartCoroutine(JsonToTilemap("Forest_1"));
-    }
+    //private void Start()
+    //{
+    //    LoadMap(startMapName, false);
+    //    //StartCoroutine(JsonToTilemap("Forest_1"));
+    //}
 
     public void LoadMap(string fileName, bool isPrevious)
     {
+        IsLoadedMap = false;
+
         StartCoroutine(JsonToTilemap(fileName, isPrevious));
     }
 
@@ -178,6 +183,7 @@ public class MapLoader : MonoBehaviour
             //}
         }
 
+        IsLoadedMap = true;
         tilemaps = GetComponentsInChildren<Tilemap>();
         Log.Print("Success to Map load");
 
