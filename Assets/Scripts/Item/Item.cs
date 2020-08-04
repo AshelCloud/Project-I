@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 using System.Diagnostics.PerformanceData;
+using UnityEngine.Experimental.Audio.Google;
 
 public class Item : MonoBehaviour
 {
@@ -58,6 +59,15 @@ public class Item : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Player"))
+        {
+            GetItem();
+            Destroy(gameObject);
+        }
+    }
+
     private void LoadToJsonData(int ID)
     {
         //테이블 ID는 1부터 시작
@@ -96,5 +106,10 @@ public class Item : MonoBehaviour
         getPlace = itemData.GetPlace;
         specialEffects = itemData.SpecialEffects;
         graphicAssetsName = itemData.GraphicAssetsName;
+    }
+
+    private void GetItem()
+    {
+        Inventory.Instance.PutItemInventory(gameObject.GetComponent<Item>());
     }
 }

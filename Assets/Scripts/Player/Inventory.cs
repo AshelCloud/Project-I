@@ -34,11 +34,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private List<Item> inventory;
+    private static List<Item> inventory = new List<Item>();
 
     private static int currentGold = 0;
 
-    private Text goldText = null;
+    private CanvasGroup UI = null;
 
     private void Awake()
     {
@@ -49,16 +49,22 @@ public class Inventory : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+
     }
 
     void Start()
     {
-        goldText = gameObject.GetComponentInChildren<Text>();
+        UI = GameObject.FindGameObjectWithTag("UI").GetComponent<CanvasGroup>();
+        UI.alpha = 0f;
     }
 
     void Update()
     {
-        goldText.text = currentGold.ToString();
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            UI.alpha = 1f;
+        }
+
     }
 
     public void PutItemInventory(Item item)
