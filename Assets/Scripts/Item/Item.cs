@@ -45,7 +45,7 @@ public class Item : MonoBehaviour
     {
         LoadToJsonData(ID);
         SetData();
-        spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Item/" + graphicAssetsName);
+        spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Item/" + itemType + "/" + graphicAssetsName);
     }
 
     private void Start()
