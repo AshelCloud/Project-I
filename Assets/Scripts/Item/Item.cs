@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
         public string Name = null;
         public string VariableName = null;
         public string ItemType = null;
-        public string OffensePower = null;
+        public float OffensePower = 0f;
         public float HP = 0f;
         public float Speed = 0f;
         public string GetPlace = null;
@@ -29,7 +29,7 @@ public class Item : MonoBehaviour
     private string itemName = null;
     private string variableName = null;
     private string itemType = null;
-    private string offensePower = null;
+    private float offensePower = 0f;
     private float hp = 0f;
     private float speed = 0f;
     private string getPlace = null;
@@ -39,15 +39,17 @@ public class Item : MonoBehaviour
     public string Name { get { return itemName; } }
     public string Type { get { return itemType; } }
 
+    public SpriteRenderer spriteRenderer { get { return gameObject.GetComponent<SpriteRenderer>(); } }
+
     private void Awake()
     {
         LoadToJsonData(ID);
         SetData();
+        spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Item/" + graphicAssetsName);
     }
 
     private void Start()
     {
-
     }
 
     // Update is called once per frame
