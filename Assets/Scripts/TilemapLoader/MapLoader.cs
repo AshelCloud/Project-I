@@ -11,7 +11,6 @@ public partial class MapLoader : MonoBehaviour
 {
     private void Awake()
     {
-        mapDatas = new Dictionary<string, MapData>();
         tilemaps = GetComponentsInChildren<Tilemap>();
 
         Log.Print("MapLoader Initialize");
@@ -43,8 +42,8 @@ public partial class MapLoader : MonoBehaviour
 
         TextAsset json = localAssetBundle.LoadAsset<TextAsset>(fileName);
 
-        mapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(json).ToDictionary();
-        if(mapDatas == null)
+        MapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(json).ToDictionary();
+        if(MapDatas == null)
         {
             Log.PrintError("Failed to load Json MapData");
             yield return null;
@@ -73,15 +72,15 @@ public partial class MapLoader : MonoBehaviour
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
         Log.Print("Load to mapData");
-        foreach (var data in mapDatas)
+        foreach (var data in MapDatas)
         {
             foreach (var tile in data.Value.Tiles)
             {
                 var tilemap = UpdateTilemapDataWithCreate(tile.BaseTilemap);
 
-                tilemap.SetTile(tile.LocalPlace, Resources.Load<Tile>(TileAssetFilePath + tile.Name));
+                //tilemap.SetTile(tile.LocalPlace, Resources.Load<Tile>(TileAssetFilePath + tile.Name));
                 //tilemap.SetTile(tile.LocalPlace, localAssetBundle.LoadAsset<Tile>(tile.Name));
-                //tilemap.SetTile(tile.LocalPlace, ResourcesContainer.Load<Tile>(tile.Name));
+                tilemap.SetTile(tile.LocalPlace, ResourcesContainer.LoadInCache<Tile>(tile.Name));
                 tilemap.SetTransformMatrix(tile.LocalPlace, tile.Matrix);
             }
             foreach (var prefab in data.Value.Prefabs)

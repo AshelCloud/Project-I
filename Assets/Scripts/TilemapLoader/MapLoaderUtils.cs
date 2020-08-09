@@ -7,7 +7,7 @@ public partial class MapLoader : MonoBehaviour
 {
     private Vector3 GetEndPositionOfMap(string mapName)
     {
-        foreach (var data in mapDatas)
+        foreach (var data in MapDatas)
         {
             int index = 0;
 
@@ -159,7 +159,6 @@ public partial class MapLoader : MonoBehaviour
         {
             map.gameObject.layer = LayerMask.NameToLayer(mapData.Tag);
         }
-        //map.gameObject.layer = LayerMask.NameToLayer(mapData.Tag) == -1 ? 0 : LayerMask.NameToLayer(mapData.Tag);
         map.transform.position = mapData.Position;
         map.transform.rotation = mapData.Rotation;
         map.transform.localScale = mapData.Scale;

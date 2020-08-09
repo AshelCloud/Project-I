@@ -4,7 +4,7 @@ using System.Dynamic;
 using TMPro;
 using UnityEngine;
 
-public class ResourcesContainer : MonoBehaviour
+public class ResourcesContainer
 {
     private static Dictionary<string, Object> _cache;
     private static Dictionary<string, Object> Cache
@@ -24,6 +24,22 @@ public class ResourcesContainer : MonoBehaviour
     }
 
     public static T Load<T>(string _name) where T : Object
+    {
+        T _t = Resources.Load<T>(_name);
+        Cache[_t.name] = _t;
+
+        return _t;
+    }
+
+    public static Object Load(string _name)
+    {
+        Object _t =  Resources.Load(_name);
+        Cache[_t.name] = _t;
+
+        return _t;
+    }
+
+    public static T LoadInCache<T>(string _name) where T : Object
     {
         if(Cache.ContainsKey(_name))
         {

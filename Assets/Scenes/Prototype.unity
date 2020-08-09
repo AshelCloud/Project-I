@@ -562,19 +562,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671768f82d60a7e4abc9db8dc14d7e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Bounds>k__BackingField:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!1 &789544099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,6 +1040,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 963497896400599742, guid: 2b69316db84ea2648a233a96454708f4,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b69316db84ea2648a233a96454708f4, type: 3}
