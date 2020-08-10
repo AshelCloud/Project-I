@@ -25,6 +25,14 @@ public class Loader : MonoBehaviour
     public bool Loaded { get; set; }
     private bool IsInGame { get; set; }
 
+    public float FadedValue
+    {
+        get
+        {
+            return backgroundImage.color.a;
+        }
+    }
+
     Coroutine CurrentCoroutine { get; set; }
 
     public void ActiveLoading()
@@ -42,14 +50,12 @@ public class Loader : MonoBehaviour
 
     public void ActiveFadeOut()
     {
-        if(Loaded && IsInGame == false)
-        {
-            if(CurrentCoroutine == null)
-            {
-                Log.Print("Run Coroutine");
-                CurrentCoroutine = StartCoroutine(FadeOut());
-            }
-        }
+        StartCoroutine(FadeOut());
+    }
+
+    public void ActiveFadeIn()
+    {
+        StartCoroutine(FadeIn());
     }
 
     private IEnumerator Loading()
@@ -68,6 +74,7 @@ public class Loader : MonoBehaviour
 
         Loaded = true;
         CurrentCoroutine = null;
+        yield return null;
     }
 
     private void LoadTileResources()
@@ -90,19 +97,17 @@ public class Loader : MonoBehaviour
 
     public void Enable()
     {
-        backgroundImage.enabled = true;
         bar.SetActive(true);
         barImage.gameObject.SetActive(true);
         descriptionText.gameObject.SetActive(true);
     }
 
-    //public void Disable()
-    //{
-    //    backgroundImage.enabled = false;
-    //    bar.SetActive(false);
-    //    barImage.gameObject.SetActive(false);
-    //    descriptionText.gameObject.SetActive(false);
-    //}
+    public void Disable()
+    {
+        bar.SetActive(false);
+        barImage.gameObject.SetActive(false);
+        descriptionText.gameObject.SetActive(false);
+    }
 
     public IEnumerator FillProgressBar()
     {
@@ -116,14 +121,8 @@ public class Loader : MonoBehaviour
 
         yield return null;
     }
-
     public IEnumerator FadeOut()
     {
-        bar.SetActive(false);
-        barImage.gameObject.SetActive(false);
-        descriptionText.gameObject.SetActive(false);
-        yield return null;
-
         while(backgroundImage.color.a > 0f)
         {
             Color co = backgroundImage.color;
@@ -134,6 +133,22 @@ public class Loader : MonoBehaviour
 
         backgroundImage.enabled = false;
         IsInGame = true;
+
+        yield return null;
+    }
+
+    public IEnumerator FadeIn()
+    {
+        backgroundImage.enabled = true;
+        yield return null;
+
+        while (backgroundImage.color.a < 1f)
+        {
+            Color co = backgroundImage.color;
+            backgroundImage.color = new Color(co.r, co.g, co.b, co.a + fadeSpeed * Time.deltaTime);
+
+            yield return new WaitForEndOfFrame();
+        }
 
         yield return null;
     }

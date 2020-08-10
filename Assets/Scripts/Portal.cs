@@ -19,7 +19,7 @@ public class Portal : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.LoadMap(MapName, IsPrevious);
+                GameManager.Instance.ActiveLoadMap(MapName, IsPrevious);
             }
         }
     }

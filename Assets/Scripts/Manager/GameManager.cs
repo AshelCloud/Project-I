@@ -9,8 +9,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public Loader loader;
-    public MapLoader mapLoader;
+    [SerializeField]
+    private Loader loader;
+    [SerializeField]
+    private MapLoader mapLoader;
 
     private void Awake()
     {
@@ -34,15 +36,26 @@ public class GameManager : MonoBehaviour
         loader.ActiveLoading();
         yield return new WaitUntil( () => loader.Loaded);
 
-        mapLoader.LoadMap(mapLoader.StartMapName, false);
-        yield return new WaitUntil( () => mapLoader.IsLoadedMap);
+        loader.Disable();
+        yield return null;
 
-        loader.ActiveFadeOut();
+        ActiveLoadMap(mapLoader.StartMapName, false);
         yield return null;
     }
 
-    public void LoadMap(string mapName, bool isPrevious)
+    public void ActiveLoadMap(string mapName, bool isPrevious)
     {
+        StartCoroutine(LoadMap(mapName, isPrevious));
+    }
+
+    private IEnumerator LoadMap(string mapName, bool isPrevious)
+    {
+        loader.ActiveFadeIn();
+        yield return new WaitUntil(() => loader.FadedValue >= 1f);
+
         mapLoader.LoadMap(mapName, isPrevious);
+        yield return new WaitUntil( () => mapLoader.IsLoadedMap );
+
+        loader.ActiveFadeOut();
     }
 }
