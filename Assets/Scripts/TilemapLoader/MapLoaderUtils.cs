@@ -106,7 +106,11 @@ public partial class MapLoader : MonoBehaviour
             return;
         }
 
-        var renderer = go.AddComponent<TilemapRenderer>();
+        var renderer = go.GetComponent<TilemapRenderer>();
+        if (renderer == null)
+        {
+            renderer = go.AddComponent<TilemapRenderer>();
+        }
         TilemapRendererData rendererData = data;
 
         renderer.sortOrder = rendererData.SortOrder;
@@ -123,7 +127,11 @@ public partial class MapLoader : MonoBehaviour
             return;
         }
 
-        var collider = go.AddComponent<TilemapCollider2D>();
+        var collider = go.GetComponent<TilemapCollider2D>();
+        if (collider == null)
+        {
+            collider = go.AddComponent<TilemapCollider2D>();
+        }
         var colliderData = data;
 
         collider.isTrigger = colliderData.IsTrigger;
@@ -139,7 +147,12 @@ public partial class MapLoader : MonoBehaviour
             return;
         }
 
-        var rigidbody2D = go.AddComponent<Rigidbody2D>();
+        var rigidbody2D = go.GetComponent<Rigidbody2D>();
+        if (rigidbody2D == null)
+        {
+            rigidbody2D = go.AddComponent<Rigidbody2D>();
+        }
+
         var rigidbodyData = data;
 
         rigidbody2D.bodyType = rigidbodyData.BodyType;
@@ -162,7 +175,11 @@ public partial class MapLoader : MonoBehaviour
             return;
         }
 
-        var collider = go.AddComponent<CompositeCollider2D>();
+        var collider = go.GetComponent<CompositeCollider2D>();
+        if (collider == null)
+        {
+            collider = go.AddComponent<CompositeCollider2D>();
+        }
         var colliderData = data;
 
         collider.isTrigger = colliderData.IsTrigger;
@@ -181,7 +198,11 @@ public partial class MapLoader : MonoBehaviour
             return;
         }
 
-        var effector = go.AddComponent<PlatformEffector2D>();
+        var effector = go.GetComponent<PlatformEffector2D>();
+        if (effector == null)
+        {
+            effector = go.AddComponent<PlatformEffector2D>();
+        }
         var effectorData = data;
 
         effector.useColliderMask = effectorData.UseColliderMask;
@@ -202,7 +223,11 @@ public partial class MapLoader : MonoBehaviour
             return;
         }
 
-        var collider = go.AddComponent<BoxCollider2D>();
+        var collider = go.GetComponent<BoxCollider2D>();
+        if(collider == null)
+        {
+            collider = go.AddComponent<BoxCollider2D>();
+        }
         var colliderData = data;
 
         collider.sharedMaterial = colliderData.Material;

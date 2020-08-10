@@ -26,7 +26,7 @@ public partial class MapLoader : MonoBehaviour
 
     public void LoadMap(string fileName, bool isPrevious)
     {
-        IsLoadedMap = false;
+        Loaded = false;
 
         StartCoroutine(JsonToTilemap(fileName, isPrevious));
     }
@@ -70,19 +70,9 @@ public partial class MapLoader : MonoBehaviour
                     GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + "Portal"), prefab.Position, prefab.Rotation, tilemap.transform);
                     go.name = prefab.Name;
 
-                    var boxCollider = go.GetComponent<BoxCollider2D>();
-                    if(boxCollider == null)
-                    {
-                        boxCollider = go.AddComponent<BoxCollider2D>();
-                    }
-
-                    boxCollider.isTrigger = prefab.BoxCollider.IsTrigger;
-                    boxCollider.offset = prefab.BoxCollider.Offest;
-                    boxCollider.size = prefab.BoxCollider.Size;
-                    boxCollider.edgeRadius = prefab.BoxCollider.EdgeRadius;
+                    BoxCollider2DLinking(prefab.BoxCollider, go);
 
                     int mapIndex = int.Parse(go.name);
-
                     var portal = go.GetComponent<Portal>();
 
                     if(mapIndex <= 0)
@@ -126,7 +116,7 @@ public partial class MapLoader : MonoBehaviour
             CurrentMapName = fileName;
         }
 
-        IsLoadedMap = true;
+        Loaded = true;
         tilemaps = GetComponentsInChildren<Tilemap>();
         Log.Print("Success to Map load");
 

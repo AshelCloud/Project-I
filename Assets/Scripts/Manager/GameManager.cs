@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => loader.FadedValue >= 1f);
 
         mapLoader.LoadMap(mapName, isPrevious);
-        yield return new WaitUntil( () => mapLoader.IsLoadedMap );
+        yield return new WaitUntil( () => mapLoader.Loaded );
 
         loader.ActiveFadeOut();
     }

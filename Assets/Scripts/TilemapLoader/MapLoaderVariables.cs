@@ -34,6 +34,7 @@ public partial class MapLoader : MonoBehaviour
             if(localAssetBundle == null)
             {
                 Log.PrintError("Failed to load AssetBundle!");
+                return null;
             }
 
             return localAssetBundle;
@@ -50,7 +51,7 @@ public partial class MapLoader : MonoBehaviour
 
     public string CurrentMapName { get; set; }
 
-    public bool IsLoadedMap { get; set; }
+    public bool Loaded { get; set; }
 
     private bool Initialized { get; set; }
 }
