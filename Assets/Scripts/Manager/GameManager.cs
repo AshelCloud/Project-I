@@ -28,13 +28,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        loader.Initialize();
+        mapLoader.Initialize();
+
         StartCoroutine(StartGame());
     }
 
     private IEnumerator StartGame()
     {
         loader.ActiveLoading();
-        yield return new WaitUntil( () => loader.Loaded);
+        yield return new WaitUntil(() => loader.Loaded);
 
         loader.Disable();
         yield return null;

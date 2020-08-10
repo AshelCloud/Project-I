@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.Tilemaps;
 
 public partial class MapLoader : MonoBehaviour
@@ -23,7 +25,21 @@ public partial class MapLoader : MonoBehaviour
         }
     }
 
-    const string TileAssetFilePath = "TileAssets/";
+    private AssetBundle localAssetBundle;
+    private AssetBundle LocalAssetBundle
+    {
+        get
+        {
+            localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+            if(localAssetBundle == null)
+            {
+                Log.PrintError("Failed to load AssetBundle!");
+            }
+
+            return localAssetBundle;
+        }
+    }
+
     const string PrefabFilePath = "Prefabs/";
 
     Tilemap[] tilemaps;
@@ -35,4 +51,6 @@ public partial class MapLoader : MonoBehaviour
     public string CurrentMapName { get; set; }
 
     public bool IsLoadedMap { get; set; }
+
+    private bool Initialized { get; set; }
 }

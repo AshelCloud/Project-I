@@ -8,22 +8,21 @@ using UnityEngine.UI;
 public class Loader : MonoBehaviour
 {
     [Header("Settings")]
-    public float fadeSpeed = 1f;
+    [SerializeField] private float fadeSpeed = 1f;
 
     [Header("Components")]
-    public Image backgroundImage;
-    public GameObject bar;
-    public Image barImage;
-    public Text descriptionText;
+    [SerializeField]  private Image backgroundImage;
+    [SerializeField]  private GameObject bar;
+    [SerializeField] private Image barImage;
+    [SerializeField] private Text descriptionText;
+    
+    private bool Initialized { get; set; }
+    public bool Loaded { get; private set; }
 
     private float CurrentProgressBarValue { get; set; }
 
     private int LoadCount { get; set; }
-
     private int CurrentLoadCount { get; set; }
-
-    public bool Loaded { get; set; }
-    private bool IsInGame { get; set; }
 
     public float FadedValue
     {
@@ -33,19 +32,27 @@ public class Loader : MonoBehaviour
         }
     }
 
-    Coroutine CurrentCoroutine { get; set; }
-
-    public void ActiveLoading()
+    public void Initialize()
     {
+        if(Initialized)
+        {
+            return;
+        }
+
         Loaded = false;
-        IsInGame = false;
 
         CurrentProgressBarValue = 0f;
+
         LoadCount = 2;
         CurrentLoadCount = 0;
 
+        Initialized = true;
+    }
+
+    public void ActiveLoading()
+    {
         StartCoroutine(FillProgressBar());
-        CurrentCoroutine = StartCoroutine(Loading());
+        StartCoroutine(Loading());
     }
 
     public void ActiveFadeOut()
@@ -69,11 +76,9 @@ public class Loader : MonoBehaviour
         LoadTileResources();
         
         descriptionText.text = "로딩 완료";
-
-        yield return new WaitForSeconds(0.5f);
+        yield return null;
 
         Loaded = true;
-        CurrentCoroutine = null;
         yield return null;
     }
 
@@ -132,7 +137,6 @@ public class Loader : MonoBehaviour
         }
 
         backgroundImage.enabled = false;
-        IsInGame = true;
 
         yield return null;
     }

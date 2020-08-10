@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Boo.Lang;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -9,18 +10,19 @@ using UnityEngine.Tilemaps;
 
 public partial class MapLoader : MonoBehaviour
 {
-    private void Awake()
+    public void Initialize()
     {
+        if(Initialized)
+        {
+            return;
+        }
+
         tilemaps = GetComponentsInChildren<Tilemap>();
+
+        Initialized = true;
 
         Log.Print("MapLoader Initialize");
     }
-
-    //private void Start()
-    //{
-    //    LoadMap(startMapName, false);
-    //    //StartCoroutine(JsonToTilemap("Forest_1"));
-    //}
 
     public void LoadMap(string fileName, bool isPrevious)
     {
@@ -33,14 +35,7 @@ public partial class MapLoader : MonoBehaviour
     {
         Log.Print("MapLoader Load Start");
 
-        AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
-        if(localAssetBundle == null)
-        {
-            Log.PrintError("Failed to load AssetBundle!");
-            yield return null;
-        }
-
-        TextAsset json = localAssetBundle.LoadAsset<TextAsset>(fileName);
+        TextAsset json = LocalAssetBundle.LoadAsset<TextAsset>(fileName);
 
         MapDatas = JsonManager.LoadJson<Serialization<string, MapData>>(json).ToDictionary();
         if(MapDatas == null)
@@ -50,13 +45,6 @@ public partial class MapLoader : MonoBehaviour
         }
 
         //현재 있는 맵들 다 삭제하고 진행
-        var curPlayer = FindObjectOfType(typeof(Player)) as Player;
-        
-        if(curPlayer != null)
-        {
-            Destroy(curPlayer.gameObject);
-        }
-
         foreach (var tilemap in tilemaps)
         {
             if (tilemap != null)
@@ -67,7 +55,7 @@ public partial class MapLoader : MonoBehaviour
         tilemaps = null;
 
         //Destroy가 느리기때문에 다 삭제될때까지 기다림
-        yield return new WaitUntil(() => transform.childCount == 0 && curPlayer == null);
+        yield return new WaitUntil(() => transform.childCount == 0);
 
         //데이터 로드
         //데이터테이블 변경시 같이 변경해야함
@@ -121,30 +109,25 @@ public partial class MapLoader : MonoBehaviour
                 }
             }
 
-            //플레이어 생성코드
-            //임시
-            //필요시 삭제
-            Log.Print("Instantiate Player");
+            //플레이어 위치 재조정
+            Log.Print("Player position replaced");
 
-            var playerReosurce = Resources.Load<GameObject>(PrefabFilePath + "Player");
-
-            //TODO: 플레이어 위치 설정
-            //TODO: 플레이어 재생성이 아닌 위치만 재조정하도록 변경
-            var player = Instantiate(playerReosurce, data.Value.PlayerStartPosition, Quaternion.identity);
-            if (player == null)
+            Player curPlayer = FindObjectOfType(typeof(Player)) as Player;
+            if(curPlayer == null)
             {
-                Log.PrintError("NullExeption Player");
-            }
-            else
-            {
-                player.tag = "Player";
+                Player resource = ResourcesContainer.Load<Player>(PrefabFilePath + "Player");
+                curPlayer = Instantiate(resource, data.Value.PlayerStartPosition, Quaternion.identity);
             }
 
             if (isPrevious)
             {
                 var position = GetEndPositionOfMap(fileName);
 
-                player.transform.position = position;
+                curPlayer.transform.position = position;
+            }
+            else
+            {
+                curPlayer.transform.position = data.Value.PlayerStartPosition;
             }
 
             CurrentMapName = fileName;
