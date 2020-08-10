@@ -23,19 +23,15 @@ public class ResourcesContainer
         }
     }
 
-    public static T Load<T>(string _name) where T : Object
+    public static T Load<T>(string _path) where T : Object
     {
-        T _t = Resources.Load<T>(_name);
-        Cache[_t.name] = _t;
-
+        T _t = Resources.Load<T>(_path);
         return _t;
     }
 
-    public static Object Load(string _name)
+    public static Object Load(string _path)
     {
-        Object _t =  Resources.Load(_name);
-        Cache[_t.name] = _t;
-
+        Object _t =  Resources.Load(_path);
         return _t;
     }
 

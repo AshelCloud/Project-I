@@ -77,9 +77,6 @@ public partial class MapLoader : MonoBehaviour
             foreach (var tile in data.Value.Tiles)
             {
                 var tilemap = UpdateTilemapDataWithCreate(tile.BaseTilemap);
-
-                //tilemap.SetTile(tile.LocalPlace, Resources.Load<Tile>(TileAssetFilePath + tile.Name));
-                //tilemap.SetTile(tile.LocalPlace, localAssetBundle.LoadAsset<Tile>(tile.Name));
                 tilemap.SetTile(tile.LocalPlace, ResourcesContainer.LoadInCache<Tile>(tile.Name));
                 tilemap.SetTransformMatrix(tile.LocalPlace, tile.Matrix);
             }
@@ -93,6 +90,10 @@ public partial class MapLoader : MonoBehaviour
                     go.name = prefab.Name;
 
                     var boxCollider = go.GetComponent<BoxCollider2D>();
+                    if(boxCollider == null)
+                    {
+                        boxCollider = go.AddComponent<BoxCollider2D>();
+                    }
 
                     boxCollider.isTrigger = prefab.BoxCollider.IsTrigger;
                     boxCollider.offset = prefab.BoxCollider.Offest;
@@ -118,7 +119,6 @@ public partial class MapLoader : MonoBehaviour
                 {
                     GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + prefab.Name), prefab.Position, prefab.Rotation, tilemap.transform);
                 }
-                //go.transform.localScale = prefab.Scale;
             }
 
             //플레이어 생성코드
@@ -143,27 +143,11 @@ public partial class MapLoader : MonoBehaviour
             if (isPrevious)
             {
                 var position = GetEndPositionOfMap(fileName);
-                position.x -= 3f;
 
                 player.transform.position = position;
             }
 
             CurrentMapName = fileName;
-
-            //TODO: Debug 코드 고치기
-            //if (!string.IsNullOrEmpty(data.Value.NextMapName))
-            //{
-            //    GameManager.Instance.NextMapNameOfCurrentMap = data.Value.NextMapName;
-
-            //    Log.Print("Set To NextMap: " + data.Value.NextMapName);
-            //}
-
-            //if (!string.IsNullOrEmpty(data.Value.PreviousMapName))
-            //{
-            //    GameManager.Instance.PreviousMapNameOfCurrentMap = data.Value.PreviousMapName;
-
-            //    Log.Print("Set To PreviousMap: " + data.Value.PreviousMapName);
-            //}
         }
 
         IsLoadedMap = true;
