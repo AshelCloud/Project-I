@@ -45,29 +45,22 @@ public partial class MapLoader : MonoBehaviour
         }
 
         //현재 있는 맵들 다 삭제하고 진행
-        foreach (var tilemap in tilemaps)
-        {
-            if (tilemap != null)
-            {
-                Destroy(tilemap.gameObject);
-            }
-        }
-        tilemaps = null;
-
-        //Destroy가 느리기때문에 다 삭제될때까지 기다림
+        DestroyAllTilemaps();
         yield return new WaitUntil(() => transform.childCount == 0);
 
-        //데이터 로드
-        //데이터테이블 변경시 같이 변경해야함
-        Log.Print("Load to mapData");
+        //데이터기반 맵 배치
         foreach (var data in MapDatas)
         {
+            Log.Print("Load to mapData");
+
             foreach (var tile in data.Value.Tiles)
             {
                 var tilemap = UpdateTilemapDataWithCreate(tile.BaseTilemap);
+
                 tilemap.SetTile(tile.LocalPlace, ResourcesContainer.LoadInCache<Tile>(tile.Name));
                 tilemap.SetTransformMatrix(tile.LocalPlace, tile.Matrix);
             }
+
             foreach (var prefab in data.Value.Prefabs)
             {
                 var tilemap = UpdateTilemapDataWithCreate(prefab.BaseTileMap);
@@ -105,7 +98,7 @@ public partial class MapLoader : MonoBehaviour
                 }
                 else
                 {
-                    GameObject go = Instantiate(Resources.Load<GameObject>(PrefabFilePath + prefab.Name), prefab.Position, prefab.Rotation, tilemap.transform);
+                    Instantiate(ResourcesContainer.Load(PrefabFilePath + prefab.Name), prefab.Position, prefab.Rotation, tilemap.transform);
                 }
             }
 

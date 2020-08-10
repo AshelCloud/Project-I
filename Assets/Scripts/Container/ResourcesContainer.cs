@@ -23,15 +23,47 @@ public class ResourcesContainer
         }
     }
 
+    private static string GetFileName(string _path)
+    {
+        string[] splitsPath = _path.Split('/');
+        string name = splitsPath[splitsPath.Length - 1];
+
+        return name;
+    }
+
     public static T Load<T>(string _path) where T : Object
     {
+        string name = GetFileName(_path);
+        if(Cache.ContainsKey(name))
+        {
+            return (T)Cache[name];
+        }
+
         T _t = Resources.Load<T>(_path);
+        if(_t == null)
+        {
+            return default;
+        }
+        Cache[name] = _t;
+
         return _t;
     }
 
     public static Object Load(string _path)
     {
+        string name = GetFileName(_path);
+        if(Cache.ContainsKey(name))
+        {
+            return Cache[name];
+        }
+
         Object _t =  Resources.Load(_path);
+        if(_t == null)
+        {
+            return default;
+        }
+        Cache[name] = _t;
+
         return _t;
     }
 
