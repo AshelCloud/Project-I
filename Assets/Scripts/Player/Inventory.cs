@@ -39,6 +39,8 @@ public class Inventory : MonoBehaviour
 
     private CanvasGroup UI = null;
 
+    private bool inventoryOpen = false;
+
     private void Awake()
     {
         var objs = FindObjectsOfType<Inventory>();
@@ -61,7 +63,17 @@ public class Inventory : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            UI.alpha = 1f;
+            if(!inventoryOpen)
+            {
+                UI.alpha = 1f;
+                inventoryOpen = true;
+            }
+
+            else
+            {
+                UI.alpha = 0f;
+                inventoryOpen = false;
+            }
         }
 
     }
