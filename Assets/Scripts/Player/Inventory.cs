@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -101,6 +100,10 @@ public class Inventory : MonoBehaviour
 
         Log.Print("Get item: " + item.Name);
         inventory.Add(item);
+
+        var index = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Slot"), GameObject.Find("Content").transform.position, Quaternion.identity);
+        index.GetComponent<Slot>().SetField(item.spriteRenderer.sprite, item.Name);
+        index.transform.SetParent(GameObject.Find("Content").transform);
     }
 
     public void GetGold(int deposit)
