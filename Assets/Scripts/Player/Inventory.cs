@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
-
 
 public class Inventory : MonoBehaviour
 {
@@ -33,9 +33,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private List<Item> inventory;
+    private static List<Item> inventory = new List<Item>();
 
-    static int gold = 0;
+    private static int currentGold = 0;
+
+    private CanvasGroup UI = null;
+
+    private bool inventoryOpen = false;
 
     private void Awake()
     {
@@ -46,18 +50,32 @@ public class Inventory : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        UI = GameObject.FindGameObjectWithTag("UI").GetComponent<CanvasGroup>();
+        UI.alpha = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(!inventoryOpen)
+            {
+                UI.alpha = 1f;
+                inventoryOpen = true;
+            }
+
+            else
+            {
+                UI.alpha = 0f;
+                inventoryOpen = false;
+            }
+        }
+
     }
 
     public void PutItemInventory(Item item)
@@ -81,11 +99,6 @@ public class Inventory : MonoBehaviour
         {
 
         }
-        
-        else if(item.Type == "Money")
-        {
-
-        }
 
         else if(item.Type == "Material")
         {
@@ -99,5 +112,14 @@ public class Inventory : MonoBehaviour
 
         Log.Print("Get item: " + item.Name);
         inventory.Add(item);
+
+        var index = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Slot"), GameObject.Find("Content").transform.position, Quaternion.identity);
+        index.GetComponent<Slot>().SetField(item.spriteRenderer.sprite, item.Name);
+        index.transform.SetParent(GameObject.Find("Content").transform);
+    }
+
+    public void GetGold(int deposit)
+    {
+        currentGold += deposit;
     }
 }

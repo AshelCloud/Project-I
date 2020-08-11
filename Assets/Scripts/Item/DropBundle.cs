@@ -48,7 +48,7 @@ public class DropBundle : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            Log.Print("Get gold: " + DroppingBundle().ToString());
+            Inventory.Instance.GetGold(DroppingBundle());
             Destroy(gameObject);
         }
     }
@@ -97,7 +97,6 @@ public class DropBundle : MonoBehaviour
         {
             if (probability <= percentage[i])
             {
-                Log.Print(probability.ToString() + ", " + percentage[i].ToString() + "%");
                 cost = quantity[i];
                 break;
             }
@@ -107,7 +106,8 @@ public class DropBundle : MonoBehaviour
                 probability -= percentage[i];
             }
         }
-        
+
+        Log.Print("Get Gold: " + cost.ToString());
         return cost;
     }
 }
