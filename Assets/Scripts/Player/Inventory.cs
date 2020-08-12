@@ -66,12 +66,14 @@ public class Inventory : MonoBehaviour
             if(!inventoryOpen)
             {
                 UI.alpha = 1f;
+                UI.blocksRaycasts = true;
                 inventoryOpen = true;
             }
 
             else
             {
                 UI.alpha = 0f;
+                UI.blocksRaycasts = false;
                 inventoryOpen = false;
             }
         }
