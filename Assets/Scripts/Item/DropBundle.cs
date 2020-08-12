@@ -19,7 +19,9 @@ public class DropBundle : MonoBehaviour
 
     private DropBundleData bundleData;
 
-    public int ID = 2;
+    [SerializeField]
+    private int id = 1;
+    public int ID { set { id = value; } }
 
     private string dropBundleName = null;
     private List<int> quantity;
@@ -29,7 +31,7 @@ public class DropBundle : MonoBehaviour
 
     private void Awake()
     {
-        LoadToJsonData(ID);
+        LoadToJsonData(id);
         SetData();
     }
 
