@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -78,6 +79,11 @@ public class Inventory : MonoBehaviour
             }
         }
 
+    }
+
+    private void LateUpdate()
+    {
+        UI.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
     }
 
     public void PutItemInventory(Item item)
