@@ -111,6 +111,7 @@ public class Player : MonoBehaviour, IDamageable
         {
             hp = playerData.HP;
             mapLoader.LoadMap(mapLoader.CurrentMapName, false);
+            SetState(new IdleState());
         }
     }
 
