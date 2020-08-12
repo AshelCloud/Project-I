@@ -332,6 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c5df631182b5545a727fd95f92556b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loader: {fileID: 1618768518}
   mapLoader: {fileID: 789544100}
 --- !u!4 &263423787
 Transform:
@@ -573,7 +574,6 @@ GameObject:
   m_Component:
   - component: {fileID: 514734945}
   - component: {fileID: 514734944}
-  - component: {fileID: 514734946}
   m_Layer: 0
   m_Name: MapBoundary
   m_TagString: Untagged
@@ -621,18 +621,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &514734946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 514734943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 671768f82d60a7e4abc9db8dc14d7e4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &789544099
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,7 +877,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 488997379}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1605,6 +1593,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1618768516}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1618768518 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1343541315, guid: 2b69316db84ea2648a233a96454708f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1618768516}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e3cc52c8a677a4f8cdbd596f820056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1894327502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,7 +1759,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -35, y: 0.000026016976}
+  m_AnchoredPosition: {x: -35, y: 0.0000013294804}
   m_SizeDelta: {x: -70, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1941177686
