@@ -43,7 +43,7 @@ public class Loader : MonoBehaviour
 
         CurrentProgressBarValue = 0f;
 
-        LoadCount = 2;
+        LoadCount = 3;
         CurrentLoadCount = 0;
 
         Initialized = true;
@@ -75,14 +75,22 @@ public class Loader : MonoBehaviour
         yield return null;
         LoadTileResources();
 
-        //TODO: CreateItem
-        ItemContainer.CreateItem();
+        descriptionText.text = "아이템 테이블 로딩중...";
+        yield return null;
+        LoadItemTable();
 
         descriptionText.text = "로딩 완료";
         yield return null;
 
         Loaded = true;
         yield return null;
+    }
+
+    private void LoadItemTable()
+    {
+        ItemContainer.CreateItem();
+
+        CurrentLoadCount++;
     }
 
     private void LoadTileResources()

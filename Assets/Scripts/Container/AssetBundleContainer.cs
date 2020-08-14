@@ -38,6 +38,11 @@ public class AssetBundleContainer
             return Bundles[name];
         }
         AssetBundle localAssetBundle =  AssetBundle.LoadFromFile(path);
+        if(localAssetBundle == null)
+        {
+            Log.PrintError("Failed to load AssetBundle!");
+            return null;
+        }
 
         Bundles.Add(name, localAssetBundle);
 
