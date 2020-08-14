@@ -21,16 +21,25 @@ public class AssetBundleContainer
             _bundles = value;
         }
     }
+    private static string GetFileName(string _path)
+    {
+        string[] splitsPath = _path.Split('/');
+        string name = splitsPath[splitsPath.Length - 1];
+
+        return name;
+    }
 
     public static AssetBundle LoadFromFile(string path)
     {
-        if(Bundles.ContainsKey(path))
+        var name = GetFileName(path);
+
+        if(Bundles.ContainsKey(name))
         {
-            return Bundles[path];
+            return Bundles[name];
         }
         AssetBundle localAssetBundle =  AssetBundle.LoadFromFile(path);
 
-        Bundles.Add(path, localAssetBundle);
+        Bundles.Add(name, localAssetBundle);
 
         return localAssetBundle;
     }

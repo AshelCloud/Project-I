@@ -74,7 +74,10 @@ public class Loader : MonoBehaviour
         descriptionText.text = "맵 타일 로딩중...";
         yield return null;
         LoadTileResources();
-        
+
+        //TODO: CreateItem
+        ItemContainer.CreateItem();
+
         descriptionText.text = "로딩 완료";
         yield return null;
 

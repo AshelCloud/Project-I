@@ -68,11 +68,14 @@ public class Item : MonoBehaviour
         }
     }
 
+    //TODO: ItemContainer로 이주
     private void LoadToJsonData(int ID)
     {
         //테이블 ID는 1부터 시작
         //ID가 기본값이면 에러로그 출력
         AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+
+        //AssetBundleContainer.LoadFromFileFromAsset("jsons", "Item_Table");
 
         if (localAssetBundle == null)
         {

@@ -55,6 +55,7 @@ public class DropBundle : MonoBehaviour
         }
     }
 
+    //TODO: Container로 이주
     private void LoadToJsonData(int ID)
     {
         //테이블 ID는 1부터 시작
