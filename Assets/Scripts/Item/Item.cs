@@ -6,21 +6,23 @@ using System.IO;
 using System.Diagnostics.PerformanceData;
 using UnityEngine.Experimental.Audio.Google;
 
+//나중에 접근 제한 하던지 말던지
+[System.Serializable]
+public class ItemData
+{
+    public string Name = null;
+    public string VariableName = null;
+    public string ItemType = null;
+    public float OffensePower = 0f;
+    public float HP = 0f;
+    public float Speed = 0f;
+    public string GetPlace = null;
+    public string SpecialEffects = null;
+    public string GraphicAssetsName = null;
+}
+
 public class Item : MonoBehaviour
 {
-    [System.Serializable]
-    private class ItemData
-    {
-        public string Name = null;
-        public string VariableName = null;
-        public string ItemType = null;
-        public float OffensePower = 0f;
-        public float HP = 0f;
-        public float Speed = 0f;
-        public string GetPlace = null;
-        public string SpecialEffects = null;
-        public string GraphicAssetsName = null;
-    }
 
     private ItemData itemData;
 
@@ -71,31 +73,7 @@ public class Item : MonoBehaviour
     //TODO: ItemContainer로 이주
     private void LoadToJsonData(int ID)
     {
-        //테이블 ID는 1부터 시작
-        //ID가 기본값이면 에러로그 출력
-        AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
 
-        //AssetBundleContainer.LoadFromFileFromAsset("jsons", "Item_Table");
-
-        if (localAssetBundle == null)
-        {
-            Log.PrintError("Failed to load AssetBundle!");
-        }
-
-        if (ID == 0)
-        {
-            Log.PrintError("Failed to Player Data, ID is null or 0");
-            return;
-        }
-
-        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Item_Table");
-
-        //Json 파싱
-        var itemDatas = JsonManager.LoadJson<Serialization<string, ItemData>>(json).ToDictionary();
-
-        //ID 값으로 해당되는 Data 저장
-        //ID는 각 몬스터 스크립트에서 할당
-        itemData = itemDatas[ID.ToString()];
     }
 
     private void SetData()

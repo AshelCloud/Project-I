@@ -23,7 +23,7 @@ public class AssetBundleContainer
     }
     private static string GetFileName(string _path)
     {
-        string[] splitsPath = _path.Split('/');
+        string[] splitsPath = _path.Split('\\');
         string name = splitsPath[splitsPath.Length - 1];
 
         return name;
