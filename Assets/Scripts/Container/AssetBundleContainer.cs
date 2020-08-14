@@ -43,4 +43,11 @@ public class AssetBundleContainer
 
         return localAssetBundle;
     }
+
+    public static T LoadAsset<T>(string bundleName, string assetName) where T : Object
+    {
+        T asset = Bundles[bundleName].LoadAsset<T>(assetName);
+
+        return asset;
+    }
 }
