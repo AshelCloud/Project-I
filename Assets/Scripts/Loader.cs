@@ -79,11 +79,22 @@ public class Loader : MonoBehaviour
         yield return null;
         LoadItemTable();
 
+        descriptionText.text = "드랍 번들 테이블 로딩중...";
+        yield return null;
+        LoadDropBundleTable();
+
         descriptionText.text = "로딩 완료";
         yield return null;
 
         Loaded = true;
         yield return null;
+    }
+
+    private void LoadDropBundleTable()
+    {
+        DropBundleContainer.LoadBundleData();
+
+        CurrentLoadCount++;
     }
 
     private void LoadItemTable()
