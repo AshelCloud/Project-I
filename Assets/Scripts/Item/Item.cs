@@ -40,6 +40,7 @@ public class Item : MonoBehaviour
         SetData();
 
         spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Item/" + itemType + "/" + graphicAssetsName);
+        Log.Print("Create Item: " + itemName);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -54,8 +55,7 @@ public class Item : MonoBehaviour
     private void SetData()
     {
         //ItemContainer부터 Item Data 불러오기
-        ItemData datas;
-        datas = ItemContainer.GetItem(ID);
+        ItemData datas = ItemContainer.GetItem(ID);
 
         itemName = datas.Name;
         variableName = datas.VariableName;
