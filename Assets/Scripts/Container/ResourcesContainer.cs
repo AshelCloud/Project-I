@@ -23,6 +23,7 @@ public class ResourcesContainer
         }
     }
 
+    //TODO: AssetBundle 참고해서 수정
     private static string GetFileName(string _path)
     {
         string[] splitsPath = _path.Split('/');

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -66,16 +67,23 @@ public class Inventory : MonoBehaviour
             if(!inventoryOpen)
             {
                 UI.alpha = 1f;
+                UI.blocksRaycasts = true;
                 inventoryOpen = true;
             }
 
             else
             {
                 UI.alpha = 0f;
+                UI.blocksRaycasts = false;
                 inventoryOpen = false;
             }
         }
 
+    }
+
+    private void LateUpdate()
+    {
+        UI.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
     }
 
     public void PutItemInventory(Item item)
@@ -115,7 +123,7 @@ public class Inventory : MonoBehaviour
 
         var index = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Slot"), GameObject.Find("Content").transform.position, Quaternion.identity);
         index.GetComponent<Slot>().SetField(item.spriteRenderer.sprite, item.Name);
-        index.transform.SetParent(GameObject.Find("Content").transform);
+        index.transform.SetParent(GameObject.Find("Content").transform, false);
     }
 
     public void GetGold(int deposit)

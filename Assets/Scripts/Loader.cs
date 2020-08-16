@@ -43,7 +43,7 @@ public class Loader : MonoBehaviour
 
         CurrentProgressBarValue = 0f;
 
-        LoadCount = 2;
+        LoadCount = 3;
         CurrentLoadCount = 0;
 
         Initialized = true;
@@ -74,12 +74,34 @@ public class Loader : MonoBehaviour
         descriptionText.text = "맵 타일 로딩중...";
         yield return null;
         LoadTileResources();
-        
+
+        descriptionText.text = "아이템 테이블 로딩중...";
+        yield return null;
+        LoadItemTable();
+
+        descriptionText.text = "드랍 번들 테이블 로딩중...";
+        yield return null;
+        LoadDropBundleTable();
+
         descriptionText.text = "로딩 완료";
         yield return null;
 
         Loaded = true;
         yield return null;
+    }
+
+    private void LoadDropBundleTable()
+    {
+        DropBundleContainer.LoadBundleData();
+
+        CurrentLoadCount++;
+    }
+
+    private void LoadItemTable()
+    {
+        ItemContainer.CreateItem();
+
+        CurrentLoadCount++;
     }
 
     private void LoadTileResources()

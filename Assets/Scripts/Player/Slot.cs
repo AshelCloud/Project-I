@@ -13,7 +13,7 @@ public class Slot : MonoBehaviour
     public void SetField(Sprite icon, string slotName)
     {
         transform.GetChild(0).GetComponent<Image>().sprite = icon;
-        GetComponentInChildren<Text>().text = slotName;
+        transform.GetChild(1).GetComponent<Text>().text = slotName;
     }
 
 }

@@ -160,6 +160,8 @@ public partial class Monster : MonoBehaviour
         }
     }
 
+    public int DropBundleID { get { return dropBundleID; } }
+
     public bool Idle { get { return idle; } }
 
     public bool Chase { get { return chase; } }
