@@ -43,7 +43,7 @@ public class Loader : MonoBehaviour
 
         CurrentProgressBarValue = 0f;
 
-        LoadCount = 3;
+        LoadCount = 4;
         CurrentLoadCount = 0;
 
         Initialized = true;

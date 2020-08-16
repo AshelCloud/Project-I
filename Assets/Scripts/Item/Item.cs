@@ -39,7 +39,7 @@ public class Item : MonoBehaviour
     {
         SetData();
 
-        spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Item/" + itemType + "/" + graphicAssetsName);
+        spriteRenderer.sprite = ResourcesContainer.Load<Sprite>("Sprites/Item/" + itemType + "/" + graphicAssetsName);
         Log.Print("Create Item: " + itemName);
     }
 
