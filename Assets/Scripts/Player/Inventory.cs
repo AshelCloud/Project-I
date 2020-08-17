@@ -121,7 +121,7 @@ public class Inventory : MonoBehaviour
         Log.Print("Get item: " + item.Name);
         inventory.Add(item);
 
-        var index = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Slot"), GameObject.Find("Content").transform.position, Quaternion.identity);
+        var index = Instantiate(ResourcesContainer.Load<GameObject>("Prefabs/UI/Slot"), GameObject.Find("Content").transform);
         index.GetComponent<Slot>().SetField(item.spriteRenderer.sprite, item.Name);
         index.transform.SetParent(GameObject.Find("Content").transform, false);
     }

@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class ItemContainer
 {
-    private static Dictionary<int, ItemData> items;
+    private static Dictionary<int, ItemData> itemCtnr;
 
     //정적 생성자를 통한 초기화
     static ItemContainer()
     {
-        if (items == null)
+        if (itemCtnr == null)
         {
-            items = new Dictionary<int, ItemData>();
+            itemCtnr = new Dictionary<int, ItemData>();
         }
     }
 
@@ -40,12 +40,12 @@ public class ItemContainer
 
         foreach (var datas in itemDatas)
         {
-            items.Add(int.Parse(datas.Key) , datas.Value);
+            itemCtnr.Add(int.Parse(datas.Key) , datas.Value);
         }
     }
 
     public static ItemData GetItem(int itemCode)
     {
-        return items[itemCode];
+        return itemCtnr[itemCode];
     }
 }

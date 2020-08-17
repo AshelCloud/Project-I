@@ -4,14 +4,21 @@ public class DeadBehaviour : StateMachineBehaviour
 {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //NEED: 몬스터 번들 드랍 연동 요청
 
-        //var bundle = new GameObject().GetComponent<DropBundle>();
+        var bundle = ResourcesContainer.Load<DropBundle>("Prefabs/Item/DropBundle");
 
-        //접근 지정자로 인하여 몬스터 테이블 내의 DropBundle ID 연동 불가
-        //bundle.ID = animator.gameObject.GetComponent<Monster>().DropbundleID;
-        //Instantiate(bundle, animator.gameObject.transform);
+        bundle.ID = animator.gameObject.GetComponent<Monster>().DropBundleID;
+        var Drop = Instantiate(bundle, animator.gameObject.transform.position, Quaternion.identity);
 
+        if(bundle != null)
+        {
+            Log.Print("Bundle dropped!");
+        }
+
+        else
+        {
+            Log.PrintError("Error: Failed to drop the bundle!");
+        }
 
         Destroy(animator.gameObject);
     }
