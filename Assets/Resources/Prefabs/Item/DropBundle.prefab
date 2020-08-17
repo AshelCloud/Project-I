@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114006603505605822}
   - component: {fileID: 58908841699313998}
   m_Layer: 0
-  m_Name: Bundle
+  m_Name: DropBundle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd6d98e99c7948448906e598cd5a70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
+  id: 0
 --- !u!58 &58908841699313998
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -109,4 +109,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.6

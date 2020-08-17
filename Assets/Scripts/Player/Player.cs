@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-using System.IO;
-using UnityEditor;
+﻿using System.IO;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using NUnit.Framework.Internal.Execution;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -116,9 +113,32 @@ public class Player : MonoBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        if(rb.velocity.y <= -15)
+        if (_currentState == new RunState())
         {
-            rb.velocity = new Vector2(rb.velocity.x, -15);
+            //속도 제한
+            if (rb.velocity.x > Speed)
+            {
+                rb.velocity = new Vector2(Speed, rb.velocity.y);
+            }
+
+
+            else if (rb.velocity.x < -Speed)
+            {
+                rb.velocity = new Vector2(-Speed, rb.velocity.y);
+            }
+        }
+
+        else
+        {
+            if (rb.velocity.y < -16f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -16f);
+            }
+
+            else if (rb.velocity.y > 16f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 16f);
+            }
         }
     }
 
@@ -197,7 +217,7 @@ public class Player : MonoBehaviour, IDamageable
         {
             hp = playerData.HP;
         }
-        speed = playerData.Speed;
+        //speed = playerData.Speed;
     }
 
     public void GetDamaged(float value)

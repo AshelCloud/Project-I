@@ -5,14 +5,14 @@ using UnityEngine.Analytics;
 
 public class DropBundleContainer
 {
-    private static Dictionary<int, DropBundleData> bundles;
+    private static Dictionary<int, DropBundleData> bundleCtnr;
 
     //정적 생성자를 통한 초기화
     static DropBundleContainer()
     {
-        if (bundles == null)
+        if (bundleCtnr == null)
         {
-            bundles = new Dictionary<int, DropBundleData>();
+            bundleCtnr = new Dictionary<int, DropBundleData>();
         }
     }
 
@@ -42,12 +42,12 @@ public class DropBundleContainer
 
         foreach (var datas in bundleDatas)
         {
-            bundles.Add(int.Parse(datas.Key), datas.Value);
+            bundleCtnr.Add(int.Parse(datas.Key), datas.Value);
         }
     }
 
     public static DropBundleData GetBundleData(int bundleCode)
     {
-        return bundles[bundleCode];
+        return bundleCtnr[bundleCode];
     }
 }

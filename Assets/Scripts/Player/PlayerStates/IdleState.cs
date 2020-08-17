@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //플레이어 대기 상태
 public class IdleState : IPlayerState
 {
     private Player player;
 
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter IdleState");
         this.player = player;
     }
 
-    void IPlayerState.Update()
+    public void Update()
     {
         player.anim.Play("Idle");
 
@@ -24,40 +22,20 @@ public class IdleState : IPlayerState
 
         else
         {
-            //이동
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+            if (Input.anyKey)
             {
-                player.SetState(new RunState());
-            }
-
-            //공격
-            else if (Input.GetKeyDown(KeyCode.A))
-            {
-                player.SetState(new AttackState());
-            }
-
-            //점프
-            else if (!Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.D))
-            {
-                player.SetState(new JumpState());
-            }
-
-            //플랫폼 하강 점프
-            else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.D))
-            {
-                player.isJumpDown = true;
-                player.SetState(new JumpState());
-            }
-
-            //구르기
-            else if (Input.GetKeyDown(KeyCode.F))
-            {
-                player.SetState(new RollState());
+                foreach (var dic in InputControl.Instance.KeyDictionary)
+                {
+                    if(Input.GetKeyDown(dic.Key))
+                    {
+                        dic.Value();
+                    }
+                }
             }
         }
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         Log.Print("Exit IdleState");
     }

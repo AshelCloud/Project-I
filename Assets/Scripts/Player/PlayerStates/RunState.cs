@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //플레이어 이동 상태
 public class RunState : IPlayerState
@@ -14,17 +12,19 @@ public class RunState : IPlayerState
     float slopeDownAngle;
     float slopeDownAngleOld;
 
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter RunState");
         this.player = player;
         direction = player.transform.localScale;
     }
 
-    void IPlayerState.Update()
+    public void Update()
     {
         SlopeCheck();
-        player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+        player.rb.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.05f, player.rb.velocity.y), ForceMode2D.Impulse);
+
+        //player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
 
         //좌측이동
         if (Input.GetAxis("Horizontal") < 0)
@@ -37,6 +37,7 @@ public class RunState : IPlayerState
         {
             direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
         }
+
         player.transform.localScale = direction;
 
         player.anim.Play("Run");
@@ -80,7 +81,7 @@ public class RunState : IPlayerState
         }
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         Log.Print("Enter ExitState");
     }

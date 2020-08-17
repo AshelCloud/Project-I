@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class HitState : IPlayerState
@@ -13,7 +11,7 @@ public class HitState : IPlayerState
 
     private float bounceLength = 5;
 
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter HitState");
         this.player = player;
@@ -38,7 +36,7 @@ public class HitState : IPlayerState
 
         Log.Print("Current player HP: " + player.HP);
     }
-    void IPlayerState.Update()
+    public void Update()
     {
         timer += Time.deltaTime;
 
@@ -53,7 +51,7 @@ public class HitState : IPlayerState
         }
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         player.isHit = false;
         player.spriteRenderer.color = new Color(255, 255, 255);

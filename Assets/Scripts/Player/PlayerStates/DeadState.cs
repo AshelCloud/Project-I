@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-//현재 미구현 사항
+﻿//현재 미구현 사항
 public class DeadState : IPlayerState
 {
     private Player player;
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter DeadState");
         this.player = player;
@@ -14,12 +10,12 @@ public class DeadState : IPlayerState
         Log.Print("Player Dead.");
     }
 
-    void IPlayerState.Update()
+    public void Update()
     {
         return;
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         Log.Print("Exit DeadState");
     }

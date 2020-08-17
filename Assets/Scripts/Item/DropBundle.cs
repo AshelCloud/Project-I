@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using UnityEngine.Experimental.AI;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 [System.Serializable]
 public class DropBundleData
