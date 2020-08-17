@@ -5,7 +5,6 @@ public class RunState : IPlayerState
 {
     private Player player;
     private Vector2 direction;
-    private Vector2 movement;
 
     private bool isOnSlope;
     Vector2 slopeNormalPerp;
