@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //벽에 매달린 상태
 public class ClingState : IPlayerState
@@ -10,14 +8,14 @@ public class ClingState : IPlayerState
     float timer = 0.0f;
     float delay = 0.5f;
 
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter ClingState");
         this.player = player;
         player.isCling = true;
     }
 
-    void IPlayerState.Update()
+    public void Update()
     {
         player.anim.Play("Wall_cling");
 
@@ -48,7 +46,7 @@ public class ClingState : IPlayerState
         }
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         Log.Print("Exit ClingState");
     }

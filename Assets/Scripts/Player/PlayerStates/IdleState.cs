@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //플레이어 대기 상태
 public class IdleState : IPlayerState
 {
     private Player player;
 
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter IdleState");
         this.player = player;
     }
 
-    void IPlayerState.Update()
+    public void Update()
     {
         player.anim.Play("Idle");
 
@@ -57,7 +55,7 @@ public class IdleState : IPlayerState
         }
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         Log.Print("Exit IdleState");
     }

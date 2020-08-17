@@ -12,7 +12,7 @@ public class JumpState : IPlayerState
 
     float timer = 0.0f;
     float delay = 0.05f;
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter JumpState");
 
@@ -60,7 +60,7 @@ public class JumpState : IPlayerState
     }
 
     //공격 상태에 따른 행동들
-    void IPlayerState.Update()
+    public void Update()
     {
         //로직 지연 처리 하여 버그 방지
         timer += Time.deltaTime;
@@ -80,11 +80,11 @@ public class JumpState : IPlayerState
                 //더블 점프
                 if (Input.GetKeyDown(KeyCode.D) && !doubleJump)
                 {
+                    Log.Print("Player do double jump");
+
+                    //더블 점프 전 y축 속도 0 설정, 벡터 합력으로 인한 슈퍼점프 방지
                     player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
                     player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-
-                    Debug.Log("Player y Velocity: " + player.rb.velocity.y.ToString());
-                    Log.Print("Jump Count: " + doubleJump);
                     doubleJump = true;
                 }
 
@@ -156,7 +156,7 @@ public class JumpState : IPlayerState
         }
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         rightMove = false;
         leftMove = false;

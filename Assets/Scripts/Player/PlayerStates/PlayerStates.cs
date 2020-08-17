@@ -1,12 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Threading;
-using TMPro;
-using UnityEngine;
-using UnityEngine.Timeline;
-
-/*
+﻿/*
  **********************************************
     
     <차후 해결 사항들>

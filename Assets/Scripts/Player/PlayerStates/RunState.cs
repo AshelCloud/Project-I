@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //플레이어 이동 상태
 public class RunState : IPlayerState
@@ -25,7 +23,6 @@ public class RunState : IPlayerState
     {
         SlopeCheck();
         player.rb.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.05f, player.rb.velocity.y), ForceMode2D.Impulse);
-        Debug.Log(player.rb.velocity.ToString());
 
         //player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
 

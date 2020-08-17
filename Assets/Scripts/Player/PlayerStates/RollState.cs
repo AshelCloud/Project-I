@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //플레이어 구르기 상태
 public class RollState : IPlayerState
@@ -10,7 +8,7 @@ public class RollState : IPlayerState
 
     private float multiplyForceValue = 0f;
 
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter RollState");
         this.player = player;
@@ -25,7 +23,7 @@ public class RollState : IPlayerState
         DoRoll();
     }
 
-    void IPlayerState.Update()
+    public void Update()
     {
         if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && !Input.anyKeyDown)
         {
@@ -38,7 +36,7 @@ public class RollState : IPlayerState
         }
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         Log.Print("Exit RollState");
 

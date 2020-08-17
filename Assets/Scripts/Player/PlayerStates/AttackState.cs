@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //플레이어 공격 상태
 public class AttackState : IPlayerState
@@ -14,7 +12,7 @@ public class AttackState : IPlayerState
     //현재 재생되는 애니메이션을 비교해 공격 판정을 애니메이션당 한번만 실행하기 위함
     private int attackAnim;
 
-    void IPlayerState.OnEnter(Player player)
+    public void OnEnter(Player player)
     {
         Log.Print("Enter AttackState");
         this.player = player;
@@ -24,7 +22,7 @@ public class AttackState : IPlayerState
     }
 
     //공격 상태에 따른 행동들
-    void IPlayerState.Update()
+    public void Update()
     {
         currentAnimTime = player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
@@ -82,7 +80,7 @@ public class AttackState : IPlayerState
 
     }
 
-    void IPlayerState.OnExit()
+    public void OnExit()
     {
         Log.Print("Exit AttackState");
         //공격 애니메이션 최초 단계로 초기화
