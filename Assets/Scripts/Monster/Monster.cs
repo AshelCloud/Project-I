@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(Rigidbody2D))]
-public partial class Monster : MonoBehaviour, IDamageable
+namespace Monster
 {
-    //의도적으로 공백으로 비워둔 클래스 입니다.
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Rigidbody2D))]
+    public partial class Monster : MonoBehaviour, IDamageable
+    {
+        //의도적으로 공백으로 비워둔 클래스 입니다.
+    }
 }
 
 [System.Serializable]

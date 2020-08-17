@@ -62,7 +62,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private Button restartButton = null;
 
-    public Monster hitTarget { get; set; }
+    public Monster.Monster hitTarget { get; set; }
 
     public bool isJumpDown { get; set; } = false;
     public bool isInvincible { get; set; } = false;
@@ -171,7 +171,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (collider.CompareTag("Monster"))
         {
-            hitTarget = collider.gameObject.GetComponent<Monster>();
+            hitTarget = collider.gameObject.GetComponent<Monster.Monster>();
         }
     }
     private void OnTriggerExit2D(Collider2D collider)

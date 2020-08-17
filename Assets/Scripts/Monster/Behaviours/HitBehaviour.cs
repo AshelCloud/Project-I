@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitBehaviour : StateMachineBehaviour
+namespace Monster
 {
-    private Monster myMonster;
-
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class HitBehaviour : StateMachineBehaviour
     {
-        myMonster = animator.GetComponent<Monster>();
+        private Monster myMonster;
 
-        myMonster._Renderer.color = Color.red;
-    }
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            myMonster = animator.GetComponent<Monster>();
 
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        myMonster.Damaged = false;
+            myMonster._Renderer.color = Color.red;
+        }
 
-        myMonster._Renderer.color = Color.white;
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            myMonster.Damaged = false;
+
+            myMonster._Renderer.color = Color.white;
+        }
     }
 }

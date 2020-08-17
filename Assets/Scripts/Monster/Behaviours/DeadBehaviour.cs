@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 
-public class DeadBehaviour : StateMachineBehaviour
+namespace Monster
 {
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class DeadBehaviour : StateMachineBehaviour
     {
-
-        var bundle = ResourcesContainer.Load<DropBundle>("Prefabs/Item/DropBundle");
-
-        bundle.ID = animator.gameObject.GetComponent<Monster>().DropBundleID;
-        var Drop = Instantiate(bundle, animator.gameObject.transform.position, Quaternion.identity);
-
-        if(bundle != null)
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Log.Print("Bundle dropped!");
-        }
 
-        else
-        {
-            Log.PrintError("Error: Failed to drop the bundle!");
-        }
+            var bundle = ResourcesContainer.Load<DropBundle>("Prefabs/Item/DropBundle");
 
-        Destroy(animator.gameObject);
+            bundle.ID = animator.gameObject.GetComponent<Monster>().DropBundleID;
+            var Drop = Instantiate(bundle, animator.gameObject.transform.position, Quaternion.identity);
+
+            if (bundle != null)
+            {
+                Log.Print("Bundle dropped!");
+            }
+
+            else
+            {
+                Log.PrintError("Error: Failed to drop the bundle!");
+            }
+
+            Destroy(animator.gameObject);
+        }
     }
 }

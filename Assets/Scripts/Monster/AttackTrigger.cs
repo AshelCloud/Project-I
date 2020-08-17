@@ -2,54 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackTrigger : MonoBehaviour
+namespace Monster
 {
-    public int index = 1;
-
-    private Monster myMonster;
-    private Collider2D _collider;
-
-    private IDamageable enemy;
-
-    public Collider2D Collider
+    public class AttackTrigger : MonoBehaviour
     {
-        get
+        public int index = 1;
+
+        private Monster myMonster;
+        private Collider2D _collider;
+
+        private IDamageable enemy;
+
+        public Collider2D Collider
         {
-            if(_collider == null)
+            get
             {
-                _collider = GetComponent<Collider2D>();
+                if (_collider == null)
+                {
+                    _collider = GetComponent<Collider2D>();
+                }
+                return _collider;
             }
-            return _collider;
-        }
-    }
-
-    private void Awake()
-    {
-        myMonster = GetComponentInParent<Monster>();
-    }
-
-    private void Start()
-    {
-        if(Collider)
-        {
-            Collider.isTrigger = true;
-            Collider.enabled = false;
         }
 
-        gameObject.SetActive(false);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.isTrigger) { return; }
-
-        enemy = collision.GetComponentInParent<IDamageable>();
-
-        if(enemy != null)
+        private void Awake()
         {
-            if(myMonster.GetComponent<IDamageable>() == enemy) { return; }
+            myMonster = GetComponentInParent<Monster>();
+        }
 
-            enemy.GetDamaged(myMonster.OffentPower);
+        private void Start()
+        {
+            if (Collider)
+            {
+                Collider.isTrigger = true;
+                Collider.enabled = false;
+            }
+
+            gameObject.SetActive(false);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.isTrigger) { return; }
+
+            enemy = collision.GetComponentInParent<IDamageable>();
+
+            if (enemy != null)
+            {
+                if (myMonster.GetComponent<IDamageable>() == enemy) { return; }
+
+                enemy.GetDamaged(myMonster.OffentPower);
+            }
         }
     }
 }
