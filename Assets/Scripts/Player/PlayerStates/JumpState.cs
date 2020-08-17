@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //플레이어 점프 상태
 public class JumpState : IPlayerState
 {
     private Player player;
     private Vector2 direction;
-    static private uint doubleJump = 0;
+    private bool doubleJump = false;
 
     private bool leftMove = false;
     private bool rightMove = false;
@@ -24,13 +22,12 @@ public class JumpState : IPlayerState
         //벽에 매달린 상태의 점프
         if (player.isCling && !player.isGrounded())
         {
-            doubleJump++;
             Log.Print("Player Cling jump");
             this.player.rb.AddForce(Vector2.up * player.JumpForce * 1.25f, ForceMode2D.Impulse);
             player.isCling = false;
         }
 
-        //공중에 있을 때 점프 단계 건너뛰게 한다.
+        //공중에 있을 때
         if (!this.player.isGrounded())
         {
             return;
@@ -43,7 +40,6 @@ public class JumpState : IPlayerState
             if (!this.player.isJumpDown)
             {
                 this.player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-                doubleJump++;
             }
 
             //하향 점프
@@ -75,33 +71,21 @@ public class JumpState : IPlayerState
             {
                 PlayJumpAnim();
 
-                //더블 점프
-                if (Input.GetKeyDown(KeyCode.D) && doubleJump < 2)
-                {
-                    //임시처리
-                    if (player.rb.velocity.y < 3 && player.rb.velocity.y >= -5)
-                    {
-                        player.rb.AddForce(Vector2.up * player.JumpForce * 1.05f, ForceMode2D.Impulse);
-                    }
-
-                    else if(player.rb.velocity.y < -5)
-                    {
-                        player.rb.AddForce(Vector2.up * player.JumpForce * 1.5f, ForceMode2D.Impulse);
-                    }
-
-                    else
-                    {
-                        player.rb.AddForce(Vector2.up * player.JumpForce * 0.5f, ForceMode2D.Impulse);
-                    }
-                    Log.Print("Jump Count: " + doubleJump);
-                    doubleJump++;
-                }
-
                 //벽에 매달리기
                 if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
                 {
-                    doubleJump = 0;
                     player.SetState(new ClingState());
+                }
+
+                //더블 점프
+                if (Input.GetKeyDown(KeyCode.D) && !doubleJump)
+                {
+                    player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
+                    player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+
+                    Debug.Log("Player y Velocity: " + player.rb.velocity.y.ToString());
+                    Log.Print("Jump Count: " + doubleJump);
+                    doubleJump = true;
                 }
 
                 //좌측이동
@@ -143,7 +127,7 @@ public class JumpState : IPlayerState
             else
             {
                 //더블 점프 횟수 초기화
-                doubleJump = 0;
+                doubleJump = false;
 
                 //이동
                 if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))

@@ -27,11 +27,6 @@ public class DropBundle : MonoBehaviour
     private List<int> percentage;
     private string probabilitySum = null;
 
-    public DropBundle(int id)
-    {
-        this.id = id;
-    }
-
     private void Awake()
     {
         SetData();
