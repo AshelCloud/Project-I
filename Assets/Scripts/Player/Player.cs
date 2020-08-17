@@ -52,6 +52,8 @@ public class Player : MonoBehaviour, IDamageable
     public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
     public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
 
+    public Vector2 direction { get { return transform.localScale; } set { transform.localScale = value; } }
+
     private GameObject sword = null;
     public GameObject Sword { get { return sword; } }
 
@@ -79,7 +81,7 @@ public class Player : MonoBehaviour, IDamageable
         SetData();
 
         //최초 게임 실행 시 대기 상태로 설정
-        SetState(new IdleState());
+        //SetState(new IdleState());
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
@@ -99,7 +101,7 @@ public class Player : MonoBehaviour, IDamageable
     private void Update()
     {
         //현재 상태에 따른 행동 실행
-        _currentState.Update();
+        //_currentState.Update();
 
         healthInterface.fillAmount = hp / 100;
 
@@ -113,33 +115,33 @@ public class Player : MonoBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        if (_currentState == new RunState())
-        {
-            //속도 제한
-            if (rb.velocity.x > Speed)
-            {
-                rb.velocity = new Vector2(Speed, rb.velocity.y);
-            }
+        //if (_currentState == new RunState())
+        //{
+        //    //속도 제한
+        //    if (rb.velocity.x > Speed)
+        //    {
+        //        rb.velocity = new Vector2(Speed, rb.velocity.y);
+        //    }
 
 
-            else if (rb.velocity.x < -Speed)
-            {
-                rb.velocity = new Vector2(-Speed, rb.velocity.y);
-            }
-        }
+        //    else if (rb.velocity.x < -Speed)
+        //    {
+        //        rb.velocity = new Vector2(-Speed, rb.velocity.y);
+        //    }
+        //}
 
-        else
-        {
-            if (rb.velocity.y < -16f)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, -16f);
-            }
+        //else
+        //{
+        //    if (rb.velocity.y < -16f)
+        //    {
+        //        rb.velocity = new Vector2(rb.velocity.x, -16f);
+        //    }
 
-            else if (rb.velocity.y > 16f)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, 16f);
-            }
-        }
+        //    else if (rb.velocity.y > 16f)
+        //    {
+        //        rb.velocity = new Vector2(rb.velocity.x, 16f);
+        //    }
+        //}
     }
 
     public void SetState(IPlayerState nextState)

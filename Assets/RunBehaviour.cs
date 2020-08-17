@@ -4,22 +4,78 @@ using UnityEngine;
 
 public class RunBehaviour : StateMachineBehaviour
 {
-    Player player = null;
+    private Player player = null;
 
+    private bool isOnSlope;
+    private Vector2 slopeNormalPerp;
+    private float slopeDownAngle;
+    private float slopeDownAngleOld;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Log.Print("Player enter RunBehaviour");
         player = animator.gameObject.GetComponent<Player>();
     }
 
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        SlopeCheck();
+        //player.rb.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.05f, player.rb.velocity.y), ForceMode2D.Impulse);
 
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            player.direction = new Vector2(Mathf.Abs(player.direction.x), player.direction.y);
+        }
+
+        else
+        {
+            player.direction = new Vector2(-Mathf.Abs(player.direction.x), player.direction.y);
+        }
+
+        if (player.isGrounded() && !isOnSlope)
+        {
+            player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, 0.0f);
+        }
+
+        else if (player.isGrounded() && isOnSlope)
+        {
+            player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
+                                             -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
+        }
+
+        else
+        {
+            animator.SetBool("IsJump", true);
+        }
+
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+        {
+            animator.SetBool("IsRun", false);
+        }
+
+        else if(Input.GetKeyDown(KeyCode.D))
+        {
+            animator.SetBool("IsJump", true);
+        }
     }
 
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        Log.Print("Player exit RunBehaviour");
+        
+    }
+
+    public void SlopeCheck()
+    {
+        Vector2 checkPos = player.transform.position + new Vector3(0.0f, player.cc2D.size.y / 4);
+
+        //SlopeCheckHorizontal(checkPos);
+        SlopeCheckVertical(checkPos);
+    }
+
+    private void SlopeCheckHorizontal(Vector2 checkPos)
     {
 
     }

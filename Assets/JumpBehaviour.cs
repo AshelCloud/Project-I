@@ -2,42 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleBehaviour : StateMachineBehaviour
+public class JumpBehaviour : StateMachineBehaviour
 {
-    private Player player = null;
+    private Player player;
+
+    private bool doubleJump = false;
+
+    private bool leftMove = false;
+    private bool rightMove = false;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Log.Print("Player enter IdleState");
-        player = animator.gameObject.GetComponent<Player>();
+        Log.Print("Player enter JumpState");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-        //if (!player.isGrounded())
-        //{
-        //    animator.SetBool("IsJump", true);
-        //}
-
- 
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-            {
-                animator.SetBool("IsRun", true);
-            }
-
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            animator.SetBool("IsJump", true);
-        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Log.Print("Player exit IdleState");
+
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
