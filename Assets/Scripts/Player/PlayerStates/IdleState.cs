@@ -22,35 +22,15 @@ public class IdleState : IPlayerState
 
         else
         {
-            //이동
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+            if (Input.anyKey)
             {
-                player.SetState(new RunState());
-            }
-
-            //공격
-            else if (Input.GetKeyDown(KeyCode.A))
-            {
-                player.SetState(new AttackState());
-            }
-
-            //점프
-            else if (!Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.D))
-            {
-                player.SetState(new JumpState());
-            }
-
-            //플랫폼 하강 점프
-            else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.D))
-            {
-                player.isJumpDown = true;
-                player.SetState(new JumpState());
-            }
-
-            //구르기
-            else if (Input.GetKeyDown(KeyCode.F))
-            {
-                player.SetState(new RollState());
+                foreach (var dic in InputControl.Instance.KeyDictionary)
+                {
+                    if(Input.GetKeyDown(dic.Key))
+                    {
+                        dic.Value();
+                    }
+                }
             }
         }
     }

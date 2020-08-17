@@ -15,59 +15,73 @@ using UnityEngine;
  * 
  */
 
-public class InputControl : MonoBehaviour
+public class InputControl
 {
-    public static InputControl instance = null;
+    private static InputControl instance = null;
 
     private Dictionary<KeyCode, Action> keyDictionary;
-    public Dictionary<KeyCode, Action>  KeyDictionary { get { return keyDictionary; } }
+    public Dictionary<KeyCode, Action> KeyDictionary { get { return keyDictionary; } }
 
-    private Player _player;
-    public Player player { set { _player = value; } }
-    private void Awake()
+    private Player player;
+
+    public static InputControl Instance
     {
-        if (instance == null)
+        get
         {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+            if (instance == null)
+            {
+                instance = new InputControl();
+            }
 
-        DontDestroyOnLoad(gameObject);
+            return instance;
+        }
     }
 
-    private void Start()
+    private InputControl()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
         keyDictionary = new Dictionary<KeyCode, Action>
         {
-            { KeyCode.LeftArrow, MoveLeft},
+            { KeyCode.LeftArrow, MoveLeft },
             { KeyCode.RightArrow, MoveRight },
-            { KeyCode.A, Key_A }
+            { KeyCode.A, Attack },
+            { KeyCode.D, Jump },
+            { KeyCode.F, Roll }
         };
     }
 
-
-    private Vector2 direction;
-
     public void MoveLeft()
     {
-        _player.transform.Translate(Vector2.right * (-_player.Speed) * Time.deltaTime, Space.World);    //플레이어 좌측 이동
-        direction.x = -Mathf.Abs(direction.x);                                                              //플레이어 방향전환
-        _player.transform.localScale = direction;
-
+        player.SetState(new RunState());
     }
 
     public void MoveRight()
     {
-        _player.transform.Translate(Vector2.right * _player.Speed * Time.deltaTime, Space.World);       //플레이어 우측 이동
-        direction.x = Mathf.Abs(direction.x);                                                               //플레이어 방향전환
-        _player.transform.localScale = direction;
+        player.SetState(new RunState());
     }
 
-    public void Key_A()
+    public void Attack()
     {
+        player.SetState(new AttackState());
+    }
 
+    public void Jump()
+    {
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            player.isJumpDown = true;
+            player.SetState(new JumpState());
+        }
+
+        else
+        {
+            player.SetState(new JumpState());
+        }
+    }
+
+    public void Roll()
+    {
+        player.SetState(new RollState());
     }
 }

@@ -75,7 +75,21 @@ public class AttackState : IPlayerState
         //애니메이션 종료 후 아무 입력이 없으면 대기 상태로 전이
         if (!Input.GetKey(KeyCode.A) && currentAnimTime >= 0.99f)
         {
-            player.SetState(new IdleState());
+            if (Input.anyKey)
+            {
+                foreach (var dic in InputControl.Instance.KeyDictionary)
+                {
+                    if (Input.GetKey(dic.Key))
+                    {
+                        dic.Value();
+                    }
+                }
+            }
+
+            else
+            {
+                player.SetState(new IdleState());
+            }
         }
 
     }

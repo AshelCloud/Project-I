@@ -25,12 +25,12 @@ public class RollState : IPlayerState
 
     public void Update()
     {
-        if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && !Input.anyKeyDown)
+        if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && !Input.anyKey)
         {
             player.SetState(new IdleState());
         }
 
-        else if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)))
+        else if (player.anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)))
         {
             player.SetState(new RunState());
         }
