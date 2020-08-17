@@ -26,7 +26,6 @@ public class Player : MonoBehaviour, IDamageable
     //기본값 = 1
     private const int ID = 1;
 
-
     [SerializeField]
     private float offensePower = 0;
     public float OffensePower { get { return offensePower; } }
