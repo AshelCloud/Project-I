@@ -23,15 +23,7 @@ public class RunBehaviour : StateMachineBehaviour
         SlopeCheck();
         //player.rb.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.05f, player.rb.velocity.y), ForceMode2D.Impulse);
 
-        if (Input.GetAxis("Horizontal") > 0)
-        {
-            player.direction = new Vector2(Mathf.Abs(player.direction.x), player.direction.y);
-        }
-
-        else
-        {
-            player.direction = new Vector2(-Mathf.Abs(player.direction.x), player.direction.y);
-        }
+        player.ChangeDirection();
 
         if (player.isGrounded() && !isOnSlope)
         {

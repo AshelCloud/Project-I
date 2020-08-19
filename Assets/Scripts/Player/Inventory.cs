@@ -81,7 +81,7 @@ public class Inventory : MonoBehaviour
 
     private void LateUpdate()
     {
-        UI.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
+        //UI.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
     }
 
     public void PutItemInventory(Item item)
