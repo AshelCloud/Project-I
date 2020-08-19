@@ -319,6 +319,21 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    public void ChangeDirection()
+    {
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            direction = new Vector2(Mathf.Abs(direction.x), direction.y);                                                       //플레이어 방향전환
+
+        }
+
+        //우측이동
+        else
+        {
+            direction = new Vector2(-Mathf.Abs(direction.x), direction.y);                                                              //플레이어 방향전환
+        }
+    }
+
     private void OnDrawGizmos()
     {
         var checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
