@@ -6,9 +6,19 @@ using UnityEngine.UI;
 public class ConversationCanvas : MonoBehaviour
 {
     public GameObject overlay;
+    public Text nameText;
+    public Text conversationText;
 
-    public void OpenOverlay()
+    public void OpenOverlay(string[] allText, string nameText)
     {
-        Log.Print("Open");
+        GetComponent<Canvas>().enabled = true;
+
+        this.nameText.text = nameText;
+        conversationText.GetComponent<DynamicText>().ActiveDynamicText(allText);
+    }
+
+    public void CloseOverlay()
+    {
+        GetComponent<Canvas>().enabled = false;
     }
 }

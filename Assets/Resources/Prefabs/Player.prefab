@@ -189,7 +189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad4764150f53d24886220e7bc2f9af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slot: {fileID: 5215467624901587629, guid: df9cc1b540a986f45b019cd1099328cb, type: 3}
 --- !u!50 &3905798396274382593
 Rigidbody2D:
   serializedVersion: 4
@@ -208,7 +207,7 @@ Rigidbody2D:
   m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: db0da460a7580684fb1d85dd953b0cd8, type: 2}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!70 &4914203795115044550

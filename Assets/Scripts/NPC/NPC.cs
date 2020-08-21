@@ -16,15 +16,22 @@ public class NPC : MonoBehaviour
 
     public string ID = "1";
 
+    private string nameText;
     public string[] Texts;
 
-    void Start()
+    private void Awake()
     {
         var text = AssetBundleContainer.LoadAsset<TextAsset>("jsons", "NPCTable");
         var data = JsonManager.LoadJson<Serialization<string, NPCDataTable>>(text).ToDictionary();
 
         Texts = data[ID].Text.Split('\n');
+        nameText = data[ID].NpcName;
 
-        CanvasManager.Instance.ConversationCanvas.enabled = true;
+        CanvasManager.Instance.ConversationCanvas.CloseOverlay();
+    }
+
+    public void Conversation()
+    {
+        CanvasManager.Instance.ConversationCanvas.OpenOverlay(Texts, nameText);
     }
 }
