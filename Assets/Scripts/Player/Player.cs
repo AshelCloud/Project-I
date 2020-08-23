@@ -321,7 +321,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ChangeDirection()
     {
-        if (Input.GetAxis("Horizontal") > 0)
+        if (Input.GetAxis("Horizontal") >= 0)
         {
             direction = new Vector2(Mathf.Abs(direction.x), direction.y);                                                       //플레이어 방향전환
 

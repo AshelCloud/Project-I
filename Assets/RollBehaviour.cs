@@ -2,37 +2,40 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class RollBehaviour : StateMachineBehaviour
 {
 
     private Player player = null;
 
-    
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter RollBehaviour");
+
         player = animator.gameObject.GetComponent<Player>();
 
         player.isInvincible = true;
+
+        if (player.direction.x > 0)
+        {
+            player.rb.AddForce(new Vector2(player.RollForce, 0.0f), ForceMode2D.Impulse);
+        }
+
+        else
+        {
+            player.rb.AddForce(new Vector2(-player.RollForce, 0.0f), ForceMode2D.Impulse);
+        }
     }
 
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (player.direction.x > 0)
+        if(stateInfo.normalizedTime >= 0.99f)
         {
-            player.rb.AddForce(new Vector2(2f, 0.0f), ForceMode2D.Impulse);
+            animator.SetBool("IsRoll", false);
         }
 
-        else
-        {
-            player.rb.AddForce(new Vector2(2f, 0.0f), ForceMode2D.Impulse);
-        }
-
-        player.ChangeDirection();
-
-        animator.SetBool("IsRoll", false);
     }
 
 

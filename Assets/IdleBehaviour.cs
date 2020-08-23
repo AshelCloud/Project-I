@@ -11,27 +11,37 @@ public class IdleBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter IdleState");
         player = animator.gameObject.GetComponent<Player>();
+
+        if (!player.isGrounded())
+        {
+            animator.SetBool("IsJump", true);
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-        //if (!player.isGrounded())
-        //{
-        //    animator.SetBool("IsJump", true);
-        //}
-
- 
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-            {
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+        {
                 animator.SetBool("IsRun", true);
-            }
+        }
+
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            animator.SetBool("IsAttack", true);
+        }
 
         else if (Input.GetKeyDown(KeyCode.D))
         {
             animator.SetBool("IsJump", true);
         }
+        
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            animator.SetBool("IsRoll", true);
+        }
+
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

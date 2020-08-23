@@ -50,6 +50,11 @@ public class RunBehaviour : StateMachineBehaviour
         {
             animator.SetBool("IsJump", true);
         }
+
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            animator.SetBool("IsRoll", true);
+        }
     }
 
     
@@ -102,16 +107,4 @@ public class RunBehaviour : StateMachineBehaviour
             Debug.DrawRay(hit.point, hit.normal, Color.blue);
         }
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }
