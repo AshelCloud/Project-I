@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -647, y: 132}
+  m_AnchoredPosition: {x: -647, y: 105}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4664543833386078207
@@ -64,12 +64,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: aa4d98cfd92a847429efaa7f634408f9, type: 3}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: 572ce6c2a6099a04b89e9afcbcd55f27, type: 3}
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 5
-    m_MaxSize: 62
+    m_MinSize: 1
+    m_MaxSize: 151
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 3936925756676882427}
   - component: {fileID: 8648634551745957277}
   - component: {fileID: 5212467636233451812}
+  - component: {fileID: 1806984975}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -330,11 +331,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: aa4d98cfd92a847429efaa7f634408f9, type: 3}
-    m_FontSize: 40
+    m_Font: {fileID: 12800000, guid: 572ce6c2a6099a04b89e9afcbcd55f27, type: 3}
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 124
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -343,3 +344,17 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: We need Conversation OK?
+--- !u!114 &1806984975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924877115636391799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4261198f5ecdbda41834f9a2c9d93a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textSpeed: 0.1
+  waitTime: 1
