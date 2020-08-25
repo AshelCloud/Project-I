@@ -36,10 +36,10 @@ public class RunBehaviour : StateMachineBehaviour
                                              -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
         }
 
-        else
-        {
-            animator.SetBool("IsJump", true);
-        }
+        //else
+        //{
+        //    animator.SetBool("IsJump", true);
+        //}
 
         if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {

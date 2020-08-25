@@ -11,29 +11,51 @@ public class JumpBehaviour : StateMachineBehaviour
     private bool leftMove = false;
     private bool rightMove = false;
 
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter JumpBehaviour");
 
         player = animator.gameObject.GetComponent<Player>();
 
-        if(player.isGrounded())
+        if(player.isGrounded() && player.isJumpDown)
+        {
+            player.Platform.rotationalOffset = 180;
+        }
+
+        else if(player.isGrounded())
         {
             player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
         }
 
         else
         {
-
+            return;
         }
     }
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(!player.isGrounded())
+        if (!player.isGrounded())
         {
+            if (Input.GetKeyDown(KeyCode.D) && !doubleJump)
+            {
+                Log.Print("Player do double jump");
+
+                doubleJump = true;
+
+                animator.Play("Jump");
+
+                //더블 점프 전 y축 속도 0 설정, 벡터 합력으로 인한 슈퍼점프 방지
+                player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
+                player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+            }
+
+            if(Input.GetKeyDown(KeyCode.S) && player.CheckWall())
+            {
+                animator.SetBool("IsCling", true);
+            }
+
+
             //좌측이동
             if (Input.GetKey(KeyCode.RightArrow) && !leftMove)
             {
@@ -57,30 +79,15 @@ public class JumpBehaviour : StateMachineBehaviour
             {
                 player.ChangeDirection();
             }
-
-            if (Input.GetKeyDown(KeyCode.D) && !doubleJump)
-            {
-                Log.Print("Player do double jump");
-
-                animator.Play("Jump");
-
-                //더블 점프 전 y축 속도 0 설정, 벡터 합력으로 인한 슈퍼점프 방지
-                player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
-                player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-                doubleJump = true;
-            }
         }
 
         else
         {
-            //더블 점프 횟수 초기화
-            doubleJump = false;
-
             animator.SetBool("IsJump", false);
+            doubleJump = false;
         }
     }
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit JumpBehaviour");
@@ -90,16 +97,4 @@ public class JumpBehaviour : StateMachineBehaviour
 
         player.isJumpDown = false;
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

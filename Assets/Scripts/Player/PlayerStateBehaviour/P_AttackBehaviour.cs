@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class P_AttackBehaviour : StateMachineBehaviour
 {
-    
+    private Player player = null;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter AttackState");
+
+        player = animator.gameObject.GetComponent<Player>();
+
+        player.Sword.SetActive(true);
+
+        if(stateInfo.normalizedTime >= 0.6f && stateInfo.normalizedTime < 0.7f)
+        {
+            SwordHitMonster();
+        }
     }
 
     
@@ -23,23 +33,21 @@ public class P_AttackBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit AttackState");
+
+        player.Sword.SetActive(false);
+        player.hitTarget = null;
     }
 
-    // OnStateMove is called before OnStateMove is called on any state inside this state machine
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    private void SwordHitMonster()
+    {
+        if (player.hitTarget)
+        {
+            player.hitTarget.GetDamaged(player.OffensePower);
+            Log.Print("Monster HP: " + player.hitTarget.HP);
+        }
 
-    // OnStateMachineEnter is called when entering a state machine via its Entry Node
-    //override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
-    //{
-    //    
-    //}
-
-    // OnStateMachineExit is called when exiting a state machine via its Exit Node
-    //override public void OnStateMachineExit(Animator animator, int stateMachinePathHash)
-    //{
-    //    
-    //}
+        else
+        {
+        }
+    }
 }
