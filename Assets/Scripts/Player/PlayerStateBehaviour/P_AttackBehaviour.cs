@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class P_AttackBehaviour : StateMachineBehaviour
 {
     private Player player = null;
+
+    private GameObject sword = null;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -12,7 +12,9 @@ public class P_AttackBehaviour : StateMachineBehaviour
 
         player = animator.gameObject.GetComponent<Player>();
 
-        player.Sword.SetActive(true);
+        sword = player.transform.GetChild(0).gameObject;
+
+        sword.SetActive(true);
 
         if(stateInfo.normalizedTime >= 0.6f && stateInfo.normalizedTime < 0.7f)
         {
@@ -34,7 +36,7 @@ public class P_AttackBehaviour : StateMachineBehaviour
     {
         Log.Print("Player exit AttackState");
 
-        player.Sword.SetActive(false);
+        sword.SetActive(false);
         player.hitTarget = null;
     }
 

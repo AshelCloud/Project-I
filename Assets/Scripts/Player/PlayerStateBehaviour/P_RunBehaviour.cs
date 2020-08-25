@@ -1,20 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class RunBehaviour : StateMachineBehaviour
+public class P_RunBehaviour : StateMachineBehaviour
 {
     private Player player = null;
+    private CapsuleCollider2D cc2D = null;
 
     private bool isOnSlope;
     private Vector2 slopeNormalPerp;
     private float slopeDownAngle;
     private float slopeDownAngleOld;
 
+    
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter RunBehaviour");
+
         player = animator.gameObject.GetComponent<Player>();
+
+        cc2D = player.GetComponent<CapsuleCollider2D>();
     }
 
     
@@ -25,12 +29,12 @@ public class RunBehaviour : StateMachineBehaviour
 
         player.ChangeDirection();
 
-        if (player.isGrounded() && !isOnSlope)
+        if (player.isGrounded && !isOnSlope)
         {
             player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, 0.0f);
         }
 
-        else if (player.isGrounded() && isOnSlope)
+        else if (player.isGrounded && isOnSlope)
         {
             player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
                                              -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
@@ -66,7 +70,7 @@ public class RunBehaviour : StateMachineBehaviour
 
     public void SlopeCheck()
     {
-        Vector2 checkPos = player.transform.position + new Vector3(0.0f, player.cc2D.size.y / 4);
+        Vector2 checkPos = player.transform.position + new Vector3(0.0f, cc2D.size.y / 4);
 
         //SlopeCheckHorizontal(checkPos);
         SlopeCheckVertical(checkPos);

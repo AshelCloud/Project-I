@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class P_HitBehaviour : StateMachineBehaviour
 {
     private Player player = null;
+    private SpriteRenderer spriteRenderer = null;
 
     private float bounceLength = 5;
 
@@ -13,6 +12,7 @@ public class P_HitBehaviour : StateMachineBehaviour
         Log.Print("Player enter HitState");
 
         player = animator.gameObject.GetComponent<Player>();
+        spriteRenderer = player.GetComponent<SpriteRenderer>();
 
         //플레이어가 피격시 공중으로 튕겨져 나감
         if (player.direction.x > 0)
@@ -31,7 +31,8 @@ public class P_HitBehaviour : StateMachineBehaviour
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player.spriteRenderer.color = new Color(255, 0, 0);
+        //피격시 빨갛게 색 변화
+        spriteRenderer.color = new Color(255, 0, 0);
 
         if (stateInfo.normalizedTime >= 0.99f)
         {
@@ -44,6 +45,7 @@ public class P_HitBehaviour : StateMachineBehaviour
     {
         Log.Print("Player exit HitState");
 
-        player.spriteRenderer.color = new Color(255, 255, 255);
+        //색 원상복구
+        spriteRenderer.color = new Color(255, 255, 255);
     }
 }
