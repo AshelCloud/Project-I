@@ -1,18 +1,14 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public partial class Player : MonoBehaviour, IDamageable
 {
-    public Animator animator { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
-    public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
-    public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
 
     public Vector2 direction { get { return transform.localScale; } set { transform.localScale = value; } }
-
-    private GameObject sword = null;
-    public GameObject Sword { get { return sword; } }
 
     private PlatformEffector2D platform = null;
     public PlatformEffector2D Platform { get { return platform; } }
@@ -26,7 +22,12 @@ public partial class Player : MonoBehaviour, IDamageable
     public bool isJumpDown { get; set; } = false;
     public bool isInvincible { get; set; } = false;
 
-    private MapLoader mapLoader = null;
+    public bool isGrounded { get; private set; } = false;
+
+    [SerializeField]
+    private Vector2 groundCheckBox = new Vector2(0.8f, 0.05f);
+    [SerializeField]
+    private float groundCheckDistance = 0.2f;
 
     private void Awake()
     {
@@ -40,49 +41,17 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         healthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
 
-        sword = GameObject.FindGameObjectWithTag("Weapon");
-
-        sword.SetActive(false);
-
-        mapLoader = GameObject.Find("Grid").GetComponent<MapLoader>();
         //restartButton = GameObject.Find("Restart").GetComponent<Button>();
     }
 
     private void Update()
     {
-
         healthInterface.fillAmount = hp / 100;
     }
 
     private void FixedUpdate()
     {
-        //if (_currentState == new RunState())
-        //{
-        //    //속도 제한
-        //    if (rb.velocity.x > Speed)
-        //    {
-        //        rb.velocity = new Vector2(Speed, rb.velocity.y);
-        //    }
-
-
-        //    else if (rb.velocity.x < -Speed)
-        //    {
-        //        rb.velocity = new Vector2(-Speed, rb.velocity.y);
-        //    }
-        //}
-
-        //else
-        //{
-        //    if (rb.velocity.y < -16f)
-        //    {
-        //        rb.velocity = new Vector2(rb.velocity.x, -16f);
-        //    }
-
-        //    else if (rb.velocity.y > 16f)
-        //    {
-        //        rb.velocity = new Vector2(rb.velocity.x, 16f);
-        //    }
-        //}
+        CheckGround();
     }
 
 
@@ -112,6 +81,8 @@ public partial class Player : MonoBehaviour, IDamageable
 
     public void GetDamaged(float value)
     {
+        Animator animator = gameObject.GetComponent<Animator>();
+
         Log.Print("Player hit");
         //플레이어가 무적 상태가 아닐 때만
         if (!isInvincible)
@@ -169,64 +140,72 @@ public partial class Player : MonoBehaviour, IDamageable
         }
     }
 
-    public bool isGrounded()
+    public void CheckGround()
     {
         var floorLayer = LayerMask.GetMask("Floor");
         var platformLayer = LayerMask.GetMask("Platform");
 
         var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
-        var boxSize = new Vector2(0.8f, 0.05f);
+
+        var groundCheck = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, floorLayer).collider;
+        var platformCheck = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, platformLayer).collider;
+
+
         //바닥 체크   
-        if (Physics2D.BoxCast(startPos, boxSize, 0f, Vector2.down, 0.2f, floorLayer).collider != null)
+        if (groundCheck != null)
         {
             //하강 점프 완료 후
             if (Platform != null)
             {
                 //다시 플랫폼으로 올라갈 수 있도록 오프셋 초기화
                 Platform.rotationalOffset = 0;
-                return true;
+
+
             }
 
-            else
-            {
-                return true;
-            }
+
+            isGrounded = true;
         }
 
         //플랫폼 체크
-        else if (Physics2D.BoxCast(startPos, boxSize, 0f, Vector2.down, 0.2f, platformLayer).collider != null)
+        else if (platformCheck != null)
         {
-            platform = Physics2D.BoxCast(startPos, boxSize, 0f, Vector2.down, 0.2f, platformLayer).collider.GetComponent<PlatformEffector2D>();
-            return true;
+            platform = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, platformLayer).collider.GetComponent<PlatformEffector2D>();
+
+            isGrounded = true;
         }
 
         else
         {
-            return false;
+            isGrounded = false;
         }
     }
 
     public void ChangeDirection()
     {
-        if (Input.GetAxis("Horizontal") >= 0)
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             direction = new Vector2(Mathf.Abs(direction.x), direction.y);                                                       //플레이어 방향전환
 
         }
 
         //우측이동
-        else
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
             direction = new Vector2(-Mathf.Abs(direction.x), direction.y);                                                              //플레이어 방향전환
+        }
+
+        else
+        {
+            return;
         }
     }
 
     private void OnDrawGizmos()
     {
         var checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
-        var boxSize = new Vector3(0.7f, 0.05f, 0f);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(checkPos, boxSize);
+        Gizmos.DrawWireCube(checkPos, groundCheckBox);
     }
 }
