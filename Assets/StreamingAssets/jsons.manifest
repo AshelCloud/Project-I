@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2780538150
+CRC: 259612352
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c17162991713147aa59d83385516372f
+    Hash: eed63a86b0033ad8b6b0efa1ee05f1a2
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -15,6 +15,7 @@ Assets:
 - Assets/Resources/PlayerJson/weapon_change_table.json
 - Assets/Resources/MapJsons/Forest_4.json
 - Assets/Resources/MapJsons/Forest_8.json
+- Assets/Resources/MapJsons/TestForest_0.json
 - Assets/Resources/MapJsons/Forest_6.json
 - Assets/Resources/MapJsons/Forest_2-1.json
 - Assets/Resources/MapJsons/Forest_2.json
@@ -30,4 +31,5 @@ Assets:
 - Assets/Resources/MapJsons/Forest_3-1.json
 - Assets/Resources/PlayerJson/Item_Table.json
 - Assets/Resources/MapJsons/Forest_1.json
+- Assets/Resources/MapJsons/TestForest_1.json
 Dependencies: []

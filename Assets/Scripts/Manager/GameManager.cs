@@ -42,21 +42,21 @@ public class GameManager : MonoBehaviour
         loader.Disable();
         yield return null;
 
-        ActiveLoadMap(mapLoader.StartMapName, false);
+        ActiveLoadMap(mapLoader.StartMapName, "Spawn");
         yield return null;
     }
 
-    public void ActiveLoadMap(string mapName, bool isPrevious)
+    public void ActiveLoadMap(string mapName, string linkingPortalName)
     {
-        StartCoroutine(LoadMap(mapName, isPrevious));
+        StartCoroutine(LoadMap(mapName, linkingPortalName));
     }
 
-    private IEnumerator LoadMap(string mapName, bool isPrevious)
+    private IEnumerator LoadMap(string mapName, string linkingPortalName)
     {
         loader.ActiveFadeIn();
         yield return new WaitUntil(() => loader.FadedValue >= 1f);
 
-        mapLoader.LoadMap(mapName, isPrevious);
+        mapLoader.LoadMap(mapName, linkingPortalName);
         yield return new WaitUntil( () => mapLoader.Loaded );
 
         loader.ActiveFadeOut();

@@ -108,7 +108,8 @@ public partial class Player : MonoBehaviour, IDamageable
         if(Input.GetKeyDown(KeyCode.Mouse2))
         {
             hp = playerData.HP;
-            mapLoader.LoadMap(mapLoader.CurrentMapName, false);
+            //NEED: MapLoaer 리뉴얼로 인해 레거시 코드 변환필요
+            //mapLoader.LoadMap(mapLoader.CurrentMapName, false);
             SetState(new IdleState());
         }
     }
