@@ -2,52 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour, IDamageable
+public partial class Player : MonoBehaviour, IDamageable
 {
-    [System.Serializable]
-    private class PlayerData
-    {
-        public string Name = null;
-        public string Variablename = null;
-        public float Offensepower = 0f;
-        public float Defense = 0f;
-        public float HP = 0f;
-        public float Speed = 0f;
-        public string Objectname = null;
-        public string Animatorname = null;
-        public string Prefabname = null;
-    }
-
-    private PlayerData playerData;
-
-    //기본값 = 1
-    private const int ID = 1;
-
-    [SerializeField]
-    private float offensePower = 0;
-    public float OffensePower { get { return offensePower; } }
-
-    private float defense = 0f;
-
-    static private float hp = 0f;
-    public float HP { get { return hp; } }
-
-    //이동 속도
-    [SerializeField]
-    private float speed = 0f;
-    public float Speed { get { return speed; } }
-
-    //점프력
-    [SerializeField]
-    private float jumpForce = 0f;
-    public float JumpForce { get { return jumpForce; } }
-
-    //구르기 거리
-    [SerializeField]
-    private float rollForce = 0f;
-    public float RollForce { get { return rollForce; } }
-
-    public Animator anim { get { return gameObject.GetComponent<Animator>(); } }
+    public Animator animator { get { return gameObject.GetComponent<Animator>(); } }
     public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
     public SpriteRenderer spriteRenderer { get { return GetComponent<SpriteRenderer>(); } }
     public CapsuleCollider2D cc2D {get { return gameObject.GetComponent<CapsuleCollider2D>(); } }
@@ -68,10 +25,6 @@ public class Player : MonoBehaviour, IDamageable
 
     public bool isJumpDown { get; set; } = false;
     public bool isInvincible { get; set; } = false;
-    public bool isCling { get; set; } = false;
-    public bool isHit { get; set; } = false;
-
-    private IPlayerState _currentState;
 
     private MapLoader mapLoader = null;
 
@@ -79,9 +32,6 @@ public class Player : MonoBehaviour, IDamageable
     {
         LoadToJsonData(ID);
         SetData();
-
-        //최초 게임 실행 시 대기 상태로 설정
-        //SetState(new IdleState());
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
@@ -100,17 +50,8 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        //현재 상태에 따른 행동 실행
-        //_currentState.Update();
 
         healthInterface.fillAmount = hp / 100;
-
-        if(Input.GetKeyDown(KeyCode.Mouse2))
-        {
-            hp = playerData.HP;
-            mapLoader.LoadMap(mapLoader.CurrentMapName, false);
-            SetState(new IdleState());
-        }
     }
 
     private void FixedUpdate()
@@ -144,21 +85,6 @@ public class Player : MonoBehaviour, IDamageable
         //}
     }
 
-    public void SetState(IPlayerState nextState)
-    {
-        if (_currentState != null)
-        {
-            //기존 상태 존재할 시 OnExit()호출
-            _currentState.OnExit();
-        }
-
-        //다음 상태 전이
-        _currentState = nextState;
-
-        //다음 상태 진입
-        _currentState.OnEnter(this);
-    }
-
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -183,44 +109,6 @@ public class Player : MonoBehaviour, IDamageable
             hitTarget = null;
         }
     }
-    
-    private void LoadToJsonData(int ID)
-    {
-        //테이블 ID는 1부터 시작
-        //ID가 기본값이면 에러로그 출력
-        AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
-        
-        if (localAssetBundle == null)
-        {
-            Log.PrintError("Failed to load AssetBundle!");
-        }
-
-        if (ID == 0)
-        {
-            Log.PrintError("Failed to Player Data, ID is null or 0");
-            return;
-        }
-
-        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Characters_Table");
-
-        //Json 파싱
-        var playerDatas = JsonManager.LoadJson<Serialization<string, PlayerData>>(json).ToDictionary();
-
-        //ID 값으로 해당되는 Data 저장
-        //ID는 각 몬스터 스크립트에서 할당
-        playerData = playerDatas[ID.ToString()];
-    }
-
-    private void SetData()
-    {
-        offensePower = playerData.Offensepower;
-        defense = playerData.Defense;
-        if (hp <= 0)
-        {
-            hp = playerData.HP;
-        }
-        //speed = playerData.Speed;
-    }
 
     public void GetDamaged(float value)
     {
@@ -231,13 +119,12 @@ public class Player : MonoBehaviour, IDamageable
             hp -= value;
             if (hp <= 0)
             {
-                //***죽음 상태 미완성***
-                SetState(new DeadState());
+                return;
             }
 
             else
             {
-                SetState(new HitState());
+                animator.SetBool("IsHit", true);
 
             }
         }
