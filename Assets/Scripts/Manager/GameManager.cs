@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         loader.Disable();
         yield return null;
 
-        ActiveLoadMap(mapLoader.StartMapName, "Spawn");
+        ActiveLoadMap(mapLoader.StartMapName, "SpawnPoint");
         yield return null;
     }
 
