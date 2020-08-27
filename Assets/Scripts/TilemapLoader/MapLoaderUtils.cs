@@ -16,23 +16,26 @@ public partial class MapLoader : MonoBehaviour
         }
         tilemaps = null;
     }
-    private Vector3 GetEndPositionOfMap(string mapName)
-    {
-        foreach (var data in MapDatas)
-        {
-            int index = 0;
 
-            foreach (var nextMapName in data.Value.NextMapName)
-            {
-                if (nextMapName == CurrentMapName)
-                {
-                    return data.Value.PlayerEndPosition[index];
-                }
-                index++;
-            }
-        }
-        return Vector3.zero;
-    }
+    #region Legacy
+    //private Vector3 GetEndPositionOfMap(string mapName)
+    //{
+    //    foreach (var data in MapDatas)
+    //    {
+    //        int index = 0;
+
+    //        foreach (var nextMapName in data.Value.NextMapName)
+    //        {
+    //            if (nextMapName == CurrentMapName)
+    //            {
+    //                return data.Value.PlayerEndPosition[index];
+    //            }
+    //            index++;
+    //        }
+    //    }
+    //    return Vector3.zero;
+    //}
+    #endregion
 
     //Tilemap 정보갱신
     private Tilemap UpdateTilemapDataWithCreate(TilemapData mapData)

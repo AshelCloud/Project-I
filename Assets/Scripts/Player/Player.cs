@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour, IDamageable
+public partial class Player : MonoBehaviour, IDamageable
 {
     [System.Serializable]
     private class PlayerData
@@ -108,7 +108,8 @@ public class Player : MonoBehaviour, IDamageable
         if(Input.GetKeyDown(KeyCode.Mouse2))
         {
             hp = playerData.HP;
-            mapLoader.LoadMap(mapLoader.CurrentMapName, false);
+            //NEED: MapLoaer 리뉴얼로 인해 레거시 코드 변환필요
+            //mapLoader.LoadMap(mapLoader.CurrentMapName, false);
             SetState(new IdleState());
         }
     }
@@ -176,6 +177,12 @@ public class Player : MonoBehaviour, IDamageable
             hitTarget = collider.gameObject.GetComponent<Monster.Monster>();
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        NPCInteraction(collision);
+    }
+
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.CompareTag("Monster"))
