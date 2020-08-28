@@ -28,6 +28,10 @@ public partial class Player : MonoBehaviour, IDamageable
     private Vector2 groundCheckBox = new Vector2(0.8f, 0.05f);
     [SerializeField]
     private float groundCheckDistance = 0.2f;
+    [SerializeField]
+    private float groundCheckOffset = 0;
+    [SerializeField]
+    private float wallCheckOffset = 0;
 
     private void Awake()
     {
@@ -109,10 +113,6 @@ public partial class Player : MonoBehaviour, IDamageable
 
     public bool CheckWall()
     {
-        var floorLayer = LayerMask.GetMask("Floor");
-
-        var checkPos = new Vector3(transform.position.x, transform.position.y + 1.5f);
-
         Vector3 rayDirection;
 
         //우측 확인
@@ -126,6 +126,12 @@ public partial class Player : MonoBehaviour, IDamageable
         {
             rayDirection = -transform.right;
         }
+
+        var floorLayer = LayerMask.GetMask("Floor");
+
+        var checkPos = new Vector3(transform.position.x + (wallCheckOffset * rayDirection.x), transform.position.y);
+
+
 
         if (Physics2D.Raycast(checkPos, rayDirection, 0.6f, floorLayer))
         {
@@ -145,7 +151,7 @@ public partial class Player : MonoBehaviour, IDamageable
         var floorLayer = LayerMask.GetMask("Floor");
         var platformLayer = LayerMask.GetMask("Platform");
 
-        var startPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+        var startPos = new Vector3(transform.position.x, transform.position.y + groundCheckOffset);
 
         var groundCheck = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, floorLayer).collider;
         var platformCheck = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, platformLayer).collider;
@@ -203,9 +209,15 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void OnDrawGizmos()
     {
-        var checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f);
+        var checkPos = new Vector3(transform.position.x, transform.position.y + groundCheckOffset);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(checkPos, groundCheckBox);
+
+        checkPos = new Vector3(transform.position.x + wallCheckOffset, transform.position.y);
+        var goalPos = new Vector3(checkPos.x + 0.6f, checkPos.y);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(checkPos, goalPos);
     }
 }
