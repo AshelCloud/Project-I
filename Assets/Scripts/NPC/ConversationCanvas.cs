@@ -11,6 +11,8 @@ public class ConversationCanvas : MonoBehaviour
 
     public void OpenOverlay(string[] allText, string nameText)
     {
+        if(GetComponent<Canvas>().enabled) { return ; }
+
         GetComponent<Canvas>().enabled = true;
 
         this.nameText.text = nameText;
