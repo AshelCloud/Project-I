@@ -13,13 +13,6 @@ public class P_AttackBehaviour : StateMachineBehaviour
         player = animator.gameObject.GetComponent<Player>();
 
         sword = player.transform.GetChild(0).gameObject;
-
-        sword.SetActive(true);
-
-        if(stateInfo.normalizedTime >= 0.6f && stateInfo.normalizedTime < 0.7f)
-        {
-            SwordHitMonster();
-        }
     }
 
     
@@ -29,6 +22,12 @@ public class P_AttackBehaviour : StateMachineBehaviour
         {
             animator.SetBool("IsAttack", false);
         }
+
+        if (stateInfo.normalizedTime >= 0.2f && stateInfo.normalizedTime < 0.25f)
+        {
+            sword.SetActive(true);
+            SwordHitMonster();
+        }
     }
 
     
@@ -36,13 +35,13 @@ public class P_AttackBehaviour : StateMachineBehaviour
     {
         Log.Print("Player exit AttackState");
 
-        sword.SetActive(false);
         player.hitTarget = null;
+        sword.SetActive(false);
     }
 
     private void SwordHitMonster()
     {
-        if (player.hitTarget)
+        if (player.hitTarget != null)
         {
             player.hitTarget.GetDamaged(player.OffensePower);
             Log.Print("Monster HP: " + player.hitTarget.HP);

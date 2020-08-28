@@ -108,8 +108,6 @@ public class P_JumpBehaviour : StateMachineBehaviour
 
         float fallSpeed = player.rb.velocity.y;
 
-        Debug.Log(player.rb.velocity);
-
         if (fallSpeed > 5f)
         {
             animator.SetFloat("inAir", 0.2f);
