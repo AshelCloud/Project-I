@@ -22,19 +22,19 @@ public class DynamicText : MonoBehaviour
         }
     }
 
-    private bool showing;
-    private bool skip;
+    private bool IsShow { get; set; }
+    private bool Skip { get; set; }
 
     private string showText;
     private string[] allText;
 
     private void Update()
     {
-        if(showing == false && skip) { return; }
+        if(IsShow == false && Skip) { return; }
 
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            skip = true;
+            Skip = true;
         }
     }
 
@@ -45,7 +45,9 @@ public class DynamicText : MonoBehaviour
 
         this.allText = allText;
 
-        showing = true;
+        IsShow = true;
+        Skip = false;
+
         StartCoroutine(ShowText());
     }
 
@@ -67,12 +69,10 @@ public class DynamicText : MonoBehaviour
               
                 showText = "";
             }
-            else if(skip)
+            else if(Skip)
             {
                 showText = allText[textArrayCount];
                 textLengthCount = allText[textArrayCount].Length;
-
-                skip = false;
             }
             else
             {
@@ -81,10 +81,11 @@ public class DynamicText : MonoBehaviour
             }
 
             Text.text = showText;
+            Skip = false;
             yield return new WaitForSeconds(textSpeed);
         }
 
-        showing = false;
+        IsShow = false;
         CanvasManager.Instance.ConversationCanvas.CloseOverlay();
     }
 }
