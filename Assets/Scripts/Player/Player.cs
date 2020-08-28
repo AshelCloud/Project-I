@@ -45,6 +45,7 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         healthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
 
+        gameObject.GetComponent<Animator>().SetFloat("HP", hp);
         //restartButton = GameObject.Find("Restart").GetComponent<Button>();
     }
 
@@ -91,6 +92,7 @@ public partial class Player : MonoBehaviour, IDamageable
         //플레이어가 무적 상태가 아닐 때만
         if (!isInvincible)
         {
+            animator.SetFloat("HP", hp);
             hp -= value;
             if (hp <= 0)
             {
