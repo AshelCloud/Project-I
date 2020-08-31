@@ -76,6 +76,11 @@ public partial class Player : MonoBehaviour, IDamageable
             hitTarget = collider.gameObject.GetComponent<Monster.Monster>();
         }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        NPCInteraction(collision);
+    }
+
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.CompareTag("Monster"))
