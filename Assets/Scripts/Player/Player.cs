@@ -92,8 +92,9 @@ public partial class Player : MonoBehaviour, IDamageable
         //플레이어가 무적 상태가 아닐 때만
         if (!isInvincible)
         {
-            animator.SetFloat("HP", hp);
             hp -= value;
+            animator.SetFloat("HP", hp);
+
             if (hp <= 0)
             {
                 return;
