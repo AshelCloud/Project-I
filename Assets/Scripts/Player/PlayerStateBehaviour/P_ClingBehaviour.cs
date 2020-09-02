@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class P_ClingBehaviour : StateMachineBehaviour
 {
-
     private Player player;
+
+    [SerializeField]
+    private float downSpeed = 0.0f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -17,7 +19,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player.rb.velocity = Vector2.zero;
+        player.rb.velocity = new Vector2(0.0f, -downSpeed);
 
         if (Input.GetKeyDown(KeyCode.D))
         {
