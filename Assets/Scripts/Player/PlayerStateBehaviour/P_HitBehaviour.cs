@@ -34,6 +34,8 @@ public class P_HitBehaviour : StateMachineBehaviour
         //피격시 빨갛게 색 변화
         spriteRenderer.color = new Color(255, 0, 0);
 
+        animator.SetFloat("HP", player.HP);
+
         if (stateInfo.normalizedTime >= 0.99f)
         {
             animator.SetBool("IsHit", false);
