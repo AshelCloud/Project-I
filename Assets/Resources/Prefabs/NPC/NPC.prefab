@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3401207840418996384}
   - component: {fileID: 3401207840418996387}
   m_Layer: 13
-  m_Name: TestNPC
+  m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1
   Texts: []
+  conversationCanvas: {fileID: 4449990052247253249}
 --- !u!1 &3401207841099372955
 GameObject:
   m_ObjectHideFlags: 0
