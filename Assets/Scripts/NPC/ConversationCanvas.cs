@@ -18,6 +18,8 @@ public class ConversationCanvas : MonoBehaviour
         canvas = GetComponent<Canvas>();
         Root = transform.root.GetComponent<NPC>();
         dynamicText = conversationText.GetComponent<DynamicText>();
+
+        canvas.worldCamera = Camera.main;
     }
 
     public void OpenOverlay(string[] allText, string nameText)
