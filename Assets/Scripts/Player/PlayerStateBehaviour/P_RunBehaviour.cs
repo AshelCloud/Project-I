@@ -31,7 +31,7 @@ public class P_RunBehaviour : StateMachineBehaviour
 
         if (player.isGrounded && !isOnSlope)
         {
-            player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, 0.0f);
+            player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
         }
 
         else if (player.isGrounded && isOnSlope)
@@ -40,10 +40,10 @@ public class P_RunBehaviour : StateMachineBehaviour
                                              -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
         }
 
-        //else
-        //{
-        //    animator.SetBool("IsJump", true);
-        //}
+        else
+        {
+            player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+        }
 
         if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
@@ -72,13 +72,31 @@ public class P_RunBehaviour : StateMachineBehaviour
     {
         Vector2 checkPos = player.transform.position + new Vector3(0.0f, cc2D.size.y / 4);
 
-        //SlopeCheckHorizontal(checkPos);
+        SlopeCheckHorizontal(checkPos);
         SlopeCheckVertical(checkPos);
     }
 
     private void SlopeCheckHorizontal(Vector2 checkPos)
     {
+        float slopeCheckDistance = 0.2f;
 
+        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, player.transform.right, slopeCheckDistance, LayerMask.GetMask("Floor"));
+        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -player.transform.right, slopeCheckDistance, LayerMask.GetMask("Floor"));
+
+        if(slopeHitFront)
+        {
+            isOnSlope = true;
+        }
+
+        else if(slopeHitBack)
+        {
+            isOnSlope = true;
+        }
+
+        else
+        {
+            isOnSlope = false;
+        }
     }
 
     private void SlopeCheckVertical(Vector2 checkPos)
@@ -94,7 +112,6 @@ public class P_RunBehaviour : StateMachineBehaviour
 
             if (slopeDownAngle != slopeDownAngleOld)
             {
-
                 isOnSlope = true;
             }
 

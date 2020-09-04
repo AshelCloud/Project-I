@@ -23,9 +23,8 @@ public class P_AttackBehaviour : StateMachineBehaviour
             animator.SetBool("IsAttack", false);
         }
 
-        if (stateInfo.normalizedTime >= 0.2f && stateInfo.normalizedTime < 0.25f)
+        if (stateInfo.normalizedTime >= 0.2f && stateInfo.normalizedTime < 0.21f)
         {
-            sword.SetActive(true);
             SwordHitMonster();
         }
     }
@@ -34,13 +33,12 @@ public class P_AttackBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit AttackState");
-
-        player.hitTarget = null;
-        sword.SetActive(false);
+        
     }
 
     private void SwordHitMonster()
     {
+
         if (player.hitTarget != null)
         {
             player.hitTarget.GetDamaged(player.OffensePower);

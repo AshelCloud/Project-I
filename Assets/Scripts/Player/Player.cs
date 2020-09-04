@@ -59,33 +59,11 @@ public partial class Player : MonoBehaviour, IDamageable
         CheckGround();
     }
 
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("trap"))
         {
             GetDamaged(1000f);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.CompareTag("Monster"))
-        {
-            hitTarget = collider.gameObject.GetComponent<Monster.Monster>();
-        }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        NPCInteraction(collision);
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.CompareTag("Monster"))
-        {
-            hitTarget = null;
         }
     }
 

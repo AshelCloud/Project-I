@@ -85,7 +85,8 @@ public class P_JumpBehaviour : StateMachineBehaviour
 
         timer += Time.deltaTime;
 
-        if (player.isGrounded && timer >= checkTime)
+        if (player.isGrounded && timer >= checkTime &&
+            player.rb.velocity.normalized.y <= 0)
         {
             animator.SetBool("IsJump", false);
             doubleJump = false;
