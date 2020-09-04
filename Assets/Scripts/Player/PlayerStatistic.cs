@@ -26,7 +26,7 @@ public partial class Player
     private float offensePower = 0;
     public float OffensePower { get { return offensePower; } }
 
-    private float defense = 0f;
+    public float defense { get; private set; }
 
     static private float hp = 0f;
     public float HP { get { return hp; } }
