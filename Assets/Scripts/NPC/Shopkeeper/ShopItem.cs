@@ -13,7 +13,8 @@ public class ShopItem : MonoBehaviour
     {
         Data = ItemContainer.GetItem(code);
 
-        icon.sprite = ResourcesContainer.Load<Sprite>("Sprites/Item/" + Data.GraphicAssetsName);
+        icon.sprite = ResourcesContainer.Load<Sprite>("Sprites/" + Data.Route);
         descriptionText.text = Data.Name;
+        priceText.text = Data.Cost.ToString() + "Gold";
     }
 }
