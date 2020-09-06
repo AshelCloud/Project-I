@@ -4,31 +4,11 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    private static Inventory instance;
-
-    public static Inventory Instance
+    public Inventory insntance
     {
         get
         {
-            if(instance == null)
-            {
-                var obj = FindObjectOfType<Inventory>();
-                if(obj != null)
-                {
-                    instance = obj;
-                }
-                else
-                {
-                    var newInventory = new GameObject("Inventory").AddComponent<Inventory>();
-                    instance = newInventory;
-                }
-            }
-            return instance;
-        }
-
-        private set
-        {
-            instance = value;
+            return gameObject.GetComponent<Inventory>();
         }
     }
 
@@ -42,14 +22,6 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        var objs = FindObjectsOfType<Inventory>();
-        if(objs.Length != 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
-
     }
 
     void Start()
@@ -81,7 +53,7 @@ public class Inventory : MonoBehaviour
 
     private void LateUpdate()
     {
-        //UI.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
+        gameObject.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
     }
 
     public void PutItemInventory(Item item)

@@ -32,7 +32,7 @@ public class DropBundle : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            Inventory.Instance.GetGold(DroppingBundle());
+            DroppingBundle();
             Destroy(gameObject);
         }
     }
@@ -48,26 +48,37 @@ public class DropBundle : MonoBehaviour
         probabilitySum = bundleDatas.ProbabilitySum;
     }
 
-    private int DroppingBundle()
+    private void DroppingBundle()
     {
         int probability = Random.Range(1, 100);
         int cost = 0;
         for (int i = 0; i < percentage.Count; i++)
         {
-            if (probability <= percentage[i])
+            if (itemID[i] == 21)
             {
-                cost = quantity[i];
-                break;
+                if (probability <= percentage[i])
+                {
+                    cost = quantity[i];
+                    Log.Print("Get Gold: " + cost.ToString());
+                    FindObjectOfType<Inventory>().GetGold(cost);
+                    break;
+                }
+
+                else
+                {
+                    probability -= percentage[i];
+                }
             }
 
             else
             {
-                probability -= percentage[i];
+                Debug.Log(itemID[i]);
+                //Instantiate(ResourcesContainer.Load<Item>("Prefabs/Item/Item"));
+                //FindObjectOfType<Inventory>().PutItemInventory(item);
             }
         }
 
-        Log.Print("Get Gold: " + cost.ToString());
-        return cost;
+ 
     }
 }
 

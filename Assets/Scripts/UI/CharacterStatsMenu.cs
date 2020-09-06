@@ -20,9 +20,7 @@ public class CharacterStatsMenu : MonoBehaviour
 
     void LateUpdate()
     {
-        value_HP.text = player.HP.ToString();
-        value_Power.text = player.OffensePower.ToString();
-        value_Defence.text = player.defense.ToString();
+        StartCoroutine(UpdateStatistics());
     }
 
     private IEnumerator SearchObject()
@@ -35,6 +33,15 @@ public class CharacterStatsMenu : MonoBehaviour
         value_HP = menu.transform.GetChild(1).transform.GetChild(0).GetComponent<Text>();
         value_Power = menu.transform.GetChild(2).transform.GetChild(0).GetComponent<Text>();
         value_Defence = menu.transform.GetChild(3).transform.GetChild(0).GetComponent<Text>();
+    }
+
+    private IEnumerator UpdateStatistics()
+    {
+        yield return new WaitForSeconds(1f);
+
+        value_HP.text = player.HP.ToString();
+        value_Power.text = player.OffensePower.ToString();
+        value_Defence.text = player.defense.ToString();
     }
 
 }

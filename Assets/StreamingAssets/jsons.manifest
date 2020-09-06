@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 677424131
+CRC: 1334554624
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a2e5ca16fa5f519bd74d065fe2993bab
+    Hash: 54f4c61bcdde13aece9867ed729da761
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -12,7 +12,7 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/PlayerJson/Weapon_Change_Table.json
+- Assets/Resources/PlayerJson/weapon_change_table.json
 - Assets/Resources/MapJsons/Forest_11.json
 - Assets/Resources/MapJsons/Forest_4.json
 - Assets/Resources/MapJsons/Forest_10.json

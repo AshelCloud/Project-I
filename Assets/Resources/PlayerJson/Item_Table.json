@@ -12,7 +12,7 @@
       "GetPlace": "기본지급",
       "SpecialEffects": "none",
       "GraphicAssetsName": "bronze_helmets",
-      "Route": "Item\\Helm\\Bronze_helmets",
+      "Route": "Item\\Helm\\bronze_helmets",
       "Cost": 0,
       "ItemExplanation": "구리 투구이다. 별로 튼튼해 보이지는 않는다…."
     },

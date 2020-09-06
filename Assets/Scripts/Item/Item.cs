@@ -28,11 +28,15 @@ public class Item : MonoBehaviour
     private string variableName = null;
     private string itemType = null;
     private float offensePower = 0f;
+    private float defense = 0f;
     private float hp = 0f;
     private float speed = 0f;
     private string getPlace = null;
     private string specialEffects = null;
     private string graphicAssetsName = null;
+    private string route = null;
+    private float cost = 0f;
+    private string itemExplanation = null;
 
     public string Name { get { return itemName; } }
     public string Type { get { return itemType; } }
@@ -43,7 +47,7 @@ public class Item : MonoBehaviour
     {
         SetData();
 
-        spriteRenderer.sprite = ResourcesContainer.Load<Sprite>("Sprites/Item/" + itemType + "/" + graphicAssetsName);
+        spriteRenderer.sprite = ResourcesContainer.Load<Sprite>("Sprites/" + route);
         Log.Print("Create Item: " + itemName);
     }
 
@@ -51,7 +55,7 @@ public class Item : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Inventory.Instance.PutItemInventory(gameObject.GetComponent<Item>());
+            FindObjectOfType<Inventory>().PutItemInventory(gameObject.GetComponent<Item>());
             Destroy(gameObject);
         }
     }
@@ -70,5 +74,8 @@ public class Item : MonoBehaviour
         getPlace = datas.GetPlace;
         specialEffects = datas.SpecialEffects;
         graphicAssetsName = datas.GraphicAssetsName;
+        route = datas.Route;
+        cost = datas.Cost;
+        itemExplanation = datas.ItemExplanation;
     }
 }
