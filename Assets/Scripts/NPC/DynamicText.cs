@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +22,7 @@ public class DynamicText : MonoBehaviour
         }
     }
 
-    private bool IsShow { get; set; }
+    public bool IsShow { get; private set; }
     private bool Skip { get; set; }
 
     private string showText;
@@ -60,7 +60,9 @@ public class DynamicText : MonoBehaviour
 
         while(textCount > textArrayCount)
         {
-            if(textLengthCount >= allText[textArrayCount].Length)
+            yield return new WaitForSeconds(textSpeed);
+
+            if (textLengthCount >= allText[textArrayCount].Length)
             {
                 textArrayCount ++;
                 textLengthCount = 0;
@@ -82,10 +84,8 @@ public class DynamicText : MonoBehaviour
 
             Text.text = showText;
             Skip = false;
-            yield return new WaitForSeconds(textSpeed);
         }
 
         IsShow = false;
-        CanvasManager.Instance.ConversationCanvas.CloseOverlay();
     }
 }

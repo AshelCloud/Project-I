@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 //나중에 접근 제한이 필요할 수도?
 [System.Serializable]
@@ -8,11 +8,15 @@ public class ItemData
     public string VariableName = null;
     public string ItemType = null;
     public float OffensePower = 0f;
+    public float Defense = 0f;
     public float HP = 0f;
     public float Speed = 0f;
     public string GetPlace = null;
     public string SpecialEffects = null;
     public string GraphicAssetsName = null;
+    public string Route = null;
+    public float Cost = 0f;
+    public string ItemExplanation = null;
 }
 
 public class Item : MonoBehaviour

@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class NPC : MonoBehaviour
@@ -19,19 +20,41 @@ public class NPC : MonoBehaviour
     private string nameText;
     public string[] Texts;
 
+    public ConversationCanvas conversationCanvas;
+
+    public bool  InConversation { get; set; }
+
     private void Awake()
     {
         var text = AssetBundleContainer.LoadAsset<TextAsset>("jsons", "NPCTable");
+        if(text == null)
+        {
+            AssetBundle result = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+
+            text = result.LoadAsset<TextAsset>("NPCTable");
+        }
         var data = JsonManager.LoadJson<Serialization<string, NPCDataTable>>(text).ToDictionary();
 
         Texts = data[ID].Text.Split('\n');
         nameText = data[ID].NpcName;
 
-        CanvasManager.Instance.ConversationCanvas.CloseOverlay();
+        conversationCanvas.CloseOverlay();
     }
 
     public void Conversation()
     {
-        CanvasManager.Instance.ConversationCanvas.OpenOverlay(Texts, nameText);
+        if(InConversation) { return; }
+
+        StartCoroutine(ConversationCoroutine());
+    }
+
+    private IEnumerator ConversationCoroutine()
+    {
+        conversationCanvas.OpenOverlay(Texts, nameText);
+        InConversation = true;
+
+        yield return new WaitUntil( ()=> InConversation  == false);
+
+        conversationCanvas.CloseOverlay();
     }
 }

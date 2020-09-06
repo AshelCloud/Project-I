@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,6 +53,11 @@ public class AssetBundleContainer
 
     public static T LoadAsset<T>(string bundleName, string assetName) where T : Object
     {
+        if(Bundles.ContainsKey(bundleName) == false)
+        {
+            return null;
+        }
+
         T asset = Bundles[bundleName].LoadAsset<T>(assetName);
 
         return asset;
