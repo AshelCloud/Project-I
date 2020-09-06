@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -65,6 +65,11 @@ public partial class Player : MonoBehaviour, IDamageable
         {
             GetDamaged(1000f);
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        NPCInteraction(collision);
     }
 
     public void GetDamaged(float value)

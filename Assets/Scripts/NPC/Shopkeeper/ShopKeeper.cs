@@ -41,5 +41,12 @@ public class ShopKeeper : MonoBehaviour
         
         nameText.text = Data.NPCName;
         shopCanvas.LinkingItems(Data.ItemID);
+
+        shopCanvas.CloseCanvas();
+    }
+
+    public void ShopOpen()
+    {
+        shopCanvas.OpenCanvas();
     }
 }

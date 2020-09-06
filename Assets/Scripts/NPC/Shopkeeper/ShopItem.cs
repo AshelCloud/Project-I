@@ -9,8 +9,12 @@ public class ShopItem : MonoBehaviour
 
     public ItemData Data { get; private set; }
 
+    public int Code { get; private set; }
+
     public void LinkingTextOfData(int code)
     {
+        Code = code;
+
         Data = ItemContainer.GetItem(code);
 
         icon.sprite = ResourcesContainer.Load<Sprite>("Sprites/" + Data.Route);
