@@ -15,8 +15,9 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private Image healthInterface = null;
 
-    private Button restartButton = null;
+    private Inventory inventory = null;
 
+    private ShopKeeper shopKeeper = null;
     public Monster.Monster hitTarget { get; set; }
 
     public bool isJumpDown { get; set; } = false;
@@ -46,12 +47,27 @@ public partial class Player : MonoBehaviour, IDamageable
         healthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
 
         gameObject.GetComponent<Animator>().SetFloat("HP", hp);
-        //restartButton = GameObject.Find("Restart").GetComponent<Button>();
+
+        inventory = FindObjectOfType<Inventory>();
     }
 
     private void Update()
     {
         healthInterface.fillAmount = hp / 100;
+
+        if (shopKeeper)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                Debug.Log("Shopping0");
+                Item perchased = shopKeeper._ShopCanvas.Purchase();
+
+                Debug.Log(perchased.itemName);
+                Debug.Log(perchased.route);
+
+                inventory.PerchasingItem(perchased);
+            }
+        }
     }
 
     private void FixedUpdate()

@@ -14,11 +14,12 @@ public partial class Player : MonoBehaviour
             }
         }
 
-        if(collision.gameObject.GetComponent<ShopKeeper>() != null)
+        if (collision.gameObject.GetComponent<ShopKeeper>() != null)
         {
             if (Input.GetKeyDown(KeyCode.G))
             {
-                collision.GetComponent<ShopKeeper>().ShopOpen();
+                shopKeeper = collision.GetComponent<ShopKeeper>();
+                shopKeeper.ShopOpen();
             }
         }
     }

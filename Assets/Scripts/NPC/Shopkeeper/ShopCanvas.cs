@@ -91,9 +91,9 @@ public class ShopCanvas : MonoBehaviour
 
     public Item Purchase()
     {
-        Item item = new Item();
+        Item item = new Item(items[ItemIndex].Code);
 
-        item.SetData(items[ItemIndex].ConvertItemData());
+        //item.SetData(items[ItemIndex].ConvertItemData());
 
         return item;
     }

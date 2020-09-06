@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
     [SerializeField]
     private int ID = 1;
 
-    private string itemName = null;
+    public string itemName { get; private set; }
     private string variableName = null;
     private string itemType = null;
     private float offensePower = 0f;
@@ -34,21 +34,25 @@ public class Item : MonoBehaviour
     private string getPlace = null;
     private string specialEffects = null;
     private string graphicAssetsName = null;
-    private string route = null;
-    private float cost = 0f;
+    public string route { get; private set; }
+    public float cost { get; private set; }
     private string itemExplanation = null;
 
-    public string Name { get { return itemName; } }
     public string Type { get { return itemType; } }
 
-    public SpriteRenderer spriteRenderer { get { return gameObject.GetComponent<SpriteRenderer>(); } }
+    public Sprite sprite { get; private set; }
 
-    private void Awake()
+    public Item(int id)
     {
-        SetData();
+        ID = id;
 
-        spriteRenderer.sprite = ResourcesContainer.Load<Sprite>("Sprites/" + route);
+        SetData();
+        Debug.Log("Sprites/" + route);
+
+        sprite = ResourcesContainer.Load<Sprite>("Sprites/" + route);
+        Debug.Log(sprite);
         Log.Print("Create Item: " + itemName);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -77,21 +81,5 @@ public class Item : MonoBehaviour
         route = datas.Route;
         cost = datas.Cost;
         itemExplanation = datas.ItemExplanation;
-    }
-
-    public void SetData(ItemData data)
-    {
-        itemName = data.Name;
-        variableName = data.VariableName;
-        itemType = data.ItemType;
-        offensePower = data.OffensePower;
-        hp = data.HP;
-        speed = data.Speed;
-        getPlace = data.GetPlace;
-        specialEffects = data.SpecialEffects;
-        graphicAssetsName = data.GraphicAssetsName;
-        route = data.Route;
-        cost = data.Cost;
-        itemExplanation = data.ItemExplanation;
     }
 }
