@@ -6,44 +6,28 @@
       "BaseItemID": 16,
       "MaterialItemID": 22,
       "ResultItemID": 17,
-      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유",
-      "": "",
-      "": "",
-      "": "",
-      "": ""
+      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유"
     },
     {
       "WeaponUpgradeType": "레이피어",
       "BaseItemID": 17,
       "MaterialItemID": 23,
       "ResultItemID": 18,
-      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유",
-      "": "",
-      "": "",
-      "": "",
-      "": ""
+      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유"
     },
     {
       "WeaponUpgradeType": "롱소드",
       "BaseItemID": 17,
       "MaterialItemID": 24,
       "ResultItemID": 19,
-      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유",
-      "": "",
-      "": "",
-      "": "",
-      "": ""
+      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유"
     },
     {
       "WeaponUpgradeType": "세이버",
       "BaseItemID": 17,
       "MaterialItemID": 25,
       "ResultItemID": 20,
-      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유",
-      "": "",
-      "": "",
-      "": "",
-      "": ""
+      "UpgradeCondition": "인벤토리에BaceItem과MaterialItem을 보유"
     }
   ]
 }
