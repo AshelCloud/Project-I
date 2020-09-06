@@ -88,4 +88,13 @@ public class ShopCanvas : MonoBehaviour
             items[i].LinkingTextOfData(itemID[i]);
         }
     }
+
+    public Item Purchase()
+    {
+        Item item = new Item();
+
+        item.SetData(items[ItemIndex].ConvertItemData());
+
+        return item;
+    }
 }

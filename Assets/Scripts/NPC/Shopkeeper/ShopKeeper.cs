@@ -11,8 +11,8 @@ public class ShopKeeper : MonoBehaviour
     {
         public string NPCName;
         public List<string> SaleItem;
-        public List<int> ItemID;
         public List<float> Cost;
+        public List<int> ItemID;
     }
 
     public string ID = "1";
@@ -20,11 +20,10 @@ public class ShopKeeper : MonoBehaviour
 
     private ShopKeepperData Data { get; set; }
 
-    public ShopCanvas shopCanvas;
+    public ShopCanvas _ShopCanvas { get; private set; }
 
     private void Awake()
     {
-
         var text = AssetBundleContainer.LoadAsset<TextAsset>("jsons", "ShopKeepperTable");
         if (text == null)
         {
@@ -36,17 +35,20 @@ public class ShopKeeper : MonoBehaviour
         //TODO: 본 게임에 들어갈때 삭제 할 코드
         ItemContainer.CreateItem();
 
-
         Data = JsonManager.LoadJson<Serialization<string, ShopKeepperData>>(text).ToDictionary()[ID];
-        
-        nameText.text = Data.NPCName;
-        shopCanvas.LinkingItems(Data.ItemID);
 
-        shopCanvas.CloseCanvas();
+        _ShopCanvas = GetComponentInChildren<ShopCanvas>();
+
+        nameText.text = Data.NPCName;
+
+        List<int> copyItemID = new List<int>(Data.ItemID);
+        _ShopCanvas.LinkingItems(copyItemID);
+
+        _ShopCanvas.CloseCanvas();
     }
 
     public void ShopOpen()
     {
-        shopCanvas.OpenCanvas();
+        _ShopCanvas.OpenCanvas();
     }
 }

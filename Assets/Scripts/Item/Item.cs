@@ -78,4 +78,20 @@ public class Item : MonoBehaviour
         cost = datas.Cost;
         itemExplanation = datas.ItemExplanation;
     }
+
+    public void SetData(ItemData data)
+    {
+        itemName = data.Name;
+        variableName = data.VariableName;
+        itemType = data.ItemType;
+        offensePower = data.OffensePower;
+        hp = data.HP;
+        speed = data.Speed;
+        getPlace = data.GetPlace;
+        specialEffects = data.SpecialEffects;
+        graphicAssetsName = data.GraphicAssetsName;
+        route = data.Route;
+        cost = data.Cost;
+        itemExplanation = data.ItemExplanation;
+    }
 }

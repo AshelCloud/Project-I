@@ -21,4 +21,9 @@ public class ShopItem : MonoBehaviour
         descriptionText.text = Data.Name;
         priceText.text = Data.Cost.ToString() + "Gold";
     }
+
+    public ItemData ConvertItemData()
+    {
+        return ItemContainer.GetItem(Code);
+    }
 }
