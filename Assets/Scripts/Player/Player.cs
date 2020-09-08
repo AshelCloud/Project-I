@@ -89,6 +89,7 @@ public partial class Player : MonoBehaviour, IDamageable
         if (isGrounded)
         {
             animator.SetBool("IsGrounded", true);
+            P_JumpBehaviour.doubleJump = false;
         }
 
         else

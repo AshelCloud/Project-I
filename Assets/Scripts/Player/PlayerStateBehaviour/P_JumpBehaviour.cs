@@ -18,7 +18,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
             player.platform.rotationalOffset = 180;
         }
 
-        else if(doubleJump)
+        else if(!doubleJump)
         {
             player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
         }
@@ -75,10 +75,10 @@ public class P_JumpBehaviour : StateMachineBehaviour
 
             doubleJump = true;
 
+            animator.Play("Jump");
+
             //더블 점프 전 y축 속도 0 설정, 벡터 합력으로 인한 슈퍼점프 방지
             player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
-
-            animator.Play("Jump");
 
             player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
         }

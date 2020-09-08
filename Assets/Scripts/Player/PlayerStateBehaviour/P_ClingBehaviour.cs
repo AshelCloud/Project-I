@@ -24,7 +24,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            player.rb.AddForce(Vector2.up * player.JumpForce * 1.25f, ForceMode2D.Impulse);
+            player.rb.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
 
             animator.SetBool("IsJump", true);
             animator.SetBool("IsCling", false);
