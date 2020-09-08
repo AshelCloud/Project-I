@@ -93,8 +93,6 @@ public class ShopCanvas : MonoBehaviour
     {
         Item item = new Item(items[ItemIndex].Code);
 
-        //item.SetData(items[ItemIndex].ConvertItemData());
-
         return item;
     }
 }

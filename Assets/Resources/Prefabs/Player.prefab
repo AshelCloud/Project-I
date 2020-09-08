@@ -189,6 +189,7 @@ MonoBehaviour:
   groundCheckDistance: 0.2
   groundCheckOffset: -1.6
   wallCheckOffset: 0.7
+  distanceFromNpc: 0
   offensePower: 5
   speed: 7
   jumpForce: 16

@@ -13,10 +13,6 @@ public class P_IdleBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!player.isGrounded)
-        {
-            animator.SetBool("IsJump", true);
-        }
 
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {

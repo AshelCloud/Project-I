@@ -6,6 +6,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
 {
     private Player player;
 
+    [Header("하강 속도")]
     [SerializeField]
     private float downSpeed = 0.0f;
 
@@ -23,10 +24,15 @@ public class P_ClingBehaviour : StateMachineBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            player.rb.AddForce(Vector2.up * player.JumpForce * 1.25f, ForceMode2D.Impulse);
+            player.rb.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
 
-            animator.SetBool("IsCling", false);
             animator.SetBool("IsJump", true);
+            animator.SetBool("IsCling", false);
+        }
+
+        if(player.isGrounded)
+        {
+            animator.SetBool("IsCling", false);
         }
     }
 

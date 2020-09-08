@@ -47,12 +47,9 @@ public class Item : MonoBehaviour
         ID = id;
 
         SetData();
-        Debug.Log("Sprites/" + route);
 
         sprite = ResourcesContainer.Load<Sprite>("Sprites/" + route);
-        Debug.Log(sprite);
         Log.Print("Create Item: " + itemName);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

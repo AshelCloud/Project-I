@@ -28,36 +28,38 @@ public class P_RunBehaviour : StateMachineBehaviour
         //player.rb.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.05f, player.rb.velocity.y), ForceMode2D.Impulse);
 
         player.ChangeDirection();
-
-        if (player.isGrounded && !isOnSlope)
+        if (!player.isInteration)
         {
-            player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
-        }
+            if (player.isGrounded && !isOnSlope)
+            {
+                player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+            }
 
-        else if (player.isGrounded && isOnSlope)
-        {
-            player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
-                                             -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
-        }
+            else if (player.isGrounded && isOnSlope)
+            {
+                player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
+                                                 -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
+            }
 
-        else
-        {
-            player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
-        }
+            else
+            {
+                player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+            }
 
-        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-        {
-            animator.SetBool("IsRun", false);
-        }
+            if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+            {
+                animator.SetBool("IsRun", false);
+            }
 
-        else if(Input.GetKeyDown(KeyCode.D))
-        {
-            animator.SetBool("IsJump", true);
-        }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                animator.SetBool("IsJump", true);
+            }
 
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            animator.SetBool("IsRoll", true);
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                animator.SetBool("IsRoll", true);
+            }
         }
     }
 
@@ -114,12 +116,6 @@ public class P_RunBehaviour : StateMachineBehaviour
             {
                 isOnSlope = true;
             }
-
-            //else
-            //{
-            //    isOnSlope = false;
-            //    Log.Print("On Slope state: " + isOnSlope);
-            //}
 
             slopeDownAngleOld = slopeDownAngle;
 

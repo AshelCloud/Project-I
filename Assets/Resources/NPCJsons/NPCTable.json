@@ -6,30 +6,6 @@
       "Prefabname": "TutorialsNpc",
       "Text": "이 앞으론 분명 험난한 여정이 될걸세\n당신의 여정에 행운이 깃들길.  ",
       "RandomText": "뭐하는겐가? 어서출발하게\n아직도 출발하지 않았나?\n저쪽으로 가면 된다네"
-    },
-    {
-      "NpcName": "StoryNpc1",
-      "Prefabname": "StoryNpc1",
-      "Text": "",
-      "RandomText": ""
-    },
-    {
-      "NpcName": "StoryNpc2",
-      "Prefabname": "StoryNpc2",
-      "Text": "",
-      "RandomText": ""
-    },
-    {
-      "NpcName": "StoryNpc3",
-      "Prefabname": "StoryNpc3",
-      "Text": "",
-      "RandomText": ""
-    },
-    {
-      "NpcName": "StoryNpc4",
-      "Prefabname": "StoryNpc4",
-      "Text": "",
-      "RandomText": ""
     }
   ]
 }

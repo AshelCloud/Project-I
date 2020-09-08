@@ -13,10 +13,10 @@ public class ConversationCanvas : MonoBehaviour
     private NPC Root { get; set; }
     private DynamicText dynamicText;
 
-    private void Awake()
+    public void Initialize()
     {
         canvas = GetComponent<Canvas>();
-        Root = transform.root.GetComponent<NPC>();
+        Root = transform.GetComponentInParent<NPC>();
         dynamicText = conversationText.GetComponent<DynamicText>();
 
         canvas.worldCamera = Camera.main;
