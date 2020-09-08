@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 7270091723725588664}
   - component: {fileID: 7270091723725588613}
   - component: {fileID: 7270091723725588614}
+  - component: {fileID: 1232098985211734023}
   m_Layer: 13
   m_Name: TutorialNpc
   m_TagString: NPC
@@ -387,6 +388,25 @@ MonoBehaviour:
   ID: 1
   Texts: []
   conversationCanvas: {fileID: 8509132606755920164}
+--- !u!95 &1232098985211734023
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7270091723725588665}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4f135e317c610c74e93b1d768db17673, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8509132606755920169
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +522,6 @@ MonoBehaviour:
   overlay: {fileID: 8509132607048217531}
   nameText: {fileID: 6331930653775601752}
   conversationText: {fileID: 1482583619355607731}
-  canvas: {fileID: 8509132606755920170}
 --- !u!1 &8509132607048217531
 GameObject:
   m_ObjectHideFlags: 0
