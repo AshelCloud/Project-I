@@ -22,14 +22,14 @@ public partial class Player
 
     private PlayerData playerData;
 
+    [Header("플레이어 능력치")]
     [SerializeField]
     private float offensePower = 0;
     public float OffensePower { get { return offensePower; } }
 
     public float defense { get; private set; }
 
-    static private float hp = 0f;
-    public float HP { get { return hp; } }
+    static public float hp { get; private set; } = 0f;
 
     //이동 속도
     [SerializeField]

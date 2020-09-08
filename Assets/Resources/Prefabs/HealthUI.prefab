@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 224761904561356834}
   - component: {fileID: 222819682756122832}
   - component: {fileID: 114192638959881456}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,8 +85,8 @@ GameObject:
   - component: {fileID: 224465453245013618}
   - component: {fileID: 222550979244585096}
   - component: {fileID: 114626087387766734}
-  m_Layer: 5
-  m_Name: HealthGauge
+  m_Layer: 0
+  m_Name: HealthAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 1591734601858533534}
   - component: {fileID: 8875982803663869752}
   - component: {fileID: 2106018926481183503}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,19 +1,32 @@
-using System.Collections;
-using System.IO;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public partial class Player : MonoBehaviour, IDamageable
 {
-    public Rigidbody2D rb { get { return gameObject.GetComponent<Rigidbody2D>(); } }
+    public Rigidbody2D rb 
+    { 
+        get 
+        { 
+            return gameObject.GetComponent<Rigidbody2D>(); 
+        } 
+    }
 
-    public Vector2 direction { get { return transform.localScale; } set { transform.localScale = value; } }
+    public Vector2 direction 
+    { 
+        get 
+        { 
+            return transform.localScale; 
+        } 
 
-    private PlatformEffector2D platform = null;
-    public PlatformEffector2D Platform { get { return platform; } }
+        set 
+        { 
+            transform.localScale = value; 
+        } 
+    }
 
-    private Image healthInterface = null;
+    private Animator animator = null;
+
+    public PlatformEffector2D platform { get; private set; } = null;
 
     private Inventory inventory = null;
 
@@ -25,6 +38,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
     public bool isGrounded { get; private set; } = false;
 
+    [Header("지형 체크 설정")]
     [SerializeField]
     private Vector2 groundCheckBox = new Vector2(0.8f, 0.05f);
     [SerializeField]
@@ -36,6 +50,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         LoadToJsonData(ID);
         SetData();
 
@@ -44,26 +59,21 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        healthInterface = GameObject.Find("HealthGauge").GetComponent<Image>();
-
-        gameObject.GetComponent<Animator>().SetFloat("HP", hp);
+        animator.SetFloat("HP", hp);
 
         inventory = FindObjectOfType<Inventory>();
     }
 
     private void Update()
     {
-        healthInterface.fillAmount = hp / 100;
+        InterationEvent();
 
         if (shopKeeper)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                Debug.Log("Shopping0");
+                Log.Print("Shopping Now");
                 Item perchased = shopKeeper._ShopCanvas.Purchase();
-
-                Debug.Log(perchased.itemName);
-                Debug.Log(perchased.route);
 
                 inventory.PerchasingItem(perchased);
             }
@@ -73,6 +83,18 @@ public partial class Player : MonoBehaviour, IDamageable
     private void FixedUpdate()
     {
         CheckGround();
+
+        animator.SetFloat("inAir", rb.velocity.y);
+
+        if (isGrounded)
+        {
+            animator.SetBool("IsGrounded", true);
+        }
+
+        else
+        {
+            animator.SetBool("IsGrounded", false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -85,13 +107,11 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        NPCInteraction(collision);
+        StartCoroutine(NPCInteraction(collision));
     }
 
     public void GetDamaged(float value)
     {
-        Animator animator = gameObject.GetComponent<Animator>();
-
         Log.Print("Player hit");
         //플레이어가 무적 상태가 아닐 때만
         if (!isInvincible)
@@ -167,10 +187,10 @@ public partial class Player : MonoBehaviour, IDamageable
         if (groundCheck != null)
         {
             //하강 점프 완료 후
-            if (Platform != null)
+            if (platform != null)
             {
                 //다시 플랫폼으로 올라갈 수 있도록 오프셋 초기화
-                Platform.rotationalOffset = 0;
+                platform.rotationalOffset = 0;
 
 
             }
