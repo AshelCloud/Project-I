@@ -14,6 +14,8 @@ public class P_ClingBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter ClingState");
 
+        P_JumpBehaviour.doubleJump = false;
+
         player = animator.gameObject.GetComponent<Player>();
     }
 
