@@ -198,7 +198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7270091721799184830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.132, z: 0}
+  m_LocalPosition: {x: 0, y: 0.327, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 7270091723725588615}
@@ -249,7 +249,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7270091721799184830}
-  m_Text: "Talk G\n\u2193"
+  m_Text: Talk G
   m_OffsetZ: 0
   m_CharacterSize: 0.4
   m_LineSpacing: 1
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 7270091723725588614}
   - component: {fileID: 1232098985211734023}
   m_Layer: 13
-  m_Name: TutorialNpc
+  m_Name: TutorialNPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
