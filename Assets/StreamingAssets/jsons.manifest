@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1334554624
+CRC: 432289100
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 28d0f6a0d5988f6860156cfe46f23aaa
+    Hash: 0163aa8c765d63d618dca7af105c6085
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -22,7 +22,6 @@ Assets:
 - Assets/Resources/NPCJsons/ShopKeepperTable.json
 - Assets/Resources/MapJsons/Forest_2.json
 - Assets/Resources/NPCJsons/NPCTable.json
-- Assets/Resources/MapJsons/Forest_SaveZone.json
 - Assets/Resources/MapJsons/Forest_3.json
 - Assets/Resources/MapJsons/Forest_Boss.json
 - Assets/Resources/MapJsons/Forest_0.json
@@ -33,14 +32,15 @@ Assets:
 - Assets/Resources/PlayerJson/Characters_Table.json
 - Assets/Resources/MapJsons/Forest_12.json
 - Assets/Resources/MapJsons/Forest_16.json
+- Assets/Resources/MapJsons/Forest_Save_Zone.json
 - Assets/Resources/MapJsons/Forest_11-1.json
 - Assets/Resources/MonsterJsons/MonsterTable.json
+- Assets/Resources/MapJsons/Forest_7-1.json
 - Assets/Resources/PlayerJson/Item_Table.json
 - Assets/Resources/MapJsons/Forest_5.json
 - Assets/Resources/MapJsons/Forest_9.json
 - Assets/Resources/MapJsons/Forest_7.json
 - Assets/Resources/MapJsons/Forest_1.json
 - Assets/Resources/MapJsons/Forest_15.json
-- Assets/Resources/MapJsons/Forest_7-1_Shop.json
 - Assets/Resources/MapJsons/Forest_14-1.json
 Dependencies: []

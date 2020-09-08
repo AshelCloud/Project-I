@@ -627,7 +627,7 @@ PrefabInstance:
     - target: {fileID: 347549016138549535, guid: 333ec06529111444896146448a4b3b0a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00005114526
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 347549016138549535, guid: 333ec06529111444896146448a4b3b0a,
         type: 3}
@@ -946,7 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ddc06d132687f44b0e47f88bf265ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMapName: Forest_0
+  startMapName: Forest_9
 --- !u!156049354 &789544101
 Grid:
   m_ObjectHideFlags: 0
