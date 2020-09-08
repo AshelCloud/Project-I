@@ -38,6 +38,11 @@ public class NPC : MonoBehaviour
         Texts = data[ID].Text.Split('\n');
         nameText = data[ID].NpcName;
 
+        conversationCanvas.Initialize();
+
+    }
+    private void Start()
+    {
         conversationCanvas.CloseOverlay();
     }
 
