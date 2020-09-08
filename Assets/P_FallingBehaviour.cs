@@ -18,6 +18,11 @@ public class P_FallingBehaviour : StateMachineBehaviour
         player.ChangeDirection();
 
         P_JumpBehaviour.DoubleJump(player, animator);
+
+        if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
+        {
+            animator.SetBool("IsCling", true);
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -28,7 +28,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
         {
             player.rb.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
 
-            animator.SetBool("IsJump", true);
+            animator.Play("Jump");
             animator.SetBool("IsCling", false);
         }
 
