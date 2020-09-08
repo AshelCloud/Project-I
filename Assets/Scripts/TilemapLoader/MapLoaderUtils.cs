@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,6 +7,8 @@ public partial class MapLoader : MonoBehaviour
 {
     private void DestroyAllTilemaps()
     {
+        if(tilemaps == null) { return; }
+
         foreach (var tilemap in tilemaps)
         {
             if (tilemap != null)
