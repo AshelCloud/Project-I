@@ -163,7 +163,7 @@ public partial class MapLoader : MonoBehaviour
             //    curPlayer.transform.position = data.Value.PlayerStartPosition;
             //}
             #endregion
-            CurrentMapName = fileName;
+            currentMapName = fileName;
         }
 
         Loaded = true;

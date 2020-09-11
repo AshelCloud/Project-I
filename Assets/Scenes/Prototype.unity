@@ -602,7 +602,7 @@ PrefabInstance:
     - target: {fileID: 347549016138549535, guid: 333ec06529111444896146448a4b3b0a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00006438823
+      value: 0.000019347122
       objectReference: {fileID: 0}
     - target: {fileID: 347549016138549535, guid: 333ec06529111444896146448a4b3b0a,
         type: 3}
@@ -923,6 +923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemaps: []
   startMapName: Forest_0
+  currentMapName: 
 --- !u!156049354 &789544101
 Grid:
   m_ObjectHideFlags: 0

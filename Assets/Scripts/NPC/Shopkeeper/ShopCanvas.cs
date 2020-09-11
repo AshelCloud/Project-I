@@ -28,7 +28,7 @@ public class ShopCanvas : MonoBehaviour
     {
         get
         {
-            return _canvas.enabled;
+            return _Canvas.enabled;
         }
     }
 
