@@ -495,6 +495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 514734945}
   - component: {fileID: 514734944}
+  - component: {fileID: 514734946}
   m_Layer: 0
   m_Name: MapBoundary
   m_TagString: Untagged
@@ -526,7 +527,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 66, y: 25}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!4 &514734945
 Transform:
@@ -542,6 +543,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &514734946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514734943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b37a732a3fec74ea51a633a831daf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &676495057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -602,7 +615,7 @@ PrefabInstance:
     - target: {fileID: 347549016138549535, guid: 333ec06529111444896146448a4b3b0a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000009955246
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 347549016138549535, guid: 333ec06529111444896146448a4b3b0a,
         type: 3}
@@ -623,11 +636,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 347549016318341786, guid: 333ec06529111444896146448a4b3b0a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 347549016318341787, guid: 333ec06529111444896146448a4b3b0a,
         type: 3}
