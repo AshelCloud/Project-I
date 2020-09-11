@@ -1,0 +1,46 @@
+ManifestFileVersion: 0
+CRC: 2848734142
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: abbd8ce82799e3577fcf291af031570f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/PlayerJson/weapon_change_table.json
+- Assets/Resources/MapJsons/Forest_11.json
+- Assets/Resources/MapJsons/Forest_4.json
+- Assets/Resources/MapJsons/Forest_10.json
+- Assets/Resources/MapJsons/Forest_1-1.json
+- Assets/Resources/MapJsons/Forest_14.json
+- Assets/Resources/MapJsons/Forest_6.json
+- Assets/Resources/NPCJsons/ShopKeepperTable.json
+- Assets/Resources/MapJsons/Forest_2.json
+- Assets/Resources/NPCJsons/NPCTable.json
+- Assets/Resources/MapJsons/Forest_3.json
+- Assets/Resources/MapJsons/Forest_Boss.json
+- Assets/Resources/MapJsons/Forest_0.json
+- Assets/Resources/MapJsons/Forest_13.json
+- Assets/Resources/MapJsons/Forest_10-1.json
+- Assets/Resources/PlayerJson/Item_Bundle_Table.json
+- Assets/Resources/MapJsons/Forest_8.json
+- Assets/Resources/PlayerJson/Characters_Table.json
+- Assets/Resources/MapJsons/Forest_12.json
+- Assets/Resources/MapJsons/Forest_16.json
+- Assets/Resources/MapJsons/Forest_Save_Zone.json
+- Assets/Resources/MapJsons/Forest_11-1.json
+- Assets/Resources/MonsterJsons/MonsterTable.json
+- Assets/Resources/MapJsons/Forest_7-1.json
+- Assets/Resources/PlayerJson/Item_Table.json
+- Assets/Resources/MapJsons/Forest_5.json
+- Assets/Resources/MapJsons/Forest_9.json
+- Assets/Resources/MapJsons/Forest_7.json
+- Assets/Resources/MapJsons/Forest_1.json
+- Assets/Resources/MapJsons/Forest_15.json
+- Assets/Resources/MapJsons/Forest_14-1.json
+Dependencies: []

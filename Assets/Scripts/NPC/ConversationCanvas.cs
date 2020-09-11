@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ConversationCanvas : MonoBehaviour
+{
+    public GameObject overlay;
+    public Text nameText;
+    public Text conversationText;
+
+    private Canvas canvas;
+    private NPC Root { get; set; }
+    private DynamicText dynamicText;
+
+    public void Initialize()
+    {
+        canvas = GetComponent<Canvas>();
+        Root = transform.GetComponentInParent<NPC>();
+        dynamicText = conversationText.GetComponent<DynamicText>();
+
+        canvas.worldCamera = Camera.main;
+    }
+
+    public void OpenOverlay(string[] allText, string nameText)
+    {
+        if(canvas.enabled) { return ; }
+
+        canvas.enabled = true;
+
+        this.nameText.text = nameText;
+        dynamicText.ActiveDynamicText(allText);
+
+        StartCoroutine(CheckEndText());
+    }
+
+    private IEnumerator CheckEndText()
+    {
+        yield return new WaitUntil( () => conversationText.GetComponent<DynamicText>().IsShow == false);
+
+        Root.InConversation = false;
+    }
+
+    public void CloseOverlay()
+    {
+        canvas.enabled = false;
+    }
+}
