@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.root.GetComponent<Player>() != null )
+        if (collision.gameObject.GetComponent<Player>() != null )
         {
             GameManager.Instance.ActiveLoadMap(TargetMap, LinkingPortalName);
         }
