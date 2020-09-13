@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class P_JumpBehaviour : StateMachineBehaviour
 {
@@ -16,6 +17,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
         if (player.isJumpDown && player.platform != null)
         {
             player.platform.rotationalOffset = 180;
+            player.platform.GetComponent<TilemapCollider2D>().enabled = false;
         }
 
         else if(!doubleJump)

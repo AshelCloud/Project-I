@@ -33,12 +33,10 @@ public class P_AttackBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit AttackState");
-        
     }
 
     private void SwordHitMonster()
     {
-
         if (player.hitTarget != null)
         {
             player.hitTarget.GetDamaged(player.OffensePower);

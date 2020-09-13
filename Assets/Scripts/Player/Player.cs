@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public partial class Player : MonoBehaviour, IDamageable
@@ -193,8 +194,7 @@ public partial class Player : MonoBehaviour, IDamageable
             {
                 //다시 플랫폼으로 올라갈 수 있도록 오프셋 초기화
                 platform.rotationalOffset = 0;
-
-
+                platform.GetComponent<TilemapCollider2D>().enabled = true;
             }
 
 

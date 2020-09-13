@@ -188,7 +188,7 @@ MonoBehaviour:
   groundCheckBox: {x: 1, y: 0.05}
   groundCheckDistance: 0.2
   groundCheckOffset: -1.6
-  wallCheckOffset: 0.7
+  wallCheckOffset: 0.3
   distanceFromNpc: 0
   offensePower: 5
   speed: 7
