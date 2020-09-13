@@ -79,6 +79,12 @@ public partial class Player : MonoBehaviour, IDamageable
                 inventory.PerchasingItem(perchased);
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            var menu = Instantiate(ResourcesContainer.Load<GameObject>("Prefabs/UI/PauseMenu"), GameObject.Find("UICanvas").transform);
+            menu.transform.SetParent(GameObject.Find("UICanvas").transform, false);
+        }
     }
 
     private void FixedUpdate()

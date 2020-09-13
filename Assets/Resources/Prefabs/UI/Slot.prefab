@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4477867807314080937}
   - component: {fileID: 4477867807314080936}
   - component: {fileID: 5215467624901587629}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4477867807601721134}
   - component: {fileID: 4477867807601721128}
   - component: {fileID: 4477867807601721135}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 5072810388830417588}
   - component: {fileID: 6628907876272862598}
   - component: {fileID: 8748406149050562753}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}

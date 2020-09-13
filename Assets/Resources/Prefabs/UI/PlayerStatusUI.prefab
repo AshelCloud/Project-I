@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725b0d9d521ceac43a91a0a87526dc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthAmount: {fileID: 0}
+  staminaAmount: {fileID: 0}
 --- !u!1 &2990092954164839084
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2990092954164839085}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: PlayerStatusUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +140,7 @@ GameObject:
   - component: {fileID: 2990092954190507416}
   - component: {fileID: 2990092954190507422}
   - component: {fileID: 2990092954190507417}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +212,7 @@ GameObject:
   - component: {fileID: 2990092954464931988}
   - component: {fileID: 2990092954464931994}
   - component: {fileID: 2990092954464931989}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Stamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2990092954628098822}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +322,7 @@ GameObject:
   - component: {fileID: 2990092954969884044}
   - component: {fileID: 2990092954969884050}
   - component: {fileID: 2990092954969884045}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +394,7 @@ GameObject:
   - component: {fileID: 2990092955043003806}
   - component: {fileID: 2990092955043003804}
   - component: {fileID: 2990092955043003807}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
