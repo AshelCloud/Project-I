@@ -18,12 +18,20 @@ public class P_HitBehaviour : StateMachineBehaviour
         if (player.direction.x > 0)
         {
             var bounceForce = new Vector2(-bounceLength, 10);
+
+            //속도 0으로 조정 후 피격 재생, 버그 방지
+            player.rb.velocity = Vector2.zero;
+
             player.rb.AddForce(bounceForce, ForceMode2D.Impulse);
         }
 
         else
         {
             var bounceForce = new Vector2(bounceLength, 10);
+
+            //속도 0으로 조정 후 피격 재생, 버그 방지
+            player.rb.velocity = Vector2.zero;
+
             player.rb.AddForce(bounceForce, ForceMode2D.Impulse);
         }
     }
