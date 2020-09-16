@@ -1,15 +1,23 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-
     private static List<Item> inventory = new List<Item>();
 
     private static float currentGold = 0;
 
-    private bool inventoryOpen = false;
+    [SerializeField]
+    private GameObject selectEquipSlot;
+
+    [SerializeField]
+    private Image[] equipSlot;
+
+    private int selectIndex = 0;
+
+    private bool enterInventory = false;
 
     private void Awake()
     {
@@ -18,40 +26,51 @@ public class Inventory : MonoBehaviour
     private void LateUpdate()
     {
         gameObject.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
-    }
-
-    public void PutItemInventory(Item item)
-    {
-        if(item.Type == "Helm")
+        if(!enterInventory)
         {
-
-        }        
-
-        else if(item.Type == "Armor")
-        {
-
-        }        
-
-        else if(item.Type == "Accessories")
-        {
-
-        }  
-        
-        else if(item.Type == "Weapon")
-        {
-
+            SelectEquipment();
         }
-
-        else if(item.Type == "Material")
-        {
-
-        }
-
         else
         {
-            Log.PrintError("Unkown type item!");
+            SelectInventory();
+        }
+    }
+
+    private void SelectEquipment()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            selectIndex--;
+            if (selectIndex < 0)
+            {
+                selectIndex = 0;
+            }
+
         }
 
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            selectIndex++;
+            if (selectIndex > equipSlot.Length - 1)
+            {
+                selectIndex = equipSlot.Length - 1;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            enterInventory = true;
+        }
+
+        selectEquipSlot.transform.position = equipSlot[selectIndex].transform.position;
+    }
+
+    private void SelectInventory()
+    {
+
+    }
+    public void PutItemInventory(Item item)
+    {
         Log.Print("Get item: " + item.itemName);
         inventory.Add(item);
 

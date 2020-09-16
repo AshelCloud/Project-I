@@ -18,7 +18,7 @@ public class MenuManager : MonoBehaviour
     public void MenuSelect(GameObject selectedMenu)
     {
         menu.Push(selectedMenu);
-        Instantiate(menu.Pop(), transform);
-        transform.GetChild(0).gameObject.SetActive(false);
+        Instantiate(menu.Peek(), transform);
+        Destroy(transform.GetChild(1).gameObject);
     }
 }
