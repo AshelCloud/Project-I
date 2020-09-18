@@ -1,47 +1,26 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
 
     private static List<Item> inventory = new List<Item>();
 
     private static float currentGold = 0;
 
-    private CanvasGroup UI = null;
+    public float CurrentGold
+    {
+        get
+        {
+            return currentGold;
+        }
+    }
 
     private bool inventoryOpen = false;
 
     private void Awake()
     {
-    }
-
-    void Start()
-    {
-        UI = GameObject.FindGameObjectWithTag("UI").GetComponent<CanvasGroup>();
-        UI.alpha = 0f;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if(!inventoryOpen)
-            {
-                UI.alpha = 1f;
-                UI.blocksRaycasts = true;
-                inventoryOpen = true;
-            }
-
-            else
-            {
-                UI.alpha = 0f;
-                UI.blocksRaycasts = false;
-                inventoryOpen = false;
-            }
-        }
-
     }
 
     private void LateUpdate()

@@ -8,7 +8,7 @@ public partial class Player : MonoBehaviour
 
     private Vector2 destination = Vector2.zero;
 
-    [Header("NPC-ÇÃ·¹ÀÌ¾î »óÈ£ÀÛ¿ë ÀÌµ¿ °Å¸® ¼³Á¤")]
+    [Header("NPC-í”Œë ˆì´ì–´ ìƒí˜¸ì‘ìš© ì´ë™ ê±°ë¦¬ ì„¤ì •")]
     [SerializeField]
     private float distanceFromNpc = 0f;
 

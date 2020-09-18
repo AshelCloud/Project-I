@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
@@ -43,13 +44,13 @@ public partial class MapLoader : MonoBehaviour
 
     const string PrefabFilePath = "Prefabs/";
 
-    Tilemap[] tilemaps;
+    public Tilemap[] tilemaps;
 
     [SerializeField]
     private string startMapName = "";
     public string StartMapName { get { return startMapName; } }
 
-    public string CurrentMapName { get; set; }
+    public string currentMapName;
 
     public bool Loaded { get; set; }
 

@@ -67,7 +67,7 @@ public class P_RunBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit RunBehaviour");
-        
+        animator.SetBool("IsRun", false);
     }
 
     public void SlopeCheck()

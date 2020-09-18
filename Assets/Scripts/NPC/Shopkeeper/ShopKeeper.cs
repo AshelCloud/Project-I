@@ -33,7 +33,7 @@ public class ShopKeeper : MonoBehaviour
         }
 
         //TODO: 본 게임에 들어갈때 삭제 할 코드
-        ItemContainer.CreateItem();
+        //ItemContainer.CreateItem();
 
         Data = JsonManager.LoadJson<Serialization<string, ShopKeepperData>>(text).ToDictionary()[ID];
 

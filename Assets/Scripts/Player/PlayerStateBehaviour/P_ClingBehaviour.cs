@@ -14,6 +14,8 @@ public class P_ClingBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter ClingState");
 
+        P_JumpBehaviour.doubleJump = false;
+
         player = animator.gameObject.GetComponent<Player>();
     }
 
@@ -26,8 +28,8 @@ public class P_ClingBehaviour : StateMachineBehaviour
         {
             player.rb.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
 
-            animator.SetBool("IsJump", true);
             animator.SetBool("IsCling", false);
+            animator.SetBool("IsJump", true);
         }
 
         if(player.isGrounded)
@@ -39,6 +41,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetBool("IsCling", false);
         Log.Print("Player exit ClingState");
     }
 }

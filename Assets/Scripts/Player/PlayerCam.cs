@@ -30,8 +30,7 @@ public class PlayerCam : MonoBehaviour
     {
         cam = GetComponent<Camera>();
 
-        minBound = mapBound.bounds.min;
-        maxBound = mapBound.bounds.max;
+
 
         halfHeight = cam.orthographicSize;
         halfWidth = halfHeight * Screen.width / Screen.height;
@@ -42,6 +41,9 @@ public class PlayerCam : MonoBehaviour
     }
     private void LateUpdate()
     {
+        minBound = mapBound.bounds.min;
+        maxBound = mapBound.bounds.max;
+
         if (target == null) { StartCoroutine(FindPlayer()); }
 
         else

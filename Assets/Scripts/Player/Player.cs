@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public partial class Player : MonoBehaviour, IDamageable
@@ -78,6 +79,12 @@ public partial class Player : MonoBehaviour, IDamageable
                 inventory.PerchasingItem(perchased);
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            var menu = Instantiate(ResourcesContainer.Load<GameObject>("Prefabs/UI/PauseMenu"), GameObject.Find("UICanvas").transform);
+            menu.transform.SetParent(GameObject.Find("UICanvas").transform, false);
+        }
     }
 
     private void FixedUpdate()
@@ -117,8 +124,9 @@ public partial class Player : MonoBehaviour, IDamageable
         //플레이어가 무적 상태가 아닐 때만
         if (!isInvincible)
         {
-            animator.SetFloat("HP", hp);
             hp -= value;
+            animator.SetFloat("HP", hp);
+
             if (hp <= 0)
             {
                 return;
@@ -192,8 +200,7 @@ public partial class Player : MonoBehaviour, IDamageable
             {
                 //다시 플랫폼으로 올라갈 수 있도록 오프셋 초기화
                 platform.rotationalOffset = 0;
-
-
+                platform.GetComponent<TilemapCollider2D>().enabled = true;
             }
 
 
