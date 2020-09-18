@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
 
     private static List<Item> inventory = new List<Item>();
 
     private static float currentGold = 0;
+
+    public float CurrentGold
+    {
+        get
+        {
+            return currentGold;
+        }
+    }
 
     private bool inventoryOpen = false;
 

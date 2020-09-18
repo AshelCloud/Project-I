@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 9177082663782115119}
   - component: {fileID: 3571190652233982577}
   m_Layer: 13
-  m_Name: ShopNPC
+  m_Name: ShopNpc
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ Transform:
   m_GameObject: {fileID: 259490695332455443}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.54, y: -0.93, z: 0}
-  m_LocalScale: {x: 6.0017915, y: 6.0017915, z: 6.0017915}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2529224113656969023}
   m_Father: {fileID: 0}
@@ -172,7 +172,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.2, y: 0.7}
+    oldSize: {x: 7.5, y: 4.375}
     newSize: {x: 1, y: 0.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -478,6 +478,7 @@ MonoBehaviour:
   - {fileID: 3507993637045942062}
   - {fileID: 3312161293714235285}
   - {fileID: 6915545236751344602}
+  currentGoldText: {fileID: 7174348909192564985}
 --- !u!1 &3566013049139050084
 GameObject:
   m_ObjectHideFlags: 0

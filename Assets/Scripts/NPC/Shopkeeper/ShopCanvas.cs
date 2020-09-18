@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopCanvas : MonoBehaviour
 {
     public GameObject selectImage;
+
+    public Text currentGoldText;
+
     public List<ShopItem> items;
+
 
     private Canvas _canvas;
     public Canvas _Canvas 
@@ -53,6 +58,8 @@ public class ShopCanvas : MonoBehaviour
     private void Update()
     {
         if(IsOpen == false) { return; }
+
+        currentGoldText.text = "Gold: " + Inventory.Instance.CurrentGold.ToString() + "G";
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
