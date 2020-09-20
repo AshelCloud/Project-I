@@ -14,10 +14,12 @@ public class MapBoundary : MonoBehaviour
 
     private void LateUpdate()
     {
-        //수정 사항
-        tilemap = GameObject.Find("Platform").GetComponent<Tilemap>();
-
-        SetBoundary();
+        if (GameObject.Find("Platform"))
+        {
+            //수정 사항
+            tilemap = GameObject.Find("Platform").GetComponent<Tilemap>();
+            SetBoundary();
+        }
     }
 
     private void SetBoundary()

@@ -53,7 +53,7 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         animator = GetComponent<Animator>();
         LoadToJsonData(ID);
-        SetData();
+        InitData();
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }

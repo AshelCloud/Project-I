@@ -24,23 +24,23 @@ public class Item : MonoBehaviour
     [SerializeField]
     private int ID = 1;
 
-    public string itemName { get; private set; }
-    private string variableName = null;
-    private string itemType = null;
-    private float offensePower = 0f;
-    private float defense = 0f;
-    private float hp = 0f;
-    private float speed = 0f;
-    private string getPlace = null;
-    private string specialEffects = null;
-    private string graphicAssetsName = null;
-    public string route { get; private set; }
-    public float cost { get; private set; }
-    private string itemExplanation = null;
+    public string itemName { get; private set; } = null;
+    public string variableName { get; private set; } = null;
+    public string itemType { get; private set; } = null;
+    public float offensePower { get; private set; } = 0f;
+    public float defense { get; private set; } = 0f;
+    public float hp { get; private set; } = 0f;
+    public float speed { get; private set; } = 0f;
+    public string getPlace { get; private set; } = null;
+    public string specialEffects { get; private set; } = null;
+    public string graphicAssetsName { get; private set; } = null;
+    public string route { get; private set; } = null;
+    public float cost { get; private set; } = 0f;
+    public string itemExplanation { get; private set; } = null;
 
-    public string Type { get { return itemType; } }
+    public Sprite spriteImage { get; private set; }
 
-    public Sprite sprite { get; private set; }
+    public Item() { }
 
     public Item(int id)
     {
@@ -48,7 +48,7 @@ public class Item : MonoBehaviour
 
         SetData();
 
-        sprite = ResourcesContainer.Load<Sprite>("Sprites/" + route);
+        spriteImage = ResourcesContainer.Load<Sprite>("Sprites/" + route);
         Log.Print("Create Item: " + itemName);
     }
 
