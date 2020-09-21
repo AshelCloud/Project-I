@@ -255,7 +255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 25}
+  m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 525, y: 105}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7703529165998087478
@@ -1311,7 +1311,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image_SelectEquip: {fileID: 6677541527870425575}
   image_SelectList: {fileID: 2014878016580538668}
-  dettach_Item: {fileID: 0}
   equipSlot:
   - {fileID: 4004254692093591681}
   - {fileID: 1256781964454162015}

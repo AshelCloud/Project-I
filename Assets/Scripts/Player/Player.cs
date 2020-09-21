@@ -39,6 +39,8 @@ public partial class Player : MonoBehaviour, IDamageable
 
     public bool isGrounded { get; private set; } = false;
 
+    public bool menuOpened { get; set; } = false;
+
     [Header("지형 체크 설정")]
     [SerializeField]
     private Vector2 groundCheckBox = new Vector2(0.8f, 0.05f);
@@ -80,8 +82,9 @@ public partial class Player : MonoBehaviour, IDamageable
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if(Input.GetKeyDown(KeyCode.LeftShift) && !menuOpened)
         {
+            menuOpened = true;
             var menu = Instantiate(ResourcesContainer.Load<GameObject>("Prefabs/UI/PauseMenu"), GameObject.Find("UICanvas").transform);
             menu.transform.SetParent(GameObject.Find("UICanvas").transform, false);
         }

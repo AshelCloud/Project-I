@@ -56,15 +56,11 @@ public class Inventory : MonoBehaviour
         PutItemInventory(new Item(19));
         PutItemInventory(new Item(26));
 
-        player.itemSocket[0] = new Item(1);
-        player.itemSocket[1] = new Item(6);
-        player.itemSocket[2] = new Item(11);
-        player.itemSocket[3] = new Item(18);
         player.consumSocket.Push(new Item(26));
         //**TEST**
 
-        RenderSlotImage();
-        RenderItemInList();
+        RenderSlot();
+        RenderItemList();
     }
 
     private void LateUpdate()
@@ -123,25 +119,31 @@ public class Inventory : MonoBehaviour
 
     private void SelectItem()
     {
+        //A: 선택
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Item temp = null;
-
-            Debug.Log(player.itemSocket[selectEquip].itemName);
-            if (player.itemSocket[selectEquip] != null)
+            //빈 슬롯에 장착
+            if (player.itemSocket[selectEquip].itemName == null)
             {
+                player.ChangeEquipment(selectEquip, inventory[selectList]);
                 inventory.RemoveAt(selectList);
             }
 
-            temp = player.itemSocket[selectEquip];
-            player.ChangeEquipment(selectEquip, inventory[selectList]);
-            inventory[selectList] = temp;
+            //현재 슬롯에 장착된 아이템과 교체
+            else
+            {
+                Item temp = player.itemSocket[selectEquip];
+                player.ChangeEquipment(selectEquip, inventory[selectList]);
+                inventory[selectList] = temp;
+            }
 
+            //변경사항 렌더링
             ClearItemList();
-            RenderItemInList();
-            RenderSlotImage();
+            RenderItemList();
+            RenderSlot();
         }
 
+        //S: 취소
         if (Input.GetKeyDown(KeyCode.S))
         {
             image_SelectList.SetActive(false);
@@ -168,6 +170,7 @@ public class Inventory : MonoBehaviour
         }
 
         image_SelectList.transform.position = itemList.transform.GetChild(selectList).position;
+        explanation.text = inventory[selectList].itemExplanation;
     }
 
 
@@ -201,7 +204,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void RenderItemInList()
+    private void RenderItemList()
     {
         foreach (var item in inventory)
         {
@@ -211,7 +214,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void RenderSlotImage()
+    private void RenderSlot()
     {
         foreach (Item sockets in player.itemSocket)
         {
