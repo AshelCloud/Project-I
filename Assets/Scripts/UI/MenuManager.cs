@@ -3,22 +3,31 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    private Stack<GameObject> menu = new Stack<GameObject>();
+    private Stack<GameObject> menus = new Stack<GameObject>();
+    private Player player = null;
 
     private void Awake()
     {
-        menu.Push(ResourcesContainer.Load<GameObject>("Prefabs/UI/SelectMenu"));
-        Instantiate(menu.Peek(), transform);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        var selectMenu = Instantiate(ResourcesContainer.Load<GameObject>("Prefabs/UI/SelectMenu"), transform);
+        menus.Push(selectMenu);
     }
 
-    private void LateUpdate()
-    {
-    }
 
     public void MenuSelect(GameObject selectedMenu)
     {
-        menu.Push(selectedMenu);
-        Instantiate(menu.Pop(), transform);
-        transform.GetChild(0).gameObject.SetActive(false);
+        menus.Push(Instantiate(selectedMenu, transform));
+    }
+
+    public void MenuExit()
+    {
+        Destroy(menus.Pop());
+        Debug.Log(menus.Count);
+        if(menus.Count <= 0)
+        {
+            Debug.Log(menus.Count);
+            Destroy(this.gameObject);
+            player.menuOpened = false;
+        }
     }
 }

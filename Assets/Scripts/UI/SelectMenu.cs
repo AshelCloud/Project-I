@@ -16,6 +16,10 @@ public class SelectMenu : MonoBehaviour
 
     private int selectIndex = 0;
     private int menuCount = 0;
+
+    private bool menuSelected = false;
+
+    private CanvasGroup canvas = null;
     
 
     private void Awake()
@@ -24,12 +28,14 @@ public class SelectMenu : MonoBehaviour
         menuIcons[selectIndex].color = highlightColor;
 
         pauseMenu = GameObject.Find("PauseMenu(Clone)").GetComponent<MenuManager>();
+
+        canvas = GetComponent<CanvasGroup>();
     }
 
     private void LateUpdate()
     {
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && !menuSelected)
         {
             menuIcons[selectIndex].color = new Color(255, 255, 255);
             selectIndex--;
@@ -46,7 +52,7 @@ public class SelectMenu : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if(Input.GetKeyDown(KeyCode.RightArrow) && !menuSelected)
         {
             menuIcons[selectIndex].color = new Color(255, 255, 255);
             selectIndex++;
@@ -63,9 +69,18 @@ public class SelectMenu : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.A) && !menuSelected)
         {
             pauseMenu.MenuSelect(menus[selectIndex]);
+            menuSelected = true;
+            canvas.alpha = 0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            pauseMenu.MenuExit();
+            menuSelected = false;
+            canvas.alpha = 1f;
         }
     }
 }
