@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemaps: []
-  startMapName: Forest_0
+  startMapName: Forest_Boss
   currentMapName: 
 --- !u!156049354 &789544101
 Grid:

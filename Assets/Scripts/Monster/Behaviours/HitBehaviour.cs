@@ -15,6 +15,18 @@ namespace Monster
             myMonster._Renderer.color = Color.red;
         }
 
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if(myMonster.IsAttacking)
+            {
+                myMonster.Damaged = false;
+
+                myMonster._Renderer.color = Color.white;
+
+                return;
+            }
+        }
+
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             myMonster.Damaged = false;
