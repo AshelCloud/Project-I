@@ -59,7 +59,7 @@ public class ShopCanvas : MonoBehaviour
     {
         if(IsOpen == false) { return; }
 
-        currentGoldText.text = "Gold: " + Inventory.Instance.CurrentGold.ToString() + "G";
+        //currentGoldText.text = "Gold: " + Inventory.Instance.CurrentGold.ToString() + "G";
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
