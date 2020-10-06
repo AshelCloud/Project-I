@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public partial class Player
@@ -29,7 +30,9 @@ public partial class Player
 
     public float defense { get; private set; }
 
-    static public float hp { get; private set; } = 0f;
+    public float hp { get; private set; } = 0f;
+
+    public float max_HP { get; private set; } = 0f;
 
     //이동 속도
     [SerializeField]
@@ -45,6 +48,9 @@ public partial class Player
     [SerializeField]
     private float rollForce = 0f;
     public float RollForce { get { return rollForce; } }
+
+    public List<Item> itemSocket { get; private set; } = new List<Item>();
+    public Stack<Item> consumSocket { get; private set; } = new Stack<Item>();
 
     private void LoadToJsonData(int ID)
     {
@@ -73,16 +79,28 @@ public partial class Player
         playerData = playerDatas[ID.ToString()];
     }
 
-    private void SetData()
+    private void InitData()
     {
         offensePower = playerData.Offensepower;
         defense = playerData.Defense;
-
-        if (hp <= 0)
-        {
-            hp = playerData.HP;
-        }
-
+        hp = playerData.HP;
+        max_HP = playerData.HP;
         speed = playerData.Speed;
+
+        itemSocket.Add(new Item());
+        itemSocket.Add(new Item());
+        itemSocket.Add(new Item());
+        itemSocket.Add(new Item());
+    }
+
+    public void ChangeEquipment(int socket, Item equipment)
+    {
+        itemSocket[socket] = equipment;
+
+        offensePower = playerData.Offensepower + itemSocket[socket].offensePower;
+        defense = playerData.Defense = itemSocket[socket].defense;
+        max_HP = playerData.HP + itemSocket[socket].hp;
+        speed = playerData.Speed + itemSocket[socket].speed;
     }
 }
+

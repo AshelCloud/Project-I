@@ -193,7 +193,7 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &8265732067302166105
@@ -242,6 +242,7 @@ MonoBehaviour:
   detectionRangeCorrection: 50
   attackRangeCorrection: 2.2
   totalAttack: 2
+  havePatrol: 0
 --- !u!1 &8915423766932923395
 GameObject:
   m_ObjectHideFlags: 0
