@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +14,39 @@ public class GameManager : MonoBehaviour
     private Loader loader;
     [SerializeField]
     private MapLoader mapLoader;
+
+    public string StartMapName
+    {
+        get
+        {
+            return mapLoader.StartMapName;
+        }
+    }
+    public string CurrentMapName
+    {
+        get
+        {
+            return mapLoader.currentMapName;
+        }
+    }
+
+    private UnityEvent _loadCompleteMapEvent;
+    public UnityEvent LoadCompleteMapEvent 
+    {
+        private set
+        {
+            _loadCompleteMapEvent = value;
+        }
+        get
+        {
+            if(_loadCompleteMapEvent == null)
+            {
+                _loadCompleteMapEvent = new UnityEvent();
+            }
+
+            return _loadCompleteMapEvent;
+        }
+    }
 
     private void Awake()
     {
@@ -58,6 +92,7 @@ public class GameManager : MonoBehaviour
 
         mapLoader.LoadMap(mapName, linkingPortalName);
         yield return new WaitUntil( () => mapLoader.Loaded );
+        LoadCompleteMapEvent.Invoke();
 
         loader.ActiveFadeOut();
     }
