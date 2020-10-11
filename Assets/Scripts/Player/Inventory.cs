@@ -65,7 +65,7 @@ public class Inventory : MonoBehaviour
 
     private void LateUpdate()
     {
-        gameObject.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
+        //gameObject.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
         if (!enterInventory)
         {
             SelectEquipment();
