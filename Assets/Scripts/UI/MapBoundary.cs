@@ -8,7 +8,7 @@ public class MapBoundary : MonoBehaviour
     [Header("값이 커질 수록 카메라 범위가 좁아짐")]
 
     [SerializeField]
-    private float adjustOffset = 0f;
+    private Vector2 adjustOffset = Vector2.zero;
 
     private Tilemap tilemap;
 
@@ -31,6 +31,6 @@ public class MapBoundary : MonoBehaviour
 
         //범위 크기 설정
         boundary.size = tilemap.localBounds.size;
-        boundary.size -= new Vector2(adjustOffset, 0);
+        boundary.size -= adjustOffset;
     }
 }

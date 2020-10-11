@@ -15,10 +15,13 @@ enum ITEM : int
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
-    private GameObject image_SelectEquip;
+    private GameObject image_SelectSlot;
 
     [SerializeField]
     private GameObject image_SelectList;
+
+    [SerializeField]
+    private GameObject image_SelectDetach;
 
 
     [SerializeField]
@@ -31,17 +34,16 @@ public class Inventory : MonoBehaviour
 
     private static float currentGold = 0;
 
-    private int selectEquip = 0;
+    private int selectSocket = 0;
     private int selectList = 0;
 
-    private string selectSlotType = null;
-
     private bool enterInventory = false;
-
 
     private Player player = null;
 
     private GameObject itemList = null;
+
+    private int index = 1;
 
     private void Awake()
     {
@@ -49,14 +51,12 @@ public class Inventory : MonoBehaviour
         itemList = GameObject.Find("Content");
 
         //**TEST**
-        //PutItemInventory(new Item(1));
         PutItemInventory(new Item(2));
         PutItemInventory(new Item(7));
         PutItemInventory(new Item(12));
         PutItemInventory(new Item(19));
         PutItemInventory(new Item(26));
 
-        player.consumSocket.Push(new Item(26));
         //**TEST**
 
         RenderSlot();
@@ -68,7 +68,7 @@ public class Inventory : MonoBehaviour
         //gameObject.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
         if (!enterInventory)
         {
-            SelectEquipment();
+            SelectSlot();
         }
 
         else
@@ -77,27 +77,35 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void SelectEquipment()
+    //장비 슬롯 선택
+    private void SelectSlot()
     {
+        //***********************슬롯 이동***********************
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            selectEquip--;
-            if (selectEquip < 0)
+            selectSocket--;
+            if (selectSocket < 0)
             {
-                selectEquip = 0;
+                selectSocket = 0;
             }
 
         }
+
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            selectEquip++;
-            if (selectEquip > equipSlot.Length - 1)
+            selectSocket++;
+            if (selectSocket > equipSlot.Length - 1)
             {
-                selectEquip = equipSlot.Length - 1;
+                selectSocket = equipSlot.Length - 1;
             }
         }
 
-        image_SelectEquip.transform.position = equipSlot[selectEquip].transform.position;
+        //선택 이미지 이동
+        image_SelectSlot.transform.position = equipSlot[selectSocket].transform.position;
+
+        //***********************슬롯 이동***********************
+
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -106,35 +114,59 @@ public class Inventory : MonoBehaviour
             image_SelectList.SetActive(true);
         }
 
-        if (selectEquip != equipSlot.Length - 1)
+        if (selectSocket != equipSlot.Length - 1)
         {
-            explanation.text = player.itemSocket[selectEquip].itemExplanation;
+            explanation.text = player.itemSocket[selectSocket].itemExplanation;
         }
 
         else
         {
-            explanation.text = player.consumSocket.Peek().itemExplanation;
+            explanation.text = "소모품";
         }
     }
 
+    //인벤토리 선택
     private void SelectItem()
     {
         //A: 선택
         if (Input.GetKeyDown(KeyCode.A))
         {
-            //빈 슬롯에 장착
-            if (player.itemSocket[selectEquip].itemName == null)
+            if(image_SelectDetach.activeSelf && selectList == 0)
             {
-                player.ChangeEquipment(selectEquip, inventory[selectList]);
-                inventory.RemoveAt(selectList);
+                inventory.Add(player.itemSocket[selectSocket]);
+                player.itemSocket[selectSocket] = new Item(player.itemSocket[selectSocket].itemType);
             }
 
-            //현재 슬롯에 장착된 아이템과 교체
+            else if (selectSocket < 4)
+            {
+                //빈 슬롯에 장착
+                if (player.itemSocket[selectSocket].itemName == null &&
+                    player.ChangeEquipment(selectSocket, inventory[selectList]))
+                {
+                    inventory.RemoveAt(selectList);
+                    selectList = 0;
+                }
+
+                //현재 슬롯에 장착된 아이템과 교체
+                else if (player.itemSocket[selectSocket].itemName != null &&
+                        player.ChangeEquipment(selectSocket, inventory[selectList]))
+                {
+                    Item temp = player.itemSocket[selectSocket];
+                    inventory[selectList] = temp;
+                }
+            }
+
             else
             {
-                Item temp = player.itemSocket[selectEquip];
-                player.ChangeEquipment(selectEquip, inventory[selectList]);
-                inventory[selectList] = temp;
+                if(player.consumSocket.Count != Player.consumableLimit &&
+                    inventory[selectList].itemType == "Potion")
+                {
+                    player.consumSocket.Push(inventory[selectList]);
+                    equipSlot[selectSocket].GetComponentInChildren<Text>().text = player.consumSocket.Count.ToString();
+                    inventory.RemoveAt(selectList);
+                    selectList = 0;
+                }
+
             }
 
             //변경사항 렌더링
@@ -151,6 +183,18 @@ public class Inventory : MonoBehaviour
             enterInventory = false;
         }
 
+        if (player.itemSocket[selectSocket].itemName != null)
+        {
+            Debug.Log("등장해라");
+            image_SelectDetach.SetActive(true);
+        }
+
+        else
+        {
+            image_SelectDetach.SetActive(false);
+        }
+
+        //***********************인벤토리 이동***********************
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectList--;
@@ -163,17 +207,40 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectList++;
-            if (selectList > itemList.transform.childCount - 1)
+
+            //Out of range 방지
+            if (selectList >= itemList.transform.childCount - 1)
             {
                 selectList = itemList.transform.childCount - 1;
             }
         }
+        Debug.Log(selectList + index);
+        image_SelectList.transform.position = itemList.transform.GetChild(selectList + index).position;
+        //***********************인벤토리 이동***********************
 
-        image_SelectList.transform.position = itemList.transform.GetChild(selectList).position;
-        explanation.text = inventory[selectList].itemExplanation;
+        //장비 해제 활성화시
+        if (image_SelectDetach.activeSelf)
+        {
+            index = 0;
+
+            if(selectList < 1)
+            {
+                explanation.text = "장비 해제";
+            }
+
+            else
+            {
+                explanation.text = inventory[selectList].itemExplanation;
+            }
+        }
+
+        //장비 해제 비활성화시
+        else
+        {
+            index = 1;
+            explanation.text = inventory[selectList].itemExplanation;
+        }
     }
-
-
 
     public void GetGold(int deposit)
     {
@@ -198,7 +265,7 @@ public class Inventory : MonoBehaviour
 
     private void ClearItemList()
     {
-        for (int i = 0; i < itemList.transform.childCount; i++)
+        for (int i = 1; i < itemList.transform.childCount; i++)
         {
             Destroy(itemList.transform.GetChild(i).gameObject);
         }
@@ -240,7 +307,14 @@ public class Inventory : MonoBehaviour
                     break;
             }
         }
+        if (player.consumSocket.Count != 0)
+        {
+            equipSlot[(int)ITEM.POTION].sprite = player.consumSocket.Peek().spriteImage;
+        }
+    }
 
-        equipSlot[(int)ITEM.POTION].sprite = player.consumSocket.Peek().spriteImage;
+    private void DetachEquip()
+    {
+
     }
 }

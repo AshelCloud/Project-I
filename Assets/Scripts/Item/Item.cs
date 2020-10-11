@@ -40,7 +40,10 @@ public class Item : MonoBehaviour
 
     public Sprite spriteImage { get; private set; }
 
-    public Item() { }
+    public Item(string item_Type) 
+    {
+        itemType = item_Type;
+    }
 
     public Item(int id)
     {

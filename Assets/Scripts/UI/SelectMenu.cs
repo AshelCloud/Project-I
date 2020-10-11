@@ -76,7 +76,7 @@ public class SelectMenu : MonoBehaviour
             canvas.alpha = 0f;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseMenu.MenuExit();
             menuSelected = false;
