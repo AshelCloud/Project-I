@@ -49,51 +49,57 @@ public partial class Player
     private float rollForce = 0f;
     public float RollForce { get { return rollForce; } }
 
-    public List<Item> itemSocket { get; private set; } = new List<Item>();
+    public Item[] itemSocket { get; private set; } = new Item[4]
+    {
+        new Item("Helm"),
+        new Item("Armor"),
+        new Item("Accessories"),
+        new Item("Weapon")
+    };
+
     public Stack<Item> consumSocket { get; private set; } = new Stack<Item>();
 
+    public const int consumableLimit = 5;
+
     private void LoadToJsonData(int ID)
+{
+    //테이블 ID는 1부터 시작
+    //ID가 기본값이면 에러로그 출력
+    AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
+
+    if (localAssetBundle == null)
     {
-        //테이블 ID는 1부터 시작
-        //ID가 기본값이면 에러로그 출력
-        AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
-
-        if (localAssetBundle == null)
-        {
-            Log.PrintError("Failed to load AssetBundle!");
-        }
-
-        if (ID == 0)
-        {
-            Log.PrintError("Failed to Player Data, ID is null or 0");
-            return;
-        }
-
-        TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Characters_Table");
-
-        //Json 파싱
-        var playerDatas = JsonManager.LoadJson<Serialization<string, PlayerData>>(json).ToDictionary();
-
-        //ID 값으로 해당되는 Data 저장
-        //ID는 각 몬스터 스크립트에서 할당
-        playerData = playerDatas[ID.ToString()];
+        Log.PrintError("Failed to load AssetBundle!");
     }
 
-    private void InitData()
+    if (ID == 0)
     {
-        offensePower = playerData.Offensepower;
-        defense = playerData.Defense;
-        hp = playerData.HP;
-        max_HP = playerData.HP;
-        speed = playerData.Speed;
-
-        itemSocket.Add(new Item());
-        itemSocket.Add(new Item());
-        itemSocket.Add(new Item());
-        itemSocket.Add(new Item());
+        Log.PrintError("Failed to Player Data, ID is null or 0");
+        return;
     }
 
-    public void ChangeEquipment(int socket, Item equipment)
+    TextAsset json = localAssetBundle.LoadAsset<TextAsset>("Characters_Table");
+
+    //Json 파싱
+    var playerDatas = JsonManager.LoadJson<Serialization<string, PlayerData>>(json).ToDictionary();
+
+    //ID 값으로 해당되는 Data 저장
+    //ID는 각 몬스터 스크립트에서 할당
+    playerData = playerDatas[ID.ToString()];
+}
+
+private void InitData()
+{
+    offensePower = playerData.Offensepower;
+    defense = playerData.Defense;
+    hp = playerData.HP;
+    max_HP = playerData.HP;
+    speed = playerData.Speed;
+}
+
+public bool ChangeEquipment(int socket, Item equipment)
+{
+    if (itemSocket[socket].itemType == equipment.itemType)
     {
         itemSocket[socket] = equipment;
 
@@ -101,6 +107,14 @@ public partial class Player
         defense = playerData.Defense = itemSocket[socket].defense;
         max_HP = playerData.HP + itemSocket[socket].hp;
         speed = playerData.Speed + itemSocket[socket].speed;
+
+        return true;
     }
+
+    else
+    {
+        return false;
+    }
+}
 }
 

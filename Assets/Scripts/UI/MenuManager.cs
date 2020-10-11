@@ -22,10 +22,8 @@ public class MenuManager : MonoBehaviour
     public void MenuExit()
     {
         Destroy(menus.Pop());
-        Debug.Log(menus.Count);
         if(menus.Count <= 0)
         {
-            Debug.Log(menus.Count);
             Destroy(this.gameObject);
             player.menuOpened = false;
         }
