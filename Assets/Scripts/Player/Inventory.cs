@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TMPro;
+using System.Data.SqlClient;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,7 +81,6 @@ public class Inventory : MonoBehaviour
     private void SelectSlot()
     {
         //***********************슬롯 이동***********************
-
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             selectSocket--;
@@ -89,7 +88,6 @@ public class Inventory : MonoBehaviour
             {
                 selectSocket = 0;
             }
-
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -105,6 +103,21 @@ public class Inventory : MonoBehaviour
         image_SelectSlot.transform.position = equipSlot[selectSocket].transform.position;
 
         //***********************슬롯 이동***********************
+
+        //if (selectSocket < 4 && player.itemSocket[selectSocket] != null)
+        //{
+        //    image_SelectDetach.SetActive(true);
+        //}
+
+        //else if(selectSocket == 4 && player.consumSocket.Count != 0)
+        //{
+        //    image_SelectDetach.SetActive(true);
+        //}
+
+        //else
+        //{
+        //    image_SelectDetach.SetActive(false);
+        //}
 
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -166,7 +179,6 @@ public class Inventory : MonoBehaviour
                     inventory.RemoveAt(selectList);
                     selectList = 0;
                 }
-
             }
 
             //변경사항 렌더링
@@ -181,17 +193,6 @@ public class Inventory : MonoBehaviour
             image_SelectList.SetActive(false);
             selectList = 0;
             enterInventory = false;
-        }
-
-        if (player.itemSocket[selectSocket].itemName != null)
-        {
-            Debug.Log("등장해라");
-            image_SelectDetach.SetActive(true);
-        }
-
-        else
-        {
-            image_SelectDetach.SetActive(false);
         }
 
         //***********************인벤토리 이동***********************
@@ -214,9 +215,23 @@ public class Inventory : MonoBehaviour
                 selectList = itemList.transform.childCount - 1;
             }
         }
-        Debug.Log(selectList + index);
         image_SelectList.transform.position = itemList.transform.GetChild(selectList + index).position;
         //***********************인벤토리 이동***********************
+
+        if (selectSocket < 4 && player.itemSocket[selectSocket] != null)
+        {
+            image_SelectDetach.SetActive(true);
+        }
+
+        else if (selectSocket == 4 && player.consumSocket.Count != 0)
+        {
+            image_SelectDetach.SetActive(true);
+        }
+
+        else
+        {
+            image_SelectDetach.SetActive(false);
+        }
 
         //장비 해제 활성화시
         if (image_SelectDetach.activeSelf)
@@ -311,10 +326,5 @@ public class Inventory : MonoBehaviour
         {
             equipSlot[(int)ITEM.POTION].sprite = player.consumSocket.Peek().spriteImage;
         }
-    }
-
-    private void DetachEquip()
-    {
-
     }
 }
