@@ -32,7 +32,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
             animator.SetBool("IsJump", true);
         }
 
-        if(player.isGrounded)
+        if(player.Grounded)
         {
             animator.SetBool("IsCling", false);
         }

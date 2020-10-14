@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
+
+//!Edit
 public class P_RunBehaviour : StateMachineBehaviour
 {
-    private Player player = null;
-    private CapsuleCollider2D cc2D = null;
+    private Player player;
+    private CapsuleCollider2D cc2D;
 
     private bool isOnSlope;
     private Vector2 slopeNormalPerp;
@@ -16,9 +18,10 @@ public class P_RunBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter RunBehaviour");
 
-        player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
+        cc2D = animator.GetComponent<CapsuleCollider2D>();
 
-        cc2D = player.GetComponent<CapsuleCollider2D>();
+        //cc2D = player.GetComponent<CapsuleCollider2D>();
     }
 
     
@@ -27,38 +30,47 @@ public class P_RunBehaviour : StateMachineBehaviour
         SlopeCheck();
         //player.rb.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.05f, player.rb.velocity.y), ForceMode2D.Impulse);
 
+        float h = Input.GetAxis("Horizontal");
+
         player.ChangeDirection();
         if (!player.isInteration)
         {
-            if (player.isGrounded && !isOnSlope)
+            if (player.Grounded && !isOnSlope)
             {
-                player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+                //player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+                player.rb.velocity = new Vector2(h * player.Speed, player.rb.velocity.y);
             }
 
-            else if (player.isGrounded && isOnSlope)
+            else if (player.Grounded && isOnSlope)
             {
-                player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
-                                                 -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
+                //player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
+                //                                 -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
+
+                player.rb.velocity = new Vector2(-h * player.Speed * slopeNormalPerp.x, -h * player.Speed * slopeNormalPerp.y);
             }
 
             else
             {
-                player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+                //player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
+                player.rb.velocity = new Vector2(h * player.Speed, player.rb.velocity.y);
             }
 
             if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
             {
-                animator.SetBool("IsRun", false);
+                //animator.SetBool("IsRun", false);
+                player.Run = false;
             }
 
             else if (Input.GetKeyDown(KeyCode.D))
             {
-                animator.SetBool("IsJump", true);
+                //animator.SetBool("IsJump", true);
+                player.Jump = true;
             }
 
             else if (Input.GetKeyDown(KeyCode.F))
             {
-                animator.SetBool("IsRoll", true);
+                //animator.SetBool("IsRoll", true);
+                player.Roll = true;
             }
         }
     }
@@ -67,7 +79,8 @@ public class P_RunBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit RunBehaviour");
-        animator.SetBool("IsRun", false);
+        //animator.SetBool("IsRun", false);
+        player.Run = false;
     }
 
     public void SlopeCheck()

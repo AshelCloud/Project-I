@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
+//!Edit
 public partial class Player : MonoBehaviour, IDamageable
 {
     public Rigidbody2D rb 
@@ -25,7 +26,6 @@ public partial class Player : MonoBehaviour, IDamageable
         } 
     }
 
-    private Animator animator = null;
 
     public PlatformEffector2D platform { get; private set; } = null;
 
@@ -37,7 +37,7 @@ public partial class Player : MonoBehaviour, IDamageable
     public bool isJumpDown { get; set; } = false;
     public bool isInvincible { get; set; } = false;
 
-    public bool isGrounded { get; private set; } = false;
+    //public bool isGrounded { get; private set; } = false;
 
     public bool menuOpened { get; set; } = false;
 
@@ -53,16 +53,17 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         LoadToJsonData(ID);
         InitData();
+
+        GetHashIDs();
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 
     private void Start()
     {
-        animator.SetFloat("HP", hp);
+        Anim.SetFloat("HP", hp);
 
         inventory = FindObjectOfType<Inventory>();
     }
@@ -94,18 +95,37 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         CheckGround();
 
-        animator.SetFloat("inAir", rb.velocity.y);
+        //Anim.SetFloat("inAir", rb.velocity.y);
+        Air = rb.velocity.y;
 
-        if (isGrounded)
+        if (Grounded)
         {
-            animator.SetBool("IsGrounded", true);
+            //Anim.SetBool("IsGrounded", true);
             P_JumpBehaviour.doubleJump = false;
         }
 
         else
         {
-            animator.SetBool("IsGrounded", false);
+            //Anim.SetBool("IsGrounded", false);
+            Grounded = false;
         }
+    }
+
+    private void LateUpdate()
+    {
+        LinkingAnimator();
+    }
+
+    private void LinkingAnimator()
+    {
+        Anim.SetBool(hash_Run, Run);
+        Anim.SetBool(hash_Jump, Jump);
+        Anim.SetBool(hash_Grounded, Grounded);
+        Anim.SetBool(hash_Roll, Roll);
+        Anim.SetBool(hash_Attack, Attack);
+        Anim.SetBool(hash_Hit, Hit);
+        Anim.SetBool(hash_Cling, Cling);
+        Anim.SetFloat(hash_Air, Air);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -121,6 +141,19 @@ public partial class Player : MonoBehaviour, IDamageable
         StartCoroutine(NPCInteraction(collision));
     }
 
+    private void GetHashIDs()
+    {
+        Log.Print("Player: Get Hash IDs");
+        hash_Run = Animator.StringToHash(m_Run);
+        hash_Jump = Animator.StringToHash(m_Jump);
+        hash_Grounded = Animator.StringToHash(m_Grounded);
+        hash_Roll = Animator.StringToHash(m_Roll);
+        hash_Attack = Animator.StringToHash(m_Attack);
+        hash_Hit = Animator.StringToHash(m_Hit);
+        hash_Cling = Animator.StringToHash(m_Cling);
+        hash_Air = Animator.StringToHash(m_Air);
+    }
+
     public void GetDamaged(float value)
     {
         Log.Print("Player hit");
@@ -128,7 +161,7 @@ public partial class Player : MonoBehaviour, IDamageable
         if (!isInvincible)
         {
             hp -= value;
-            animator.SetFloat("HP", hp);
+            Anim.SetFloat("HP", hp);
 
             if (hp <= 0)
             {
@@ -137,8 +170,8 @@ public partial class Player : MonoBehaviour, IDamageable
 
             else
             {
-                animator.SetBool("IsHit", true);
-
+                //Anim.SetBool("IsHit", true);
+                Hit = true;
             }
         }
 
@@ -207,7 +240,7 @@ public partial class Player : MonoBehaviour, IDamageable
             }
 
 
-            isGrounded = true;
+            Grounded = true;
         }
 
         //플랫폼 체크
@@ -215,12 +248,12 @@ public partial class Player : MonoBehaviour, IDamageable
         {
             platform = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, platformLayer).collider.GetComponent<PlatformEffector2D>();
 
-            isGrounded = true;
+            Grounded = true;
         }
 
         else
         {
-            isGrounded = false;
+            Grounded = false;
         }
     }
 

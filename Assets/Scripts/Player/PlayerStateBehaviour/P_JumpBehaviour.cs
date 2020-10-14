@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
+//!Edit
 public class P_JumpBehaviour : StateMachineBehaviour
 {
     private Player player;
@@ -11,7 +12,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter JumpBehaviour");
 
-        player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
 
 
         if (player.isJumpDown && player.platform != null)
@@ -32,8 +33,10 @@ public class P_JumpBehaviour : StateMachineBehaviour
 
         if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
         {
-            animator.SetBool("IsCling", true);
-            animator.SetBool("IsJump", false);
+            //animator.SetBool("IsCling", true);
+            //animator.SetBool("IsJump", false);
+            player.Cling = true;
+            player.Jump = false;
         }
 
 
@@ -64,7 +67,8 @@ public class P_JumpBehaviour : StateMachineBehaviour
     {
         Log.Print("Player exit JumpBehaviour");
 
-        animator.SetBool("IsJump", false);
+        //animator.SetBool("IsJump", false);
+        player.Jump = false;
 
         player.isJumpDown = false;
     }

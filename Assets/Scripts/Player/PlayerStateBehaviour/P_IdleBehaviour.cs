@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//!Edit
 public class P_IdleBehaviour : StateMachineBehaviour
 {
     private Player player = null;
@@ -7,7 +8,8 @@ public class P_IdleBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter IdleState");
-        player = animator.gameObject.GetComponent<Player>();
+        //player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
 
     }
 
@@ -16,31 +18,34 @@ public class P_IdleBehaviour : StateMachineBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {
-            animator.SetBool("IsRun", true);
+            //animator.SetBool("IsRun", true);
+            player.Run = true;
         }
 
         else if (Input.GetKey(KeyCode.A))
         {
-            animator.SetBool("IsAttack", true);
+            //animator.SetBool("IsAttack", true);
+            player.Attack = true;
         }
 
         else if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.DownArrow))
         {
             player.isJumpDown = true;
-            animator.SetBool("IsJump", true);
+            //animator.SetBool("IsJump", true);
+            player.Jump = true;
         }
 
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            animator.SetBool("IsJump", true);
+            //animator.SetBool("IsJump", true);
+            player.Jump = true;
         }
 
         else if (Input.GetKeyDown(KeyCode.F))
         {
-            animator.SetBool("IsRoll", true);
+            //animator.SetBool("IsRoll", true);
+            player.Roll = true;
         }
-
-
     }
 
     
