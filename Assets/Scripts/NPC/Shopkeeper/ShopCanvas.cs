@@ -100,6 +100,8 @@ public class ShopCanvas : MonoBehaviour
     {
         Item item = new Item(items[ItemIndex].Code);
 
+        //TODO: 아이템 구매시/텍스트 출력부분
+
         return item;
     }
 }
