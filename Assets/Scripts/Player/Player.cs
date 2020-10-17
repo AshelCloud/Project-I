@@ -39,7 +39,19 @@ public partial class Player : MonoBehaviour, IDamageable
 
     //public bool isGrounded { get; private set; } = false;
 
-    public bool menuOpened { get; set; } = false;
+    private bool _menuOpened;
+    public bool MenuOpened 
+    {
+        get
+        {
+            return _menuOpened;
+        }
+        set
+        {
+            _menuOpened = value;
+            MenuManager.Instance.MenuCanvas.enabled = _menuOpened;
+        }
+    }
 
     [Header("지형 체크 설정")]
     [SerializeField]
@@ -69,6 +81,8 @@ public partial class Player : MonoBehaviour, IDamageable
         Anim.SetFloat("HP", HP);
 
         inventory = FindObjectOfType<Inventory>();
+
+        MenuOpened = false;
     }
 
     private void Update()
@@ -87,11 +101,9 @@ public partial class Player : MonoBehaviour, IDamageable
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) && !menuOpened)
+        if(Input.GetKeyDown(KeyCode.LeftShift))
         {
-            menuOpened = true;
-            var menu = Instantiate(ResourcesContainer.Load<GameObject>("Prefabs/UI/PauseMenu"), GameObject.Find("UICanvas").transform);
-            menu.transform.SetParent(GameObject.Find("UICanvas").transform, false);
+            MenuOpened = !MenuOpened;
         }
     }
 

@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//GameManager에 의해 돌아가는 코드
+//그러므로 이벤트함수가 포함되어있지않음
 public class Loader : MonoBehaviour
 {
     [Header("Settings")]

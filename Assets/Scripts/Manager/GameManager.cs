@@ -6,10 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
-
     [SerializeField]
     private Loader loader;
     [SerializeField]
@@ -50,13 +48,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
-        {
-            return;
-        }
-
-        Instance = this;
-      
         Log.Print("GameManager Initialize");
     }
 
