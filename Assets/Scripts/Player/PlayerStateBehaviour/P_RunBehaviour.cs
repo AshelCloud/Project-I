@@ -34,17 +34,17 @@ public class P_RunBehaviour : StateMachineBehaviour
         {
             if (player.Grounded && !isOnSlope)
             {
-                player.rb.velocity = new Vector2(h * player.Speed, player.rb.velocity.y);
+                player.RB.velocity = new Vector2(h * player.Speed, player.RB.velocity.y);
             }
 
             else if (player.Grounded && isOnSlope)
             {
-                player.rb.velocity = new Vector2(-h * player.Speed * slopeNormalPerp.x, -h * player.Speed * slopeNormalPerp.y);
+                player.RB.velocity = new Vector2(-h * player.Speed * slopeNormalPerp.x, -h * player.Speed * slopeNormalPerp.y);
             }
 
             else
             {
-                player.rb.velocity = new Vector2(h * player.Speed, player.rb.velocity.y);
+                player.RB.velocity = new Vector2(h * player.Speed, player.RB.velocity.y);
             }
 
             if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))

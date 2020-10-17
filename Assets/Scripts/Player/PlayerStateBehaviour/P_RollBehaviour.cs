@@ -16,16 +16,16 @@ public class P_RollBehaviour : StateMachineBehaviour
         //플레이어 무적 설정
         player.isInvincible = true;
 
-        player.rb.velocity = new Vector2(0f, player.rb.velocity.y);
+        player.RB.velocity = new Vector2(0f, player.RB.velocity.y);
 
-        if (player.direction.x > 0)
+        if (player.Direction.x > 0)
         {
-            player.rb.AddForce(new Vector2(player.RollForce * multipleForce, 0.0f), ForceMode2D.Impulse);
+            player.RB.AddForce(new Vector2(player.RollForce * multipleForce, 0.0f), ForceMode2D.Impulse);
         } 
 
         else
         {
-            player.rb.AddForce(new Vector2(-player.RollForce * multipleForce, 0.0f), ForceMode2D.Impulse);
+            player.RB.AddForce(new Vector2(-player.RollForce * multipleForce, 0.0f), ForceMode2D.Impulse);
         }
     }
 

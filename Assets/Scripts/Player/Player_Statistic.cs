@@ -7,19 +7,6 @@ public partial class Player
     //기본값 = 1
     private const int ID = 1;
 
-    [System.Serializable]
-    private struct PlayerData
-    {
-        public string Name;
-        public string Variablename;
-        public float Offensepower;
-        public float Defense;
-        public float HP;
-        public float Speed;
-        public string Objectname;
-        public string Animatorname;
-        public string Prefabname;
-    }
 
     private PlayerData playerData;
 
@@ -29,9 +16,6 @@ public partial class Player
     public float OffensePower { get { return offensePower; } }
 
     public float defense { get; private set; }
-
-    public float HP { get; private set; }
-    public float MaxHP { get; private set; }
 
     //이동 속도
     [SerializeField]
@@ -117,3 +101,17 @@ public partial class Player
     }
 }
 
+
+[System.Serializable]
+public class PlayerData
+{
+    public string Name;
+    public string Variablename;
+    public float Offensepower;
+    public float Defense;
+    public float HP;
+    public float Speed;
+    public string Objectname;
+    public string Animatorname;
+    public string Prefabname;
+}

@@ -63,4 +63,62 @@ public partial class Player : MonoBehaviour
     public bool Hit { get; set; }
     public bool Cling { get; set; }
     public float Air { get; set; }
+
+    private float _hp;
+
+    public float HP 
+    {
+        get
+        {
+            return _hp;
+        }
+        private set
+        {
+            if (_hp <= 0)
+            {
+                //TODO: Dead 활성화
+            }
+            else
+            {
+                _hp = value;
+                Hit = true;
+            }
+        }
+    }
+    public float MaxHP { get; private set; }
+
+    private bool _menuOpened;
+    public bool MenuOpened
+    {
+        get
+        {
+            return _menuOpened;
+        }
+        set
+        {
+            _menuOpened = value;
+            MenuManager.Instance.MenuCanvas.enabled = _menuOpened;
+        }
+    }
+
+    public Rigidbody2D RB
+    {
+        get
+        {
+            return gameObject.GetComponent<Rigidbody2D>();
+        }
+    }
+
+    public Vector2 Direction
+    {
+        get
+        {
+            return transform.localScale;
+        }
+
+        set
+        {
+            transform.localScale = value;
+        }
+    }
 }

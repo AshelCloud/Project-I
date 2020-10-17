@@ -22,11 +22,11 @@ public class P_ClingBehaviour : StateMachineBehaviour
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player.rb.velocity = new Vector2(0.0f, -downSpeed);
+        player.RB.velocity = new Vector2(0.0f, -downSpeed);
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            player.rb.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
+            player.RB.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
 
             player.Cling = false;
             player.Jump = true;

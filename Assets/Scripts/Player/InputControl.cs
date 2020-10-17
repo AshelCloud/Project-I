@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputControl
+public class InputControl : MonoBehaviour
 {
     private Player player;
 
-    public InputControl(Player player)
+    private void Awake()
     {
-        this.player = player;
+        player = GetComponent<Player>();
     }
 
-    public void UpdateInput()
+    public void Update()
     {
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {

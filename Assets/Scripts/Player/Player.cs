@@ -5,26 +5,6 @@ using UnityEngine.UI;
 //!Edit
 public partial class Player : MonoBehaviour, IDamageable
 {
-    public Rigidbody2D rb 
-    { 
-        get 
-        { 
-            return gameObject.GetComponent<Rigidbody2D>(); 
-        } 
-    }
-
-    public Vector2 direction 
-    { 
-        get 
-        { 
-            return transform.localScale; 
-        } 
-
-        set 
-        { 
-            transform.localScale = value; 
-        } 
-    }
 
 
     public PlatformEffector2D platform { get; private set; } = null;
@@ -39,19 +19,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
     //public bool isGrounded { get; private set; } = false;
 
-    private bool _menuOpened;
-    public bool MenuOpened 
-    {
-        get
-        {
-            return _menuOpened;
-        }
-        set
-        {
-            _menuOpened = value;
-            MenuManager.Instance.MenuCanvas.enabled = _menuOpened;
-        }
-    }
+
 
     [Header("지형 체크 설정")]
     [SerializeField]
@@ -63,8 +31,6 @@ public partial class Player : MonoBehaviour, IDamageable
     [SerializeField]
     private float wallCheckOffset = 0;
 
-    InputControl inputControl;
-
     private void Awake()
     {
         LoadToJsonData(ID);
@@ -72,7 +38,6 @@ public partial class Player : MonoBehaviour, IDamageable
 
         GetHashIDs();
 
-        inputControl = new InputControl(this);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 
@@ -87,7 +52,6 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        inputControl.UpdateInput();
         InterationEvent();
 
         if (shopKeeper)
@@ -112,7 +76,7 @@ public partial class Player : MonoBehaviour, IDamageable
         CheckGround();
 
         //Anim.SetFloat("inAir", rb.velocity.y);
-        Air = rb.velocity.y;
+        Air = RB.velocity.y;
 
         if (Grounded)
         {
@@ -184,20 +148,7 @@ public partial class Player : MonoBehaviour, IDamageable
         if (!isInvincible)
         {
             HP -= value;
-            Anim.SetFloat("HP", HP);
-
-            if (HP <= 0)
-            {
-                return;
-            }
-
-            else
-            {
-                //Anim.SetBool("IsHit", true);
-                Hit = true;
-            }
         }
-
         //무적 상태
         else
         {
@@ -284,14 +235,14 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            direction = new Vector2(Mathf.Abs(direction.x), direction.y);                                                       //플레이어 방향전환
+            Direction = new Vector2(Mathf.Abs(Direction.x), Direction.y);                                                       //플레이어 방향전환
 
         }
 
         //우측이동
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            direction = new Vector2(-Mathf.Abs(direction.x), direction.y);                                                              //플레이어 방향전환
+            Direction = new Vector2(-Mathf.Abs(Direction.x), Direction.y);                                                              //플레이어 방향전환
         }
 
         else

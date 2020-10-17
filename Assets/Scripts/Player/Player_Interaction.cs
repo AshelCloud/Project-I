@@ -58,13 +58,13 @@ public partial class Player : MonoBehaviour
 
         if (transform.position.x >= destination.x)
         {
-            rb.velocity = new Vector2(-Speed / 2, rb.velocity.y);
-            direction = new Vector2(-Mathf.Abs(direction.x), direction.y);
+            RB.velocity = new Vector2(-Speed / 2, RB.velocity.y);
+            Direction = new Vector2(-Mathf.Abs(Direction.x), Direction.y);
         }
 
         else
         {
-            direction = new Vector2(Mathf.Abs(direction.x), direction.y);
+            Direction = new Vector2(Mathf.Abs(Direction.x), Direction.y);
             animator.SetBool("IsRun", false);
             isInteration = false;
         }

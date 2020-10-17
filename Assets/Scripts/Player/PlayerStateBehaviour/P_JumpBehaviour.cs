@@ -23,7 +23,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
 
         else if(!doubleJump)
         {
-            player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+            player.RB.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
         }
     }
 
@@ -45,7 +45,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
         {
             player.ChangeDirection();
             //플레이어 좌측 이동
-            player.rb.AddForce(new Vector2(player.Speed, 0.0f), ForceMode2D.Force);
+            player.RB.AddForce(new Vector2(player.Speed, 0.0f), ForceMode2D.Force);
         }
 
         //우측이동
@@ -53,7 +53,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
         {
             player.ChangeDirection();
             //플레이어 우측 이동
-            player.rb.AddForce(new Vector2(-player.Speed, 0.0f), ForceMode2D.Force);
+            player.RB.AddForce(new Vector2(-player.Speed, 0.0f), ForceMode2D.Force);
         }
 
         //제자리 점프
@@ -84,9 +84,9 @@ public class P_JumpBehaviour : StateMachineBehaviour
             animator.Play("Jump");
 
             //더블 점프 전 y축 속도 0 설정, 벡터 합력으로 인한 슈퍼점프 방지
-            player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
+            player.RB.velocity = new Vector2(player.RB.velocity.x, 0f);
 
-            player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+            player.RB.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
         }
     }
 }
