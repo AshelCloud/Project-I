@@ -51,6 +51,8 @@ public partial class Player : MonoBehaviour, IDamageable
     [SerializeField]
     private float wallCheckOffset = 0;
 
+    InputControl inputControl;
+
     private void Awake()
     {
         LoadToJsonData(ID);
@@ -58,6 +60,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
         GetHashIDs();
 
+        inputControl = new InputControl(this);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 
@@ -70,6 +73,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        inputControl.UpdateInput();
         InterationEvent();
 
         if (shopKeeper)
