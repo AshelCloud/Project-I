@@ -63,7 +63,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        Anim.SetFloat("HP", hp);
+        Anim.SetFloat("HP", HP);
 
         inventory = FindObjectOfType<Inventory>();
     }
@@ -114,6 +114,13 @@ public partial class Player : MonoBehaviour, IDamageable
     private void LateUpdate()
     {
         LinkingAnimator();
+        LinkingStatistic();
+    }
+
+    private void LinkingStatistic()
+    {
+        StatusUIManager.Instance.HPAmount = HP / MaxHP;
+        //TODO: 스태미너 추가
     }
 
     private void LinkingAnimator()
@@ -160,10 +167,10 @@ public partial class Player : MonoBehaviour, IDamageable
         //플레이어가 무적 상태가 아닐 때만
         if (!isInvincible)
         {
-            hp -= value;
-            Anim.SetFloat("HP", hp);
+            HP -= value;
+            Anim.SetFloat("HP", HP);
 
-            if (hp <= 0)
+            if (HP <= 0)
             {
                 return;
             }
