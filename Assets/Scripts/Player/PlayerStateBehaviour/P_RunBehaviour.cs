@@ -20,15 +20,12 @@ public class P_RunBehaviour : StateMachineBehaviour
 
         player = animator.GetComponent<Player>();
         cc2D = animator.GetComponent<CapsuleCollider2D>();
-
-        //cc2D = player.GetComponent<CapsuleCollider2D>();
     }
 
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SlopeCheck();
-        //player.rb.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.05f, player.rb.velocity.y), ForceMode2D.Impulse);
 
         float h = Input.GetAxis("Horizontal");
 
@@ -37,40 +34,22 @@ public class P_RunBehaviour : StateMachineBehaviour
         {
             if (player.Grounded && !isOnSlope)
             {
-                //player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
                 player.rb.velocity = new Vector2(h * player.Speed, player.rb.velocity.y);
             }
 
             else if (player.Grounded && isOnSlope)
             {
-                //player.rb.velocity = new Vector2(-Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.x,
-                //                                 -Input.GetAxis("Horizontal") * player.Speed * slopeNormalPerp.y);
-
                 player.rb.velocity = new Vector2(-h * player.Speed * slopeNormalPerp.x, -h * player.Speed * slopeNormalPerp.y);
             }
 
             else
             {
-                //player.rb.velocity = new Vector2(Input.GetAxis("Horizontal") * player.Speed, player.rb.velocity.y);
                 player.rb.velocity = new Vector2(h * player.Speed, player.rb.velocity.y);
             }
 
             if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
             {
-                //animator.SetBool("IsRun", false);
                 player.Run = false;
-            }
-
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                //animator.SetBool("IsJump", true);
-                player.Jump = true;
-            }
-
-            else if (Input.GetKeyDown(KeyCode.F))
-            {
-                //animator.SetBool("IsRoll", true);
-                player.Roll = true;
             }
         }
     }
@@ -79,7 +58,6 @@ public class P_RunBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit RunBehaviour");
-        //animator.SetBool("IsRun", false);
         player.Run = false;
     }
 

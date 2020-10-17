@@ -23,11 +23,21 @@ public class InputControl
             player.Attack = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.DownArrow))
+        {
+            player.isJumpDown = true;
+            player.Jump = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.D) && !Input.GetKey(KeyCode.DownArrow))
         {
             player.Jump = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            player.Roll = true;
+        }
     }
 
 

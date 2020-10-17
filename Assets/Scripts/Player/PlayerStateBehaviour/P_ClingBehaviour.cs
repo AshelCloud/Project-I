@@ -28,20 +28,19 @@ public class P_ClingBehaviour : StateMachineBehaviour
         {
             player.rb.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
 
-            animator.SetBool("IsCling", false);
-            animator.SetBool("IsJump", true);
+            player.Cling = false;
+            player.Jump = true;
         }
 
         if(player.Grounded)
         {
-            animator.SetBool("IsCling", false);
+            player.Cling = false;
         }
     }
 
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("IsCling", false);
         Log.Print("Player exit ClingState");
     }
 }

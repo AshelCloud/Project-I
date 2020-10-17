@@ -40,10 +40,25 @@ public partial class Player : MonoBehaviour
         }
     }
 
-    public bool Run { get; set; }
+    public bool Run 
+    { get; set; }
     public bool Jump { get; set; }
     public bool Grounded { get; set; }
-    public bool Roll { get; set; }
+
+    private bool _roll;
+    public bool Roll 
+    { 
+        get
+        {
+            return _roll;
+        }
+
+        set
+        {
+            _roll = value;
+        }
+    }
+
     public bool Attack { get; set; }
     public bool Hit { get; set; }
     public bool Cling { get; set; }

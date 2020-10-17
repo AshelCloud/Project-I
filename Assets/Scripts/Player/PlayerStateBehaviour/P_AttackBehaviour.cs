@@ -20,7 +20,7 @@ public class P_AttackBehaviour : StateMachineBehaviour
     {
         if(!Input.GetKey(KeyCode.A))
         {
-            animator.SetBool("IsAttack", false);
+            player.Attack = false;
         }
 
         if (stateInfo.normalizedTime >= 0.2f && stateInfo.normalizedTime < 0.21f)
