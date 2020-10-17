@@ -59,10 +59,22 @@ public partial class Player : MonoBehaviour
         }
     }
 
-    public bool Attack { get; set; }
+    private bool _attack;
+    public bool Attack 
+    {
+        get { return _attack; }
+        set
+        {
+            if(Dead) { return; }
+            if(_attack) { return; }
+
+            _attack = value;
+        }
+    }
     public bool Hit { get; set; }
     public bool Cling { get; set; }
     public float Air { get; set; }
+    public bool Dead { get; set; }
 
     private float _hp;
 
