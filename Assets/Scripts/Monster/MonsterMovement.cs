@@ -43,45 +43,6 @@ namespace Monster
             hash_Dead = Animator.StringToHash(m_Dead);
         }
 
-        private bool LoadToJsonData(int ID)
-        {
-            Log.Print("Monster: Load JsonData to Monster ID");
-            //Json 파싱
-            AssetBundle localAssetBundle = AssetBundleContainer.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "jsons"));
-            if (localAssetBundle == null)
-            {
-                Log.PrintError("LoadToJosnData: Failed to load AssetBundle!");
-                return false;
-            }
-            TextAsset monsterTable = localAssetBundle.LoadAsset<TextAsset>("MonsterTable");
-
-            var json = JsonManager.LoadJson<Serialization<string, MonsterDataTable>>(monsterTable).ToDictionary();
-
-            //데이터에 몬스터에 해당하는 키가 없으면 return
-            if (json.ContainsKey(ID.ToString()) == false)
-            {
-                Log.PrintError("Failed to Monster Data. ID is null or 0");
-                return false;
-            }
-
-            dataTable = json[ID.ToString()];
-            return true;
-        }
-
-        private void DataTableLinking()
-        {
-            Log.Print("Monster: DataTable Linking");
-
-            objectName = dataTable.ObjectName;
-            animatorName = dataTable.AnimatorName;
-            offensePower = dataTable.OffensePower;
-            defense = dataTable.Defense;
-            hp = dataTable.HP;
-            speed = dataTable.Speed;
-            detectionRange = dataTable.DetectionRange;
-            attackRange = dataTable.AttackRange;
-            dropBundleID = dataTable.DropBundleID;
-        }
 
         private void Start()
         {
