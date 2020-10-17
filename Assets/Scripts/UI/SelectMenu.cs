@@ -27,7 +27,7 @@ public class SelectMenu : MonoBehaviour
         menuCount = menuIcons.Length;
         menuIcons[selectIndex].color = highlightColor;
 
-        pauseMenu = GameObject.Find("PauseMenu(Clone)").GetComponent<MenuManager>();
+        pauseMenu = FindObjectOfType(typeof(MenuManager)) as MenuManager;
 
         canvas = GetComponent<CanvasGroup>();
     }
