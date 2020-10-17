@@ -104,21 +104,6 @@ public class Inventory : MonoBehaviour
 
         //***********************슬롯 이동***********************
 
-        //if (selectSocket < 4 && player.itemSocket[selectSocket] != null)
-        //{
-        //    image_SelectDetach.SetActive(true);
-        //}
-
-        //else if(selectSocket == 4 && player.consumSocket.Count != 0)
-        //{
-        //    image_SelectDetach.SetActive(true);
-        //}
-
-        //else
-        //{
-        //    image_SelectDetach.SetActive(false);
-        //}
-
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -127,10 +112,10 @@ public class Inventory : MonoBehaviour
             image_SelectList.SetActive(true);
         }
 
-        if (selectSocket != equipSlot.Length - 1)
-        {
-            explanation.text = player.itemSocket[selectSocket].itemExplanation;
-        }
+        //if (selectSocket != equipSlot.Length - 1)
+        //{
+        //    explanation.text = player.itemSocket[selectSocket].itemExplanation;
+        //}
 
         else
         {
@@ -153,7 +138,7 @@ public class Inventory : MonoBehaviour
             else if (selectSocket < 4)
             {
                 //빈 슬롯에 장착
-                if (player.itemSocket[selectSocket].itemName == null &&
+                if (player.itemSocket[selectSocket] == null &&
                     player.ChangeEquipment(selectSocket, inventory[selectList]))
                 {
                     inventory.RemoveAt(selectList);
@@ -161,7 +146,7 @@ public class Inventory : MonoBehaviour
                 }
 
                 //현재 슬롯에 장착된 아이템과 교체
-                else if (player.itemSocket[selectSocket].itemName != null &&
+                else if (player.itemSocket[selectSocket] != null &&
                         player.ChangeEquipment(selectSocket, inventory[selectList]))
                 {
                     Item temp = player.itemSocket[selectSocket];
@@ -300,27 +285,32 @@ public class Inventory : MonoBehaviour
     {
         foreach (Item sockets in player.itemSocket)
         {
-            switch (sockets.itemType)
+            if (sockets != null)
             {
-                case "Helm":
-                    equipSlot[(int)ITEM.HELMET].sprite = player.itemSocket[0].spriteImage;
-                    break;
+                switch (sockets.itemType)
+                {
+                    case "Helm":
+                        equipSlot[(int)ITEM.HELMET].sprite = player.itemSocket[0].spriteImage;
+                        break;
 
-                case "Armor":
-                    equipSlot[(int)ITEM.ARMOR].sprite = player.itemSocket[(int)ITEM.ARMOR].spriteImage;
-                    break;
+                    case "Armor":
+                        equipSlot[(int)ITEM.ARMOR].sprite = player.itemSocket[(int)ITEM.ARMOR].spriteImage;
+                        break;
 
-                case "Accessories":
-                    equipSlot[(int)ITEM.ACCESSORIES].sprite = player.itemSocket[(int)ITEM.ACCESSORIES].spriteImage;
-                    break;
+                    case "Accessories":
+                        equipSlot[(int)ITEM.ACCESSORIES].sprite = player.itemSocket[(int)ITEM.ACCESSORIES].spriteImage;
+                        break;
 
-                case "Weapon":
-                    equipSlot[(int)ITEM.WEAPON].sprite = player.itemSocket[(int)ITEM.WEAPON].spriteImage;
-                    break;
+                    case "Weapon":
+                        equipSlot[(int)ITEM.WEAPON].sprite = player.itemSocket[(int)ITEM.WEAPON].spriteImage;
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
+
+
         }
         if (player.consumSocket.Count != 0)
         {
