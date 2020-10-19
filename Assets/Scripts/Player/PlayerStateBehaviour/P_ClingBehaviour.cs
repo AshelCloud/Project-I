@@ -41,5 +41,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit ClingState");
+
+        player.Cling = false;
     }
 }

@@ -44,16 +44,18 @@ public class P_HitBehaviour : StateMachineBehaviour
 
         animator.SetFloat("HP", player.HP);
 
-        if (stateInfo.normalizedTime >= 0.99f)
-        {
-            animator.SetBool("IsHit", false);
-        }
+        //if (stateInfo.normalizedTime >= 0.99f)
+        //{
+        //    player.Hit = false;
+        //}
     }
 
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit HitState");
+
+        player.Hit = false;
 
         //색 원상복구
         spriteRenderer.color = new Color(255, 255, 255);

@@ -66,7 +66,6 @@ public partial class Player : MonoBehaviour
         set
         {
             if(Dead) { return; }
-            if(_attack) { return; }
 
             _attack = value;
         }
@@ -94,6 +93,7 @@ public partial class Player : MonoBehaviour
             else
             {
                 _hp = value;
+                Log.Print("Player HP: " + _hp);
             }
         }
     }
