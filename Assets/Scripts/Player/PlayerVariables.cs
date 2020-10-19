@@ -64,7 +64,7 @@ public partial class Player : MonoBehaviour
     public bool Cling { get; set; }
     public float Air { get; set; }
 
-    private float _hp;
+    private float _hp = 100;
 
     public float HP 
     {
@@ -72,6 +72,7 @@ public partial class Player : MonoBehaviour
         {
             return _hp;
         }
+
         private set
         {
             if (_hp <= 0)
@@ -81,7 +82,6 @@ public partial class Player : MonoBehaviour
             else
             {
                 _hp = value;
-                Hit = true;
             }
         }
     }

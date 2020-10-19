@@ -25,7 +25,7 @@ public class InputControl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.DownArrow))
         {
-            player.isJumpDown = true;
+            player.IsJumpDown = true;
             player.Jump = true;
         }
 

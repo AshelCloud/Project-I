@@ -12,8 +12,6 @@ public class P_RunBehaviour : StateMachineBehaviour
     private float slopeDownAngle;
     private float slopeDownAngleOld;
 
-    
-
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter RunBehaviour");
@@ -30,7 +28,7 @@ public class P_RunBehaviour : StateMachineBehaviour
         float h = Input.GetAxis("Horizontal");
 
         player.ChangeDirection();
-        if (!player.isInteration)
+        if (!player.IsInteration)
         {
             if (player.Grounded && !isOnSlope)
             {

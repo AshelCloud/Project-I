@@ -14,7 +14,7 @@ public class P_RollBehaviour : StateMachineBehaviour
         player = animator.GetComponent<Player>();
 
         //플레이어 무적 설정
-        player.isInvincible = true;
+        player.IsInvincible = true;
 
         player.RB.velocity = new Vector2(0f, player.RB.velocity.y);
 
@@ -42,7 +42,7 @@ public class P_RollBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //플레이어 무적 해제
-        player.isInvincible = false;
+        player.IsInvincible = false;
         Log.Print("Player exit RollBehaviour");
     }
 }

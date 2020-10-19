@@ -5,21 +5,15 @@ using UnityEngine.UI;
 //!Edit
 public partial class Player : MonoBehaviour, IDamageable
 {
-
-
-    public PlatformEffector2D platform { get; private set; } = null;
+    public PlatformEffector2D Platform { get; private set; } = null;
 
     private Inventory inventory = null;
 
     private ShopKeeper shopKeeper = null;
-    public Monster.Monster hitTarget { get; set; }
+    public Monster.Monster HitTarget { get; set; }
 
-    public bool isJumpDown { get; set; } = false;
-    public bool isInvincible { get; set; } = false;
-
-    //public bool isGrounded { get; private set; } = false;
-
-
+    public bool IsJumpDown { get; set; } = false;
+    public bool IsInvincible { get; set; } = false;
 
     [Header("지형 체크 설정")]
     [SerializeField]
@@ -75,7 +69,6 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         CheckGround();
 
-        //Anim.SetFloat("inAir", rb.velocity.y);
         Air = RB.velocity.y;
 
         if (Grounded)
@@ -86,7 +79,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
         else
         {
-            //Anim.SetBool("IsGrounded", false);
+
             Grounded = false;
         }
     }
@@ -145,8 +138,9 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         Log.Print("Player hit");
         //플레이어가 무적 상태가 아닐 때만
-        if (!isInvincible)
+        if (!IsInvincible)
         {
+            Hit = true;
             HP -= value;
         }
         //무적 상태
@@ -206,11 +200,11 @@ public partial class Player : MonoBehaviour, IDamageable
         if (groundCheck != null)
         {
             //하강 점프 완료 후
-            if (platform != null)
+            if (Platform != null)
             {
                 //다시 플랫폼으로 올라갈 수 있도록 오프셋 초기화
-                platform.rotationalOffset = 0;
-                platform.GetComponent<TilemapCollider2D>().enabled = true;
+                Platform.rotationalOffset = 0;
+                Platform.GetComponent<TilemapCollider2D>().enabled = true;
             }
 
 
@@ -220,7 +214,7 @@ public partial class Player : MonoBehaviour, IDamageable
         //플랫폼 체크
         else if (platformCheck != null)
         {
-            platform = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, platformLayer).collider.GetComponent<PlatformEffector2D>();
+            Platform = Physics2D.BoxCast(startPos, groundCheckBox, 0f, Vector2.down, groundCheckDistance, platformLayer).collider.GetComponent<PlatformEffector2D>();
 
             Grounded = true;
         }

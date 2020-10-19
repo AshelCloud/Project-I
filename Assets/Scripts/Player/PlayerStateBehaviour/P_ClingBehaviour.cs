@@ -29,7 +29,6 @@ public class P_ClingBehaviour : StateMachineBehaviour
             player.RB.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
 
             player.Cling = false;
-            player.Jump = true;
         }
 
         if(player.Grounded)

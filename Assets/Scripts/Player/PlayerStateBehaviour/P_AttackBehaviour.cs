@@ -37,10 +37,10 @@ public class P_AttackBehaviour : StateMachineBehaviour
 
     private void SwordHitMonster()
     {
-        if (player.hitTarget != null)
+        if (player.HitTarget != null)
         {
-            player.hitTarget.GetDamaged(player.OffensePower);
-            Log.Print("Monster HP: " + player.hitTarget.HP);
+            player.HitTarget.GetDamaged(player.OffensePower);
+            Log.Print("Monster HP: " + player.HitTarget.HP);
         }
 
         else

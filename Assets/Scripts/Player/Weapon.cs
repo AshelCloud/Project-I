@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour
     {
         if (collider.CompareTag("Monster"))
         {
-            player.hitTarget = collider.gameObject.GetComponent<Monster.Monster>();
+            player.HitTarget = collider.gameObject.GetComponent<Monster.Monster>();
         }
     }
 
@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour
     {
         if (collider.CompareTag("Monster"))
         {
-            player.hitTarget = null;
+            player.HitTarget = null;
         }
     }
 }

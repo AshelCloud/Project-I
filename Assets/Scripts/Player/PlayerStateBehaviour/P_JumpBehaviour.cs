@@ -15,10 +15,10 @@ public class P_JumpBehaviour : StateMachineBehaviour
         player = animator.GetComponent<Player>();
 
 
-        if (player.isJumpDown && player.platform != null)
+        if (player.IsJumpDown && player.Platform != null)
         {
-            player.platform.rotationalOffset = 180;
-            player.platform.GetComponent<TilemapCollider2D>().enabled = false;
+            player.Platform.rotationalOffset = 180;
+            player.Platform.GetComponent<TilemapCollider2D>().enabled = false;
         }
 
         else if(!doubleJump)
@@ -33,8 +33,6 @@ public class P_JumpBehaviour : StateMachineBehaviour
 
         if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
         {
-            //animator.SetBool("IsCling", true);
-            //animator.SetBool("IsJump", false);
             player.Cling = true;
             player.Jump = false;
         }
@@ -70,7 +68,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
         //animator.SetBool("IsJump", false);
         player.Jump = false;
 
-        player.isJumpDown = false;
+        player.IsJumpDown = false;
     }
 
     static public void DoubleJump(Player player, Animator animator)
