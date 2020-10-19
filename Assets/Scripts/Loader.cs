@@ -13,10 +13,10 @@ public class Loader : MonoBehaviour
     [SerializeField] private float fadeSpeed = 1f;
 
     [Header("Components")]
-    [SerializeField]  private Image backgroundImage;
-    [SerializeField]  private GameObject bar;
-    [SerializeField] private Image barImage;
-    [SerializeField] private Text descriptionText;
+    [SerializeField]  private Image backgroundImage = null;
+    [SerializeField]  private GameObject bar = null;
+    [SerializeField] private Image barImage = null;
+    [SerializeField] private Text descriptionText = null;
     
     private bool Initialized { get; set; }
     public bool Loaded { get; private set; }

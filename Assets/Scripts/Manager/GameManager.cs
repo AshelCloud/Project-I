@@ -9,9 +9,9 @@ using UnityEngine.UI;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
-    private Loader loader;
+    private Loader loader = null;
     [SerializeField]
-    private MapLoader mapLoader;
+    private MapLoader mapLoader = null;
 
     public string StartMapName
     {
