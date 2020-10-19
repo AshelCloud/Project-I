@@ -55,7 +55,10 @@ public partial class Player : MonoBehaviour
 
         set
         {
-            _roll = value;
+            if (Grounded)
+            {
+                _roll = value;
+            }
         }
     }
 
