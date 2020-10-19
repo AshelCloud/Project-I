@@ -1,3 +1,5 @@
+using Boo.Lang;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -25,6 +27,8 @@ public partial class Player : MonoBehaviour, IDamageable
     [SerializeField]
     private float wallCheckOffset = 0;
 
+    private Weapon weapon;
+    
     private void Awake()
     {
         LoadToJsonData(ID);
@@ -37,11 +41,19 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        weapon = GetComponentInChildren<Weapon>(true);
+        
         Anim.SetFloat("HP", HP);
 
         inventory = FindObjectOfType<Inventory>();
 
         MenuOpened = false;
+    }
+
+    public void WeaponEnable(bool enable)
+    {
+        weapon.myCollider.enabled = enable;
+        weapon.gameObject.SetActive(enable);
     }
 
     private void Update()

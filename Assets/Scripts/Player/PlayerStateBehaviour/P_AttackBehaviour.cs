@@ -2,49 +2,42 @@
 
 public class P_AttackBehaviour : StateMachineBehaviour
 {
-    private Player player = null;
+    private Player myPlayer;
 
-    private GameObject sword = null;
+    [MinMaxRange(0f, 1f)]
+    public RangeFloat AttackActivation = new RangeFloat(0f, 1f);
+
+    private bool isOn, isOff;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter AttackState");
-
-        player = animator.gameObject.GetComponent<Player>();
-
-        sword = player.transform.GetChild(0).gameObject;
+     
+        myPlayer = animator.GetComponent<Player>();
+        isOn = isOff = false;
     }
-
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(!Input.GetKey(KeyCode.A))
+        if (isOn == false && (stateInfo.normalizedTime % 1) >= AttackActivation.minValue)
         {
-            player.Attack = false;
+            myPlayer.WeaponEnable(true);
+            isOn = true;
         }
-
-        if (stateInfo.normalizedTime >= 0.2f && stateInfo.normalizedTime < 0.21f)
+        if (isOff == false && (stateInfo.normalizedTime % 1) >= AttackActivation.maxValue)
         {
-            SwordHitMonster();
+            myPlayer.WeaponEnable(false);
+            isOff = true;
+
+            myPlayer.Attack = false;
         }
     }
-
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit AttackState");
-    }
-
-    private void SwordHitMonster()
-    {
-        if (player.HitTarget != null)
-        {
-            player.HitTarget.GetDamaged(player.OffensePower);
-            Log.Print("Monster HP: " + player.HitTarget.HP);
-        }
-
-        else
-        {
-        }
+        myPlayer.Attack = false;
+        myPlayer.WeaponEnable(false);
+        isOn = isOff = false;
     }
 }

@@ -2,26 +2,50 @@
 
 public class Weapon : MonoBehaviour
 {
-    private Player player = null;
+    private Player myPlayer;
+    private IDamageable enemy;
 
-    private void Start()
+    private Collider2D _collider;
+    public Collider2D myCollider
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.CompareTag("Monster"))
+        get
         {
-            player.HitTarget = collider.gameObject.GetComponent<Monster.Monster>();
+            if (_collider == null)
+            {
+                _collider = GetComponent<Collider2D>();
+            }
+            return _collider;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collider)
+
+    private void Awake()
     {
-        if (collider.CompareTag("Monster"))
+        myPlayer = GetComponentInParent<Player>();
+    }
+
+    private void Start()
+    {
+        if (myCollider)
         {
-            player.HitTarget = null;
+            myCollider.isTrigger = true;
+            myCollider.enabled = false;
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.isTrigger) { return; }
+
+        enemy = collision.GetComponentInParent<IDamageable>();
+
+        if (enemy != null)
+        {
+            if (myPlayer.GetComponent<IDamageable>() == enemy) { return; }
+
+            enemy.GetDamaged(myPlayer.OffensePower);
         }
     }
 }

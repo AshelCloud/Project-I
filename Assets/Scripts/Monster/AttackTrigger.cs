@@ -51,7 +51,7 @@ namespace Monster
             {
                 if (myMonster.GetComponent<IDamageable>() == enemy) { return; }
 
-                enemy.GetDamaged(myMonster.OffentPower);
+                enemy.GetDamaged(myMonster.OffensePower);
             }
         }
     }
