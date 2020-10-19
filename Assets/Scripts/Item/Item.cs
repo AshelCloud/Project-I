@@ -37,7 +37,7 @@ public class Item : MonoBehaviour
     public string route { get; private set; } = null;
     public float cost { get; private set; } = 0f;
     public string itemExplanation { get; private set; } = null;
-
+    
     public Sprite spriteImage { get; private set; }
 
     public Item(string item_Type) 

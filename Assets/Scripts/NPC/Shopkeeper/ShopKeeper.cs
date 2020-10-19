@@ -9,10 +9,10 @@ public class ShopKeeper : MonoBehaviour
     [System.Serializable]
     private class ShopKeepperData
     {
-        public string NPCName;
-        public List<string> SaleItem;
-        public List<float> Cost;
-        public List<int> ItemID;
+        public string NPCName = null;
+        public List<string> SaleItem = null;
+        public List<float> Cost = null;
+        public List<int> ItemID = null;
     }
 
     public string ID = "1";
