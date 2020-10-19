@@ -2,42 +2,47 @@
 
 public class P_RollBehaviour : StateMachineBehaviour
 {
-
     private Player player = null;
+
+    [SerializeField]
+    private float multipleForce;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player enter RollBehaviour");
 
-        player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
 
-        player.isInvincible = true;
+        //플레이어 무적 설정
+        player.IsInvincible = true;
 
-        if (player.direction.x > 0)
+        player.RB.velocity = new Vector2(0f, player.RB.velocity.y);
+
+        if (player.Direction.x > 0)
         {
-            player.rb.AddForce(new Vector2(player.RollForce, 0.0f), ForceMode2D.Impulse);
-        }
+            player.RB.AddForce(new Vector2(player.RollForce * multipleForce, 0.0f), ForceMode2D.Impulse);
+        } 
 
         else
         {
-            player.rb.AddForce(new Vector2(-player.RollForce, 0.0f), ForceMode2D.Impulse);
+            player.RB.AddForce(new Vector2(-player.RollForce * multipleForce, 0.0f), ForceMode2D.Impulse);
         }
     }
 
     
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(stateInfo.normalizedTime >= 0.99f)
+        if(stateInfo.normalizedTime >= 0.99f || !player.Grounded)
         {
-            animator.SetBool("IsRoll", false);
+            player.Roll = false;
         }
-
     }
 
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player.isInvincible = false;
+        //플레이어 무적 해제
+        player.IsInvincible = false;
         Log.Print("Player exit RollBehaviour");
     }
 }

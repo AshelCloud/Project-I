@@ -7,19 +7,6 @@ public partial class Player
     //기본값 = 1
     private const int ID = 1;
 
-    [System.Serializable]
-    private struct PlayerData
-    {
-        public string Name;
-        public string Variablename;
-        public float Offensepower;
-        public float Defense;
-        public float HP;
-        public float Speed;
-        public string Objectname;
-        public string Animatorname;
-        public string Prefabname;
-    }
 
     private PlayerData playerData;
 
@@ -29,10 +16,6 @@ public partial class Player
     public float OffensePower { get { return offensePower; } }
 
     public float defense { get; private set; }
-
-    public float hp { get; private set; } = 0f;
-
-    public float max_HP { get; private set; } = 0f;
 
     //이동 속도
     [SerializeField]
@@ -49,7 +32,13 @@ public partial class Player
     private float rollForce = 0f;
     public float RollForce { get { return rollForce; } }
 
-    public Item[] itemSocket { get; private set; } = new Item[4];
+    public Item[] itemSocket { get; private set; } = new Item[4]
+    {
+        new Item("Helm"),
+        new Item("Armor"),
+        new Item("Accessories"),
+        new Item("Weapon")
+    };
 
     public Stack<Item> consumSocket { get; private set; } = new Stack<Item>();
 
@@ -86,44 +75,43 @@ public partial class Player
     {
         offensePower = playerData.Offensepower;
         defense = playerData.Defense;
-        hp = playerData.HP;
-        max_HP = playerData.HP;
+        HP = playerData.HP;
+        MaxHP = playerData.HP;
         speed = playerData.Speed;
     }
 
     public bool ChangeEquipment(int socket, Item equipment)
     {
-        if (socket == (int)ITEM.HELMET && equipment.itemType == "Helm")
+        if (itemSocket[socket].itemType == equipment.itemType)
         {
-            itemSocket[(int)ITEM.HELMET] = equipment;
-        }
+            itemSocket[socket] = equipment;
 
-        else if (socket == (int)ITEM.ARMOR && equipment.itemType == "Armor")
-        {
-            itemSocket[(int)ITEM.ARMOR] = equipment;
-        }
-        
-        else if (socket == (int)ITEM.ACCESSORIES && equipment.itemType == "Accessories")
-        {
-            itemSocket[(int)ITEM.ACCESSORIES] = equipment;
-        }
+            offensePower = playerData.Offensepower + itemSocket[socket].offensePower;
+            defense = playerData.Defense = itemSocket[socket].defense;
+            MaxHP = playerData.HP + itemSocket[socket].hp;
+            speed = playerData.Speed + itemSocket[socket].speed;
 
-        else if (socket == (int)ITEM.WEAPON && equipment.itemType == "Weapon")
-        {
-            itemSocket[(int)ITEM.WEAPON] = equipment;
+            return true;
         }
 
         else
         {
             return false;
         }
-        
-        offensePower = playerData.Offensepower + itemSocket[socket].offensePower;
-        defense = playerData.Defense = itemSocket[socket].defense;
-        max_HP = playerData.HP + itemSocket[socket].hp;
-        speed = playerData.Speed + itemSocket[socket].speed;
-
-        return true;
     }
 }
 
+
+[System.Serializable]
+public class PlayerData
+{
+    public string Name;
+    public string Variablename;
+    public float Offensepower;
+    public float Defense;
+    public float HP;
+    public float Speed;
+    public string Objectname;
+    public string Animatorname;
+    public string Prefabname;
+}

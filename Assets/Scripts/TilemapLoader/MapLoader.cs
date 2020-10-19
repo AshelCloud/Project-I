@@ -8,6 +8,8 @@ using UnityEngine.SocialPlatforms;
 using UnityEngine.TestTools;
 using UnityEngine.Tilemaps;
 
+//GameManager에 의해 돌아가는 코드
+//그러므로 이벤트함수가 포함되어있지않음
 public partial class MapLoader : MonoBehaviour
 {
     public void Initialize()
