@@ -136,4 +136,17 @@ public partial class Player : MonoBehaviour
             transform.localScale = value;
         }
     }
+
+    private bool _isShopping;
+    public bool IsShopping
+    {
+        private set
+        {
+            _isShopping = value;
+        }
+        get
+        {
+            return _isShopping;
+        }
+    }
 }

@@ -11,9 +11,6 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private Inventory inventory = null;
 
-    private ShopKeeper shopKeeper = null;
-    public Monster.Monster HitTarget { get; set; }
-
     public bool IsJumpDown { get; set; } = false;
     public bool IsInvincible { get; set; } = false;
 
@@ -60,14 +57,20 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         InterationEvent();
 
-        if (shopKeeper)
+        if (IsShopping)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 Log.Print("Shopping Now");
-                Item perchased = shopKeeper._ShopCanvas.Purchase();
+                Item perchased = ShopCanvas.Instance.Purchase();
 
                 inventory.PerchasingItem(perchased);
+            }
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                ShopCanvas.Instance.CloseCanvas();
+                IsShopping = false;
             }
         }
 

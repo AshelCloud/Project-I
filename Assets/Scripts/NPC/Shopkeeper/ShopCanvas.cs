@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopCanvas : MonoBehaviour
+public class ShopCanvas : Singleton<ShopCanvas>
 {
-    public GameObject selectImage;
-
-    public Text currentGoldText;
-
-    public List<ShopItem> items;
+    [SerializeField] private GameObject selectImage;
+    [SerializeField] private Text currentGoldText;
+    [SerializeField] private List<ShopItem> items;
 
 
     private Canvas _canvas;
@@ -61,10 +59,10 @@ public class ShopCanvas : MonoBehaviour
 
         //currentGoldText.text = "Gold: " + Inventory.Instance.CurrentGold.ToString() + "G";
 
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            CloseCanvas();
-        }
+        //if(Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    CloseCanvas();
+        //}
 
         if(Input.GetKeyDown(KeyCode.UpArrow))
         {

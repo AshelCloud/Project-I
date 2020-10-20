@@ -20,8 +20,6 @@ public class ShopKeeper : MonoBehaviour
 
     private ShopKeepperData Data { get; set; }
 
-    public ShopCanvas _ShopCanvas { get; private set; }
-
     private void Awake()
     {
         var text = AssetBundleContainer.LoadAsset<TextAsset>("jsons", "ShopKeepperTable");
@@ -32,23 +30,13 @@ public class ShopKeeper : MonoBehaviour
             text = result.LoadAsset<TextAsset>("ShopKeepperTable");
         }
 
-        //TODO: 본 게임에 들어갈때 삭제 할 코드
-        //ItemContainer.CreateItem();
-
         Data = JsonManager.LoadJson<Serialization<string, ShopKeepperData>>(text).ToDictionary()[ID];
-
-        _ShopCanvas = GetComponentInChildren<ShopCanvas>();
 
         nameText.text = Data.NPCName;
 
         List<int> copyItemID = new List<int>(Data.ItemID);
-        _ShopCanvas.LinkingItems(copyItemID);
+        ShopCanvas.Instance.LinkingItems(copyItemID);
 
-        _ShopCanvas.CloseCanvas();
-    }
-
-    public void ShopOpen()
-    {
-        _ShopCanvas.OpenCanvas();
+        ShopCanvas.Instance.CloseCanvas();
     }
 }

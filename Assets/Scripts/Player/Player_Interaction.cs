@@ -30,11 +30,11 @@ public partial class Player : MonoBehaviour
             {
                 IsInteration = true;
                 destination = collision.gameObject.transform.position - new Vector3(3f, 0f);
-                shopKeeper = collision.GetComponent<ShopKeeper>();
 
                 yield return new WaitForSeconds(1f);
 
-                shopKeeper.ShopOpen();
+                IsShopping = true;
+                ShopCanvas.Instance.OpenCanvas();
             }
         }
     }
