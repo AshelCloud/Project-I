@@ -14,6 +14,7 @@ public partial class Player : MonoBehaviour
     public const string m_Hit = "IsHit";
     public const string m_Cling = "IsCling";
     public const string m_Air = "inAir";
+    public const string m_Dead = "IsDead";
 
     private int hash_Run;
     private int hash_Jump;
@@ -23,6 +24,7 @@ public partial class Player : MonoBehaviour
     private int hash_Hit;
     private int hash_Cling;
     private int hash_Air;
+    private int hash_Dead;
     #endregion
 
     private Animator anim;
@@ -89,14 +91,12 @@ public partial class Player : MonoBehaviour
 
         private set
         {
-            if (_hp <= 0)
+            _hp = value;
+            Log.Print("Player HP: " + _hp);
+
+            if (_hp <= 0 && !Dead)
             {
-                //TODO: Dead 활성화
-            }
-            else
-            {
-                _hp = value;
-                Log.Print("Player HP: " + _hp);
+                Dead = true;
             }
         }
     }

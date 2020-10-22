@@ -1,8 +1,5 @@
-using Boo.Lang;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 //!Edit
 public partial class Player : MonoBehaviour, IDamageable
@@ -121,6 +118,7 @@ public partial class Player : MonoBehaviour, IDamageable
         Anim.SetBool(hash_Hit, Hit);
         Anim.SetBool(hash_Cling, Cling);
         Anim.SetFloat(hash_Air, Air);
+        Anim.SetBool(hash_Dead, Dead);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -147,6 +145,7 @@ public partial class Player : MonoBehaviour, IDamageable
         hash_Hit = Animator.StringToHash(m_Hit);
         hash_Cling = Animator.StringToHash(m_Cling);
         hash_Air = Animator.StringToHash(m_Air);
+        hash_Dead = Animator.StringToHash(m_Dead);
     }
 
     public void GetDamaged(float value)
@@ -237,6 +236,7 @@ public partial class Player : MonoBehaviour, IDamageable
         else
         {
             Grounded = false;
+            Run = false;
         }
     }
 
