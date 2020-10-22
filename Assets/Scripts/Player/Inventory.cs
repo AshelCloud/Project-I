@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,26 +8,26 @@ enum ITEM : int
 {
     HELMET = 0,
     ARMOR,
-    ACCESSORIES,
     WEAPON,
+    ACCESSORIES,
     POTION
 };
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
+    //인벤토리 메뉴 이미지
     [SerializeField]
     private GameObject image_SelectSlot;
-
     [SerializeField]
     private GameObject image_SelectList;
-
     [SerializeField]
     private GameObject image_SelectDetach;
 
-
+    //장비 슬롯 이미지
     [SerializeField]
     private Image[] equipSlot;
 
+    //아이템 설명
     [SerializeField]
     private Text explanation;
 
@@ -102,9 +103,7 @@ public class Inventory : MonoBehaviour
         //선택 이미지 이동
         image_SelectSlot.transform.position = equipSlot[selectSocket].transform.position;
 
-        //***********************슬롯 이동***********************
-
-
+        //슬롯 선택
         if (Input.GetKeyDown(KeyCode.A))
         {
             enterInventory = true;
@@ -112,15 +111,6 @@ public class Inventory : MonoBehaviour
             image_SelectList.SetActive(true);
         }
 
-        //if (selectSocket != equipSlot.Length - 1)
-        //{
-        //    explanation.text = player.itemSocket[selectSocket].itemExplanation;
-        //}
-
-        else
-        {
-            explanation.text = "소모품";
-        }
     }
 
     //인벤토리 선택
@@ -129,42 +119,37 @@ public class Inventory : MonoBehaviour
         //A: 선택
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if(image_SelectDetach.activeSelf && selectList == 0)
+            if(player.ChangeEquipment(selectSocket, inventory[selectList]))
             {
-                inventory.Add(player.itemSocket[selectSocket]);
-                player.itemSocket[selectSocket] = new Item(player.itemSocket[selectSocket].itemType);
+                inventory.RemoveAt(selectList);
+                selectList = 0;
             }
 
-            else if (selectSocket < 4)
-            {
-                //빈 슬롯에 장착
-                if (player.itemSocket[selectSocket] == null &&
-                    player.ChangeEquipment(selectSocket, inventory[selectList]))
-                {
-                    inventory.RemoveAt(selectList);
-                    selectList = 0;
-                }
 
-                //현재 슬롯에 장착된 아이템과 교체
-                else if (player.itemSocket[selectSocket] != null &&
-                        player.ChangeEquipment(selectSocket, inventory[selectList]))
-                {
-                    Item temp = player.itemSocket[selectSocket];
-                    inventory[selectList] = temp;
-                }
-            }
+            //if(image_SelectDetach.activeSelf && selectList == 0)
+            //{
+            //    inventory.Add(player.ItemSocket[selectSocket]);
+            //    player.ItemSocket[selectSocket] = new Item(player.ItemSocket[selectSocket].itemType);
+            //}
 
-            else
-            {
-                if(player.consumSocket.Count != Player.consumableLimit &&
-                    inventory[selectList].itemType == "Potion")
-                {
-                    player.consumSocket.Push(inventory[selectList]);
-                    equipSlot[selectSocket].GetComponentInChildren<Text>().text = player.consumSocket.Count.ToString();
-                    inventory.RemoveAt(selectList);
-                    selectList = 0;
-                }
-            }
+            //else if (selectSocket < 4)
+            //{
+            //    //빈 슬롯에 장착
+            //    if (player.ItemSocket[selectSocket] == null &&
+            //        player.ChangeEquipment(selectSocket, inventory[selectList]))
+            //    {
+            //        inventory.RemoveAt(selectList);
+            //        selectList = 0;
+            //    }
+
+            //    //현재 슬롯에 장착된 아이템과 교체
+            //    else if (player.ItemSocket[selectSocket] != null &&
+            //            player.ChangeEquipment(selectSocket, inventory[selectList]))
+            //    {
+            //        Item temp = player.ItemSocket[selectSocket];
+            //        inventory[selectList] = temp;
+            //    }
+            //}
 
             //변경사항 렌더링
             ClearItemList();
@@ -203,27 +188,13 @@ public class Inventory : MonoBehaviour
         image_SelectList.transform.position = itemList.transform.GetChild(selectList + index).position;
         //***********************인벤토리 이동***********************
 
-        if (selectSocket < 4 && player.itemSocket[selectSocket] != null)
-        {
-            image_SelectDetach.SetActive(true);
-        }
-
-        else if (selectSocket == 4 && player.consumSocket.Count != 0)
-        {
-            image_SelectDetach.SetActive(true);
-        }
-
-        else
-        {
-            image_SelectDetach.SetActive(false);
-        }
 
         //장비 해제 활성화시
         if (image_SelectDetach.activeSelf)
         {
             index = 0;
 
-            if(selectList < 1)
+            if (selectList < 1)
             {
                 explanation.text = "장비 해제";
             }
@@ -283,38 +254,39 @@ public class Inventory : MonoBehaviour
 
     private void RenderSlot()
     {
-        foreach (Item sockets in player.itemSocket)
+        foreach (string key in player.ItemSocket.Keys)
         {
-            if (sockets != null)
+            if (player.ItemSocket[key] != null)
             {
-                switch (sockets.itemType)
+                switch (key)
                 {
                     case "Helm":
-                        equipSlot[(int)ITEM.HELMET].sprite = player.itemSocket[0].spriteImage;
+                        equipSlot[(int)ITEM.HELMET].sprite = ((Item)player.ItemSocket["Helm"]).spriteImage;
                         break;
 
                     case "Armor":
-                        equipSlot[(int)ITEM.ARMOR].sprite = player.itemSocket[(int)ITEM.ARMOR].spriteImage;
-                        break;
-
-                    case "Accessories":
-                        equipSlot[(int)ITEM.ACCESSORIES].sprite = player.itemSocket[(int)ITEM.ACCESSORIES].spriteImage;
+                        equipSlot[(int)ITEM.ARMOR].sprite = ((Item)player.ItemSocket["Armor"]).spriteImage;
                         break;
 
                     case "Weapon":
-                        equipSlot[(int)ITEM.WEAPON].sprite = player.itemSocket[(int)ITEM.WEAPON].spriteImage;
+                        equipSlot[(int)ITEM.WEAPON].sprite = ((Item)player.ItemSocket["Weapon"]).spriteImage;
                         break;
+
+                    case "Accessories":
+                        equipSlot[(int)ITEM.ACCESSORIES].sprite = ((Item)player.ItemSocket["Accessories"]).spriteImage;
+                        break;
+
 
                     default:
                         break;
                 }
             }
 
-
-        }
-        if (player.consumSocket.Count != 0)
-        {
-            equipSlot[(int)ITEM.POTION].sprite = player.consumSocket.Peek().spriteImage;
+            if (((Stack<Item>)player.ItemSocket["Potion"]).Count != 0)
+            {
+                equipSlot[(int)ITEM.POTION].sprite = ((Stack<Item>)player.ItemSocket["Potion"]).Peek().spriteImage;
+                equipSlot[(int)ITEM.POTION].transform.GetChild(0).GetComponent<Text>().text = ((Stack<Item>)player.ItemSocket["Potion"]).Count.ToString();
+            }
         }
     }
 }

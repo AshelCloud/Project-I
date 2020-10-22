@@ -41,7 +41,7 @@ public class CharacterStatsMenu : MonoBehaviour
 
         value_HP.text = player.HP.ToString();
         value_Power.text = player.OffensePower.ToString();
-        value_Defence.text = player.defense.ToString();
+        value_Defence.text = player.Defense.ToString();
     }
 
 }

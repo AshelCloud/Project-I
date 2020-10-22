@@ -10,7 +10,7 @@ public class P_FallingBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter FallingState");
 
-        player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

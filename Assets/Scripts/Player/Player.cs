@@ -30,6 +30,16 @@ public partial class Player : MonoBehaviour, IDamageable
 
         GetHashIDs();
 
+        ConsumSocket = new System.Collections.Generic.Stack<Item>();
+        ItemSocket = new System.Collections.Hashtable();
+
+        ItemSocket.Add("Helm", null);
+        ItemSocket.Add("Armor", null);
+        ItemSocket.Add("Accessories", null);
+        ItemSocket.Add("Weapon", null);
+        ItemSocket.Add("Potion", ConsumSocket);
+
+
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
 

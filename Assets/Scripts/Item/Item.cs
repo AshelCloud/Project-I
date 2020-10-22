@@ -1,6 +1,5 @@
 using UnityEngine;
 
-//나중에 접근 제한이 필요할 수도?
 [System.Serializable]
 public class ItemData
 {

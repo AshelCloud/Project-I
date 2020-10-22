@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -13,36 +14,24 @@ public partial class Player
     [Header("플레이어 능력치")]
     [SerializeField]
     private float offensePower = 0;
+    [SerializeField]
+    private float speed = 0f;    //이동 속도
+    [SerializeField]
+    private float jumpForce = 0f;    //점프력
+    [SerializeField]
+    private float rollForce = 0f;   //구르기 거리
+
     public float OffensePower { get { return offensePower; } }
-
-    public float defense { get; private set; }
-
-    //이동 속도
-    [SerializeField]
-    private float speed = 0f;
+    public float Defense { get; private set; }
     public float Speed { get { return speed; } }
-
-    //점프력
-    [SerializeField]
-    private float jumpForce = 0f;
     public float JumpForce { get { return jumpForce; } }
-
-    //구르기 거리
-    [SerializeField]
-    private float rollForce = 0f;
     public float RollForce { get { return rollForce; } }
 
-    public Item[] itemSocket { get; private set; } = new Item[4]
-    {
-        new Item("Helm"),
-        new Item("Armor"),
-        new Item("Accessories"),
-        new Item("Weapon")
-    };
-
-    public Stack<Item> consumSocket { get; private set; } = new Stack<Item>();
-
     public const int consumableLimit = 5;
+
+    public Stack<Item> ConsumSocket { get; private set; }
+
+    public Hashtable ItemSocket { get; private set; }
 
     private void LoadToJsonData(int ID)
     {
@@ -74,32 +63,93 @@ public partial class Player
     private void InitData()
     {
         offensePower = playerData.Offensepower;
-        defense = playerData.Defense;
+        Defense = playerData.Defense;
         HP = playerData.HP;
         MaxHP = playerData.HP;
         speed = playerData.Speed;
     }
 
-    public bool ChangeEquipment(int socket, Item equipment)
+    public bool ChangeEquipment(int socket, Item item)
     {
-        if (itemSocket[socket].itemType == equipment.itemType)
+        switch (socket)
         {
-            itemSocket[socket] = equipment;
+            case (int)ITEM.HELMET:
+                if(item.itemType == "Helm")
+                {
+                    ItemSocket["Helm"] = item;
+                    UpdateStat(item);
+                    return true;
+                }
 
-            offensePower = playerData.Offensepower + itemSocket[socket].offensePower;
-            defense = playerData.Defense = itemSocket[socket].defense;
-            MaxHP = playerData.HP + itemSocket[socket].hp;
-            speed = playerData.Speed + itemSocket[socket].speed;
+                else
+                {
+                    return false;
+                }
+            case (int)ITEM.ARMOR:
+                if (item.itemType == "Armor")
+                {
+                    ItemSocket["Armor"] = item;
+                    UpdateStat(item);
+                    return true;
+                }
 
-            return true;
-        }
+                else
+                {
+                    return false;
+                }
 
-        else
-        {
-            return false;
+            case (int)ITEM.WEAPON:
+                if (item.itemType == "Weapon")
+                {
+                    ItemSocket["Weapon"] = item;
+                    UpdateStat(item);
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+
+            case (int)ITEM.ACCESSORIES:
+                if (item.itemType == "Accessories")
+                {
+                    ItemSocket["Accessories"] = item;
+                    UpdateStat(item);
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+
+            case (int)ITEM.POTION:
+                if (item.itemType == "Potion")
+                {
+                    ((Stack<Item>)ItemSocket["Potion"]).Push(item);
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+
+            default:
+                return false;
         }
     }
+    private void UpdateStat(Item item)
+    {
+        offensePower = playerData.Offensepower + item.offensePower;
+        Defense = playerData.Defense = item.defense;
+        MaxHP = playerData.HP + item.hp;
+        speed = playerData.Speed + item.speed;
+    }
 }
+
+
 
 
 [System.Serializable]
