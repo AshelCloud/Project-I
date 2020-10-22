@@ -38,6 +38,12 @@ public class InputControl : MonoBehaviour
         {
             player.Roll = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
+        {
+            player.Cling = true;
+            player.Jump = false;
+        }
     }
 
 

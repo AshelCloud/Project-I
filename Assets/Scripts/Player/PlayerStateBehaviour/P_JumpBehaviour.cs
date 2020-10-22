@@ -31,13 +31,6 @@ public class P_JumpBehaviour : StateMachineBehaviour
     {
         DoubleJump(player, animator);
 
-        if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
-        {
-            player.Cling = true;
-            player.Jump = false;
-        }
-
-
         //좌측이동
         if (Input.GetKey(KeyCode.RightArrow))
         {

@@ -11,7 +11,7 @@ public class P_HitBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter HitState");
 
-        player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
         spriteRenderer = player.GetComponent<SpriteRenderer>();
 
         //플레이어가 피격시 공중으로 튕겨져 나감

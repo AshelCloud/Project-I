@@ -16,7 +16,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
 
         P_JumpBehaviour.doubleJump = false;
 
-        player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
     }
 
     
@@ -26,7 +26,8 @@ public class P_ClingBehaviour : StateMachineBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            player.RB.AddForce(Vector2.up * player.JumpForce / 4, ForceMode2D.Impulse);
+            player.RB.velocity = Vector2.zero;
+            player.RB.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
 
             player.Cling = false;
         }
