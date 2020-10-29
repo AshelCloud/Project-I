@@ -125,7 +125,8 @@ public partial class Player
                 }
 
             case (int)ITEM.POTION:
-                if (item.itemType == "Potion")
+                if (item.itemType == "Potion" 
+                    && ((Stack<Item>)ItemSocket["Potion"]).Count <= consumableLimit - 1)
                 {
                     ((Stack<Item>)ItemSocket["Potion"]).Push(item);
                     return true;

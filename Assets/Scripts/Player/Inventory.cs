@@ -31,6 +31,9 @@ public class Inventory : Singleton<Inventory>
     [SerializeField]
     private Text explanation;
 
+    [SerializeField]
+    private Text gold;
+
     private static List<Item> inventory = new List<Item>();
 
     private static float currentGold = 0;
@@ -58,15 +61,13 @@ public class Inventory : Singleton<Inventory>
         PutItemInventory(new Item(19));
         PutItemInventory(new Item(26));
 
-        //**TEST**
-
         RenderSlot();
-        RenderItemList();
+        RenderInventory();
     }
 
     private void LateUpdate()
     {
-        //gameObject.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
+        gold.text = currentGold.ToString();
         if (!enterInventory)
         {
             SelectSlot();
@@ -125,35 +126,9 @@ public class Inventory : Singleton<Inventory>
                 selectList = 0;
             }
 
-
-            //if(image_SelectDetach.activeSelf && selectList == 0)
-            //{
-            //    inventory.Add(player.ItemSocket[selectSocket]);
-            //    player.ItemSocket[selectSocket] = new Item(player.ItemSocket[selectSocket].itemType);
-            //}
-
-            //else if (selectSocket < 4)
-            //{
-            //    //빈 슬롯에 장착
-            //    if (player.ItemSocket[selectSocket] == null &&
-            //        player.ChangeEquipment(selectSocket, inventory[selectList]))
-            //    {
-            //        inventory.RemoveAt(selectList);
-            //        selectList = 0;
-            //    }
-
-            //    //현재 슬롯에 장착된 아이템과 교체
-            //    else if (player.ItemSocket[selectSocket] != null &&
-            //            player.ChangeEquipment(selectSocket, inventory[selectList]))
-            //    {
-            //        Item temp = player.ItemSocket[selectSocket];
-            //        inventory[selectList] = temp;
-            //    }
-            //}
-
             //변경사항 렌더링
             ClearItemList();
-            RenderItemList();
+            RenderInventory();
             RenderSlot();
         }
 
@@ -242,7 +217,7 @@ public class Inventory : Singleton<Inventory>
         }
     }
 
-    private void RenderItemList()
+    private void RenderInventory()
     {
         foreach (var item in inventory)
         {
