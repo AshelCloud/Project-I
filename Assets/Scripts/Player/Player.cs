@@ -89,19 +89,15 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        CheckGround();
-
         Air = RB.velocity.y;
 
         if (Grounded)
         {
-            //Anim.SetBool("IsGrounded", true);
-            P_JumpBehaviour.doubleJump = false;
+            DoubleJump = false;
         }
 
         else
         {
-
             Grounded = false;
         }
     }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class P_ClingBehaviour : StateMachineBehaviour
 {
@@ -14,9 +12,9 @@ public class P_ClingBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter ClingState");
 
-        P_JumpBehaviour.doubleJump = false;
-
         player = animator.GetComponent<Player>();
+
+        player.DoubleJump = false;
     }
 
     
@@ -29,6 +27,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
             player.RB.velocity = Vector2.zero;
             player.RB.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
 
+            player.Jump = true;
             player.Cling = false;
         }
 

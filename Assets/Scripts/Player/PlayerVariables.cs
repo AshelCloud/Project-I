@@ -29,12 +29,16 @@ public partial class Player : MonoBehaviour
 
     private Animator anim;
 
+    private bool _jump;
+    private bool _roll;
+    private bool _attack;
+
 
     public Animator Anim
     {
         get
         {
-            if(anim == null)
+            if (anim == null)
             {
                 anim = GetComponent<Animator>();
             }
@@ -42,14 +46,25 @@ public partial class Player : MonoBehaviour
         }
     }
 
-    public bool Run 
-    { get; set; }
-    public bool Jump { get; set; }
+    public bool Run { get; set; }
+    public bool Jump
+    {
+        get
+        {
+            return _jump;
+        }
+
+        set
+        {
+            _jump = value;
+        }
+    }
+    public bool DoubleJump { get; set; }
     public bool Grounded { get; set; }
 
-    private bool _roll;
-    public bool Roll 
-    { 
+
+    public bool Roll
+    {
         get
         {
             return _roll;
@@ -64,13 +79,12 @@ public partial class Player : MonoBehaviour
         }
     }
 
-    private bool _attack;
-    public bool Attack 
+    public bool Attack
     {
         get { return _attack; }
         set
         {
-            if(Dead) { return; }
+            if (Dead) { return; }
 
             _attack = value;
         }
@@ -82,7 +96,7 @@ public partial class Player : MonoBehaviour
 
     private float _hp = 100;
 
-    public float HP 
+    public float HP
     {
         get
         {

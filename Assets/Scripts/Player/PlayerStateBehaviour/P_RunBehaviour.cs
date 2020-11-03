@@ -49,6 +49,11 @@ public class P_RunBehaviour : StateMachineBehaviour
             {
                 player.Run = false;
             }
+
+            if(player.Jump)
+            {
+                player.RB.velocity = new Vector2(player.RB.velocity.x, 0f);
+            }
         }
     }
 
