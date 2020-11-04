@@ -190,7 +190,7 @@ namespace Monster
             get { return attackRange + attackRangeCorrection; }
         }
 
-        public float OffentPower { get { return offensePower; } }
+        public float OffensePower { get { return offensePower; } }
 
         public float Speed { get { return speed; } }
 

@@ -39,9 +39,9 @@ public class CharacterStatsMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        value_HP.text = player.hp.ToString();
+        value_HP.text = player.HP.ToString();
         value_Power.text = player.OffensePower.ToString();
-        value_Defence.text = player.defense.ToString();
+        value_Defence.text = player.Defense.ToString();
     }
 
 }

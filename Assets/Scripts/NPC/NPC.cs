@@ -9,10 +9,10 @@ public class NPC : MonoBehaviour
     [System.Serializable]
     private class NPCDataTable
     {
-        public string NpcName;
-        public string PrefabName;
-        public string Text;
-        public string RandomText;
+        public string NpcName = null;
+        public string PrefabName = null;
+        public string Text = null;
+        public string RandomText = null;
     }
 
     public string ID = "1";

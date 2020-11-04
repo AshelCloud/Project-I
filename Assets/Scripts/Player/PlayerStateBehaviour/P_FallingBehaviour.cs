@@ -10,24 +10,26 @@ public class P_FallingBehaviour : StateMachineBehaviour
     {
         Log.Print("Player enter FallingState");
 
-        player = animator.gameObject.GetComponent<Player>();
+        player = animator.GetComponent<Player>();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         player.ChangeDirection();
 
-        P_JumpBehaviour.DoubleJump(player, animator);
+        P_JumpBehaviour.DoubleJumping(player, animator);
 
         if (Input.GetKeyDown(KeyCode.S) && player.CheckWall())
         {
             animator.SetBool("IsCling", true);
         }
+
+
+        player.CheckGround();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit FallingState");
-
     }
 }

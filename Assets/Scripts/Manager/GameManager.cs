@@ -3,26 +3,51 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
+    [SerializeField]
+    private Loader loader = null;
+    [SerializeField]
+    private MapLoader mapLoader = null;
 
-    [SerializeField]
-    private Loader loader;
-    [SerializeField]
-    private MapLoader mapLoader;
+    public string StartMapName
+    {
+        get
+        {
+            return mapLoader.StartMapName;
+        }
+    }
+    public string CurrentMapName
+    {
+        get
+        {
+            return mapLoader.currentMapName;
+        }
+    }
+
+    private UnityEvent _loadCompleteMapEvent;
+    public UnityEvent LoadCompleteMapEvent 
+    {
+        private set
+        {
+            _loadCompleteMapEvent = value;
+        }
+        get
+        {
+            if(_loadCompleteMapEvent == null)
+            {
+                _loadCompleteMapEvent = new UnityEvent();
+            }
+
+            return _loadCompleteMapEvent;
+        }
+    }
 
     private void Awake()
     {
-        if(Instance != null)
-        {
-            return;
-        }
-
-        Instance = this;
-      
         Log.Print("GameManager Initialize");
     }
 
@@ -58,6 +83,7 @@ public class GameManager : MonoBehaviour
 
         mapLoader.LoadMap(mapName, linkingPortalName);
         yield return new WaitUntil( () => mapLoader.Loaded );
+        LoadCompleteMapEvent.Invoke();
 
         loader.ActiveFadeOut();
     }

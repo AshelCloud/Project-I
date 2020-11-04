@@ -27,7 +27,7 @@ public class SelectMenu : MonoBehaviour
         menuCount = menuIcons.Length;
         menuIcons[selectIndex].color = highlightColor;
 
-        pauseMenu = GameObject.Find("PauseMenu(Clone)").GetComponent<MenuManager>();
+        pauseMenu = FindObjectOfType(typeof(MenuManager)) as MenuManager;
 
         canvas = GetComponent<CanvasGroup>();
     }
@@ -76,7 +76,7 @@ public class SelectMenu : MonoBehaviour
             canvas.alpha = 0f;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseMenu.MenuExit();
             menuSelected = false;

@@ -1,15 +1,32 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : Singleton<MenuManager>
 {
-    private Stack<GameObject> menus = new Stack<GameObject>();
-    private Player player = null;
+    private Stack<GameObject> menus;
+
+    private Canvas _menuCanvas;
+    public Canvas MenuCanvas
+    {
+        get
+        {
+            if (_menuCanvas == null)
+            {
+                _menuCanvas = GetComponent<Canvas>();
+            }
+            return _menuCanvas;
+        }
+    }
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        var selectMenu = Instantiate(ResourcesContainer.Load<GameObject>("Prefabs/UI/SelectMenu"), transform);
+        menus = new Stack<GameObject>();
+    }
+
+    private void Start()
+    {
+        var selectMenu = GetComponentInChildren<SelectMenu>().gameObject;
+
         menus.Push(selectMenu);
     }
 
@@ -22,12 +39,5 @@ public class MenuManager : MonoBehaviour
     public void MenuExit()
     {
         Destroy(menus.Pop());
-        Debug.Log(menus.Count);
-        if(menus.Count <= 0)
-        {
-            Debug.Log(menus.Count);
-            Destroy(this.gameObject);
-            player.menuOpened = false;
-        }
     }
 }

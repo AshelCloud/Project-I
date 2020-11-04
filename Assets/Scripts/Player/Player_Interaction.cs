@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Player : MonoBehaviour
 {
-    public bool isInteration { get; private set; } = false;
+    public bool IsInteration { get; private set; } = false;
 
     private Vector2 destination = Vector2.zero;
 
@@ -18,7 +18,7 @@ public partial class Player : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<NPC>() != null)
             {
-                isInteration = true;
+                IsInteration = true;
                 destination = collision.gameObject.transform.position - new Vector3(3f, 0f);
 
                 yield return new WaitForSeconds(1f);
@@ -28,20 +28,20 @@ public partial class Player : MonoBehaviour
 
             if (collision.gameObject.GetComponent<ShopKeeper>() != null)
             {
-                isInteration = true;
+                IsInteration = true;
                 destination = collision.gameObject.transform.position - new Vector3(3f, 0f);
-                shopKeeper = collision.GetComponent<ShopKeeper>();
 
                 yield return new WaitForSeconds(1f);
 
-                shopKeeper.ShopOpen();
+                IsShopping = true;
+                ShopCanvas.Instance.OpenCanvas();
             }
         }
     }
 
     private void InterationEvent()
     {
-        if(isInteration)
+        if(IsInteration)
         {
             EnterInteration();
         }
@@ -58,15 +58,15 @@ public partial class Player : MonoBehaviour
 
         if (transform.position.x >= destination.x)
         {
-            rb.velocity = new Vector2(-Speed / 2, rb.velocity.y);
-            direction = new Vector2(-Mathf.Abs(direction.x), direction.y);
+            RB.velocity = new Vector2(-Speed / 2, RB.velocity.y);
+            Direction = new Vector2(-Mathf.Abs(Direction.x), Direction.y);
         }
 
         else
         {
-            direction = new Vector2(Mathf.Abs(direction.x), direction.y);
+            Direction = new Vector2(Mathf.Abs(Direction.x), Direction.y);
             animator.SetBool("IsRun", false);
-            isInteration = false;
+            IsInteration = false;
         }
 
     }

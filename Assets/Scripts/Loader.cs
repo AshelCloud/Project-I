@@ -5,16 +5,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//GameManager에 의해 돌아가는 코드
+//그러므로 이벤트함수가 포함되어있지않음
 public class Loader : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float fadeSpeed = 1f;
 
     [Header("Components")]
-    [SerializeField]  private Image backgroundImage;
-    [SerializeField]  private GameObject bar;
-    [SerializeField] private Image barImage;
-    [SerializeField] private Text descriptionText;
+    [SerializeField]  private Image backgroundImage = null;
+    [SerializeField]  private GameObject bar = null;
+    [SerializeField] private Image barImage = null;
+    [SerializeField] private Text descriptionText = null;
     
     private bool Initialized { get; set; }
     public bool Loaded { get; private set; }

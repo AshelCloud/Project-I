@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using TMPro;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,41 +8,46 @@ enum ITEM : int
 {
     HELMET = 0,
     ARMOR,
-    ACCESSORIES,
     WEAPON,
+    ACCESSORIES,
     POTION
 };
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
+    //인벤토리 메뉴 이미지
     [SerializeField]
-    private GameObject image_SelectEquip;
-
+    private GameObject image_SelectSlot;
     [SerializeField]
     private GameObject image_SelectList;
+    [SerializeField]
+    private GameObject image_SelectDetach;
 
-
+    //장비 슬롯 이미지
     [SerializeField]
     private Image[] equipSlot;
 
+    //아이템 설명
     [SerializeField]
     private Text explanation;
+
+    [SerializeField]
+    private Text gold;
 
     private static List<Item> inventory = new List<Item>();
 
     private static float currentGold = 0;
 
-    private int selectEquip = 0;
+    private int selectSocket = 0;
     private int selectList = 0;
 
-    private string selectSlotType = null;
-
     private bool enterInventory = false;
-
 
     private Player player = null;
 
     private GameObject itemList = null;
+
+    private int index = 1;
 
     private void Awake()
     {
@@ -49,26 +55,22 @@ public class Inventory : MonoBehaviour
         itemList = GameObject.Find("Content");
 
         //**TEST**
-        //PutItemInventory(new Item(1));
         PutItemInventory(new Item(2));
         PutItemInventory(new Item(7));
         PutItemInventory(new Item(12));
         PutItemInventory(new Item(19));
         PutItemInventory(new Item(26));
 
-        player.consumSocket.Push(new Item(26));
-        //**TEST**
-
         RenderSlot();
-        RenderItemList();
+        RenderInventory();
     }
 
     private void LateUpdate()
     {
-        gameObject.transform.GetChild(0).GetComponent<Text>().text = currentGold.ToString();
+        gold.text = currentGold.ToString();
         if (!enterInventory)
         {
-            SelectEquipment();
+            SelectSlot();
         }
 
         else
@@ -77,28 +79,32 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void SelectEquipment()
+    //장비 슬롯 선택
+    private void SelectSlot()
     {
+        //***********************슬롯 이동***********************
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            selectEquip--;
-            if (selectEquip < 0)
+            selectSocket--;
+            if (selectSocket < 0)
             {
-                selectEquip = 0;
+                selectSocket = 0;
             }
-
         }
+
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            selectEquip++;
-            if (selectEquip > equipSlot.Length - 1)
+            selectSocket++;
+            if (selectSocket > equipSlot.Length - 1)
             {
-                selectEquip = equipSlot.Length - 1;
+                selectSocket = equipSlot.Length - 1;
             }
         }
 
-        image_SelectEquip.transform.position = equipSlot[selectEquip].transform.position;
+        //선택 이미지 이동
+        image_SelectSlot.transform.position = equipSlot[selectSocket].transform.position;
 
+        //슬롯 선택
         if (Input.GetKeyDown(KeyCode.A))
         {
             enterInventory = true;
@@ -106,40 +112,23 @@ public class Inventory : MonoBehaviour
             image_SelectList.SetActive(true);
         }
 
-        if (selectEquip != equipSlot.Length - 1)
-        {
-            explanation.text = player.itemSocket[selectEquip].itemExplanation;
-        }
-
-        else
-        {
-            explanation.text = player.consumSocket.Peek().itemExplanation;
-        }
     }
 
+    //인벤토리 선택
     private void SelectItem()
     {
         //A: 선택
         if (Input.GetKeyDown(KeyCode.A))
         {
-            //빈 슬롯에 장착
-            if (player.itemSocket[selectEquip].itemName == null)
+            if(player.ChangeEquipment(selectSocket, inventory[selectList]))
             {
-                player.ChangeEquipment(selectEquip, inventory[selectList]);
                 inventory.RemoveAt(selectList);
-            }
-
-            //현재 슬롯에 장착된 아이템과 교체
-            else
-            {
-                Item temp = player.itemSocket[selectEquip];
-                player.ChangeEquipment(selectEquip, inventory[selectList]);
-                inventory[selectList] = temp;
+                selectList = 0;
             }
 
             //변경사항 렌더링
             ClearItemList();
-            RenderItemList();
+            RenderInventory();
             RenderSlot();
         }
 
@@ -151,6 +140,7 @@ public class Inventory : MonoBehaviour
             enterInventory = false;
         }
 
+        //***********************인벤토리 이동***********************
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectList--;
@@ -163,17 +153,40 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectList++;
-            if (selectList > itemList.transform.childCount - 1)
+
+            //Out of range 방지
+            if (selectList >= itemList.transform.childCount - 1)
             {
                 selectList = itemList.transform.childCount - 1;
             }
         }
+        image_SelectList.transform.position = itemList.transform.GetChild(selectList + index).position;
+        //***********************인벤토리 이동***********************
 
-        image_SelectList.transform.position = itemList.transform.GetChild(selectList).position;
-        explanation.text = inventory[selectList].itemExplanation;
+
+        //장비 해제 활성화시
+        if (image_SelectDetach.activeSelf)
+        {
+            index = 0;
+
+            if (selectList < 1)
+            {
+                explanation.text = "장비 해제";
+            }
+
+            else
+            {
+                explanation.text = inventory[selectList].itemExplanation;
+            }
+        }
+
+        //장비 해제 비활성화시
+        else
+        {
+            index = 1;
+            explanation.text = inventory[selectList].itemExplanation;
+        }
     }
-
-
 
     public void GetGold(int deposit)
     {
@@ -198,13 +211,13 @@ public class Inventory : MonoBehaviour
 
     private void ClearItemList()
     {
-        for (int i = 0; i < itemList.transform.childCount; i++)
+        for (int i = 1; i < itemList.transform.childCount; i++)
         {
             Destroy(itemList.transform.GetChild(i).gameObject);
         }
     }
 
-    private void RenderItemList()
+    private void RenderInventory()
     {
         foreach (var item in inventory)
         {
@@ -216,31 +229,39 @@ public class Inventory : MonoBehaviour
 
     private void RenderSlot()
     {
-        foreach (Item sockets in player.itemSocket)
+        foreach (string key in player.ItemSocket.Keys)
         {
-            switch (sockets.itemType)
+            if (player.ItemSocket[key] != null)
             {
-                case "Helm":
-                    equipSlot[(int)ITEM.HELMET].sprite = player.itemSocket[0].spriteImage;
-                    break;
+                switch (key)
+                {
+                    case "Helm":
+                        equipSlot[(int)ITEM.HELMET].sprite = ((Item)player.ItemSocket["Helm"]).spriteImage;
+                        break;
 
-                case "Armor":
-                    equipSlot[(int)ITEM.ARMOR].sprite = player.itemSocket[(int)ITEM.ARMOR].spriteImage;
-                    break;
+                    case "Armor":
+                        equipSlot[(int)ITEM.ARMOR].sprite = ((Item)player.ItemSocket["Armor"]).spriteImage;
+                        break;
 
-                case "Accessories":
-                    equipSlot[(int)ITEM.ACCESSORIES].sprite = player.itemSocket[(int)ITEM.ACCESSORIES].spriteImage;
-                    break;
+                    case "Weapon":
+                        equipSlot[(int)ITEM.WEAPON].sprite = ((Item)player.ItemSocket["Weapon"]).spriteImage;
+                        break;
 
-                case "Weapon":
-                    equipSlot[(int)ITEM.WEAPON].sprite = player.itemSocket[(int)ITEM.WEAPON].spriteImage;
-                    break;
+                    case "Accessories":
+                        equipSlot[(int)ITEM.ACCESSORIES].sprite = ((Item)player.ItemSocket["Accessories"]).spriteImage;
+                        break;
 
-                default:
-                    break;
+
+                    default:
+                        break;
+                }
+            }
+
+            if (((Stack<Item>)player.ItemSocket["Potion"]).Count != 0)
+            {
+                equipSlot[(int)ITEM.POTION].sprite = ((Stack<Item>)player.ItemSocket["Potion"]).Peek().spriteImage;
+                equipSlot[(int)ITEM.POTION].transform.GetChild(0).GetComponent<Text>().text = ((Stack<Item>)player.ItemSocket["Potion"]).Count.ToString();
             }
         }
-
-        equipSlot[(int)ITEM.POTION].sprite = player.consumSocket.Peek().spriteImage;
     }
 }
