@@ -22,7 +22,7 @@ public class P_ClingBehaviour : StateMachineBehaviour
     {
         player.RB.velocity = new Vector2(0.0f, -downSpeed);
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             player.RB.velocity = Vector2.zero;
             player.RB.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);

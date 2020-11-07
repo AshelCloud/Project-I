@@ -22,6 +22,7 @@ public partial class Player : MonoBehaviour, IDamageable
     private float wallCheckOffset = 0;
 
     private Weapon weapon;
+    private Shield shield;
     
     private void Awake()
     {
@@ -46,7 +47,7 @@ public partial class Player : MonoBehaviour, IDamageable
     private void Start()
     {
         weapon = GetComponentInChildren<Weapon>(true);
-        
+        shield = GetComponentInChildren<Shield>(true);
         Anim.SetFloat("HP", HP);
 
         inventory = FindObjectOfType<Inventory>();
@@ -58,6 +59,12 @@ public partial class Player : MonoBehaviour, IDamageable
     {
         weapon.myCollider.enabled = enable;
         weapon.gameObject.SetActive(enable);
+    }
+
+    public void UseShield(bool enable)
+    {
+        shield.Collider.enabled = enable;
+        shield.gameObject.SetActive(enable);
     }
 
     private void Update()
@@ -125,6 +132,8 @@ public partial class Player : MonoBehaviour, IDamageable
         Anim.SetBool(hash_Cling, Cling);
         Anim.SetFloat(hash_Air, Air);
         Anim.SetBool(hash_Dead, Dead);
+        Anim.SetBool(hash_Parrying, Parrying);
+        Anim.SetBool(hash_Block, Block);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -152,6 +161,8 @@ public partial class Player : MonoBehaviour, IDamageable
         hash_Cling = Animator.StringToHash(m_Cling);
         hash_Air = Animator.StringToHash(m_Air);
         hash_Dead = Animator.StringToHash(m_Dead);
+        hash_Parrying = Animator.StringToHash(m_TryParrying);
+        hash_Block = Animator.StringToHash(m_Block);
     }
 
     public void GetDamaged(float value)

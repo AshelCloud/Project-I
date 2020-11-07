@@ -24,7 +24,12 @@ public class InputControl : MonoBehaviour
             player.Attack = true;
         }
 
-        if(Input.GetKeyDown(KeyCode.D) && player.Grounded)
+        if(Input.GetKey(KeyCode.D))
+        {
+            player.Parrying = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && player.Grounded)
         {
             if (Input.GetKey(KeyCode.DownArrow))
             {

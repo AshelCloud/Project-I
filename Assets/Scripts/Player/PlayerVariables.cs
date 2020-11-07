@@ -15,6 +15,8 @@ public partial class Player : MonoBehaviour
     public const string m_Cling = "IsCling";
     public const string m_Air = "inAir";
     public const string m_Dead = "IsDead";
+    public const string m_TryParrying = "TryParrying";
+    public const string m_Block = "IsBlock";
 
     private int hash_Run;
     private int hash_Jump;
@@ -25,11 +27,12 @@ public partial class Player : MonoBehaviour
     private int hash_Cling;
     private int hash_Air;
     private int hash_Dead;
+    private int hash_Parrying;
+    private int hash_Block;
     #endregion
 
     private Animator anim;
 
-    private bool _jump;
     private bool _roll;
     private bool _attack;
 
@@ -47,18 +50,7 @@ public partial class Player : MonoBehaviour
     }
 
     public bool Run { get; set; }
-    public bool Jump
-    {
-        get
-        {
-            return _jump;
-        }
-
-        set
-        {
-            _jump = value;
-        }
-    }
+    public bool Jump { get; set; }
     public bool DoubleJump { get; set; }
     public bool Grounded { get; set; }
 
@@ -93,6 +85,8 @@ public partial class Player : MonoBehaviour
     public bool Cling { get; set; }
     public float Air { get; set; }
     public bool Dead { get; set; }
+    public bool Parrying { get; set; }
+    public bool Block { get; set; }
 
     private float _hp = 100;
 

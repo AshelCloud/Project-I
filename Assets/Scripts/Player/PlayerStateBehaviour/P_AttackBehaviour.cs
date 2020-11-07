@@ -39,5 +39,9 @@ public class P_AttackBehaviour : StateMachineBehaviour
         myPlayer.Attack = false;
         myPlayer.WeaponEnable(false);
         isOn = isOff = false;
+
+        //패링 반격시에 사용
+        myPlayer.Block = false;
+        myPlayer.IsInvincible = false;
     }
 }
