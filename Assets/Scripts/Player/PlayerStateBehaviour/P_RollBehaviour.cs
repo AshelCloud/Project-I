@@ -41,8 +41,9 @@ public class P_RollBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Log.Print("Player exit RollBehaviour");
+
         //플레이어 무적 해제
         player.IsInvincible = false;
-        Log.Print("Player exit RollBehaviour");
     }
 }
