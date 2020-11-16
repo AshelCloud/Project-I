@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 171722559
+CRC: 1423621812
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2da452ee941e1235b059525c9ca05ed0
+    Hash: 8a65e26bf40a9c966d942a8d87ce3203
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -20,6 +20,7 @@ Assets:
 - Assets/Resources/MapJsons/Forest_14.json
 - Assets/Resources/MapJsons/Forest_6.json
 - Assets/Resources/NPCJsons/ShopKeepperTable.json
+- Assets/Resources/MapJsons/PolygonTest.json
 - Assets/Resources/MapJsons/Forest_2.json
 - Assets/Resources/NPCJsons/NPCTable.json
 - Assets/Resources/MapJsons/Forest_3.json

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿/*
+                                데이터 class
+                                추후에 데이터 테이블 참고해서 수정
+                                만일, 수정시 TilemapToJson, JsonToTilemap, UpdateTilemapDataWithCreate 함수 수정
+ */
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
-/*
-                                데이터
-                                추후에 데이터 테이블 참고해서 수정
- */
 
 [System.Serializable]
 public class TileData
@@ -40,6 +41,29 @@ public class PrefabData
     public Vector3 Scale;
     public TilemapData BaseTileMap;
     public string Tag;
+
+    public BoxCollider2DData BoxCollider2DData;
+}
+
+[System.Serializable]
+public class EdgeData
+{
+    public PolygonCollider2DData PolygonCollider;
+}
+
+[System.Serializable]
+public class PortalData
+{
+    public string Name;
+    public Vector3 Position;
+    public Quaternion Rotation;
+    public Vector3 Scale;
+
+    public TilemapData BaseTileMap;
+
+    public string TargetMap;
+    public string LinkingPortalName;
+
     public BoxCollider2DData BoxCollider;
 }
 
@@ -110,19 +134,17 @@ public class PlatformEffectorData
 }
 
 [System.Serializable]
-public class PortalData
+public class PolygonCollider2DData
 {
-    public string Name;
-    public Vector3 Position;
-    public Quaternion Rotation;
-    public Vector3 Scale;
-
-    public TilemapData BaseTileMap;
-
-    public string TargetMap;
-    public string LinkingPortalName;
-
-    public BoxCollider2DData BoxCollider;
+    public bool IsNotNull;
+    public PhysicsMaterial2D Material;
+    public bool IsTrigger;
+    public bool UsedByEffector;
+    public bool UsedByComposite;
+    public bool AutoTiling;
+    public Vector2 Offset;
+    public int PathCount;
+    public List<Vector2[]> Paths;
 }
 
 [System.Serializable]
@@ -152,4 +174,5 @@ public class MapData
     public List<TileData> Tiles;
     public List<PrefabData> Prefabs;
     public List<PortalData> Portals;
+    public EdgeData Edge;
 }
