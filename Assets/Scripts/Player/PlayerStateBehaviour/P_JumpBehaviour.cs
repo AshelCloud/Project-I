@@ -68,7 +68,7 @@ public class P_JumpBehaviour : StateMachineBehaviour
 
     static public void DoubleJumping(Player player, Animator animator)
     {
-        if (Input.GetKeyDown(KeyCode.D) && !player.DoubleJump)
+        if (Input.GetKeyDown(KeyCode.Space) && !player.DoubleJump)
         {
             Log.Print("Player do double jump");
 
