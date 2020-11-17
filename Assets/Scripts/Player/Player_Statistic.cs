@@ -8,22 +8,34 @@ public partial class Player
     //기본값 = 1
     private const int ID = 1;
 
-
     private PlayerData playerData;
 
     [Header("플레이어 능력치")]
     [SerializeField]
-    private float offensePower = 0;
+    private float offensePower;
     [SerializeField]
-    private float speed = 0f;    //이동 속도
+    private float speed;    //이동 속도
     [SerializeField]
-    private float jumpForce = 0f;    //점프력
+    private float stamina;  //지구력
     [SerializeField]
-    private float rollForce = 0f;   //구르기 거리
+    private float jumpForce;    //점프력
+    [SerializeField]
+    private float rollForce;   //구르기 거리
 
     public float OffensePower { get { return offensePower; } }
     public float Defense { get; private set; }
     public float Speed { get { return speed; } }
+    public float Stamina 
+    {
+        get 
+        {
+            return stamina;
+        }
+        set
+        {
+            stamina = value;
+        }
+    }
     public float JumpForce { get { return jumpForce; } }
     public float RollForce { get { return rollForce; } }
 
@@ -67,6 +79,7 @@ public partial class Player
         HP = playerData.HP;
         MaxHP = playerData.HP;
         speed = playerData.Speed;
+        stamina = playerData.Stamina;
     }
 
     public bool ChangeEquipment(int socket, Item item)
@@ -162,6 +175,7 @@ public class PlayerData
     public float Defense;
     public float HP;
     public float Speed;
+    public float Stamina;
     public string Objectname;
     public string Animatorname;
     public string Prefabname;

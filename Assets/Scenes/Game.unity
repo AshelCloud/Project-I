@@ -1227,11 +1227,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3905798396274382599, guid: b8abbe68e898b8d4799cae5d8b2528a8,
-        type: 3}
-      propertyPath: groundCheckBox.x
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 3905798396274382843, guid: b8abbe68e898b8d4799cae5d8b2528a8,
         type: 3}
       propertyPath: m_Name

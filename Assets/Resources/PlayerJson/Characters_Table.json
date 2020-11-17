@@ -6,8 +6,9 @@
       "Variablename": "Player",
       "Offensepower": 5,
       "Defense": 5,
-      "HP": 100,
-      "Speed": 10,
+      "HP": 50,
+      "Speed": 25,
+      "Stamina": 10,
       "Objectname": "Player",
       "Animatorname": "Player",
       "Prefabname": "Player"
