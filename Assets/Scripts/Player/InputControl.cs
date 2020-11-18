@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputControl : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class InputControl : MonoBehaviour
             player.Attack = true;
         }
 
-        if(Input.GetKey(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.D))
         {
             player.Parrying = true;
         }

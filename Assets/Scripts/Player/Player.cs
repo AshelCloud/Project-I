@@ -23,10 +23,18 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private Weapon weapon;
     private Shield shield;
+
+    //차후 타이머 클래스 제작
+    private float timer;
+
+    [Header("스테미나 회복 시간(초)")]
+    [SerializeField]
+    private float waitTime = 1.5f;
     
     private void Awake()
     {
         LoadToJsonData(ID);
+
         InitData();
 
         GetHashIDs();
@@ -39,7 +47,6 @@ public partial class Player : MonoBehaviour, IDamageable
         ItemSocket.Add("Accessories", null);
         ItemSocket.Add("Weapon", null);
         ItemSocket.Add("Potion", ConsumSocket);
-
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Monster"));
     }
@@ -69,6 +76,7 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        timer += Time.deltaTime;
         InterationEvent();
 
         if (IsShopping)
@@ -91,6 +99,12 @@ public partial class Player : MonoBehaviour, IDamageable
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             MenuOpened = !MenuOpened;
+        }
+
+        if (stamina < max_stamina && timer >= waitTime)
+        {
+            StaminaRecover(1f);
+            timer = 0f;
         }
     }
 
@@ -118,7 +132,7 @@ public partial class Player : MonoBehaviour, IDamageable
     private void LinkingStatistic()
     {
         StatusUIManager.Instance.HPAmount = HP / MaxHP;
-        //TODO: 스태미너 추가
+        StatusUIManager.Instance.StaminaAmount = Stamina / 10;
     }
 
     private void LinkingAnimator()
@@ -275,6 +289,11 @@ public partial class Player : MonoBehaviour, IDamageable
         {
             return;
         }
+    }
+
+    private void StaminaRecover(float recoverValue)
+    {
+        stamina += recoverValue;
     }
 
     private void OnDrawGizmos()

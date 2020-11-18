@@ -57,25 +57,25 @@ public partial class MapLoader : MonoBehaviour
         {
             Log.Print("Load to mapData");
 
-            var polyData = data.Value.Edge.PolygonCollider;
+            // var polyData = data.Value.Edge.PolygonCollider;
 
-            GameObject edge = Instantiate(Resources.Load<GameObject>(PrefabFilePath + "Edge"), Vector3.zero, Quaternion.identity, transform);
-            var poly = edge.GetComponent<PolygonCollider2D>();
+            // GameObject edge = Instantiate(Resources.Load<GameObject>(PrefabFilePath + "Edge"), Vector3.zero, Quaternion.identity, transform);
+            // var poly = edge.GetComponent<PolygonCollider2D>();
 
-            if(polyData.IsNotNull)
-            {
-                poly.sharedMaterial = polyData.Material;
-                poly.usedByComposite = polyData.UsedByComposite;
-                poly.usedByEffector = polyData.UsedByEffector;
-                poly.autoTiling = polyData.AutoTiling;
-                poly.offset = polyData.Offset;
-                poly.pathCount = polyData.PathCount;
+            // if(polyData.IsNotNull)
+            // {
+            //     poly.sharedMaterial = polyData.Material;
+            //     poly.usedByComposite = polyData.UsedByComposite;
+            //     poly.usedByEffector = polyData.UsedByEffector;
+            //     poly.autoTiling = polyData.AutoTiling;
+            //     poly.offset = polyData.Offset;
+            //     poly.pathCount = polyData.PathCount;
                 
-                for(int i = 0; i < polyData.PathCount; i ++)
-                {
-                    poly.SetPath(i, polyData.Paths[i]);
-                }
-            }
+            //     for(int i = 0; i < polyData.PathCount; i ++)
+            //     {
+            //         poly.SetPath(i, polyData.Paths[i]);
+            //     }
+            // }
 
             foreach (var tile in data.Value.Tiles)
             {

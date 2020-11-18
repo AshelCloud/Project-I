@@ -47,7 +47,7 @@ public class MapCanvas : MonoBehaviour
             mapChildrens.Add(f.name, f);
         }
 
-        GameManager.Instance.LoadCompleteMapEvent.AddListener(SetPlayerPosition);
+        //GameManager.Instance.LoadCompleteMapEvent.AddListener(SetPlayerPosition);
     }
 
     public void Update()

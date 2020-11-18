@@ -10,6 +10,8 @@ public class P_ParryingBehaviour : StateMachineBehaviour
 
         player = animator.GetComponent<Player>();
         player.UseShield(true);
+
+        player.Stamina -= player.StaminaRedution;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

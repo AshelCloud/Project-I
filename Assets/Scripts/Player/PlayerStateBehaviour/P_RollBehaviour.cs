@@ -18,6 +18,8 @@ public class P_RollBehaviour : StateMachineBehaviour
 
         player.RB.velocity = new Vector2(0f, player.RB.velocity.y);
 
+        player.Stamina -= player.StaminaRedution;
+
         if (player.Direction.x > 0)
         {
             player.RB.AddForce(new Vector2(player.RollForce * multipleForce, 0.0f), ForceMode2D.Impulse);
@@ -29,20 +31,11 @@ public class P_RollBehaviour : StateMachineBehaviour
         }
     }
 
-    
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if(stateInfo.normalizedTime >= 0.99f || !player.Grounded)
-        {
-            player.Roll = false;
-        }
-    }
-
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Log.Print("Player exit RollBehaviour");
-
+        player.Roll = false;
         //플레이어 무적 해제
         player.IsInvincible = false;
     }

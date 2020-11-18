@@ -35,7 +35,7 @@ public partial class Player : MonoBehaviour
 
     private bool _roll;
     private bool _attack;
-
+    private bool _parrying;
 
     public Animator Anim
     {
@@ -54,7 +54,6 @@ public partial class Player : MonoBehaviour
     public bool DoubleJump { get; set; }
     public bool Grounded { get; set; }
 
-
     public bool Roll
     {
         get
@@ -64,7 +63,12 @@ public partial class Player : MonoBehaviour
 
         set
         {
-            if (Grounded)
+            if(stamina < staminaRedution)
+            {
+                _roll = false;
+            }
+
+            else if(Grounded && stamina >= staminaRedution)
             {
                 _roll = value;
             }
@@ -85,10 +89,29 @@ public partial class Player : MonoBehaviour
     public bool Cling { get; set; }
     public float Air { get; set; }
     public bool Dead { get; set; }
-    public bool Parrying { get; set; }
+    public bool Parrying
+    { 
+        get
+        {
+            return _parrying;
+        }
+        
+        set
+        {
+            if (stamina < staminaRedution)
+            {
+                _parrying = false;
+            }
+
+            else
+            {
+                _parrying = value;
+            }
+        }
+    }
     public bool Block { get; set; }
 
-    private float _hp = 100;
+    private float _hp;
 
     public float HP
     {
@@ -155,6 +178,17 @@ public partial class Player : MonoBehaviour
         get
         {
             return _isShopping;
+        }
+    }
+
+    [SerializeField]
+    private float staminaRedution;
+
+    public float StaminaRedution
+    {
+        get
+        {
+            return staminaRedution;
         }
     }
 }

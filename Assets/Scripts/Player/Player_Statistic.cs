@@ -17,6 +17,9 @@ public partial class Player
     private float speed;    //이동 속도
     [SerializeField]
     private float stamina;  //지구력
+
+    private float max_stamina;
+
     [SerializeField]
     private float jumpForce;    //점프력
     [SerializeField]
@@ -78,8 +81,10 @@ public partial class Player
         Defense = playerData.Defense;
         HP = playerData.HP;
         MaxHP = playerData.HP;
-        speed = playerData.Speed;
+        //speed = playerData.Speed;
+        max_stamina = playerData.Stamina;
         stamina = playerData.Stamina;
+
     }
 
     public bool ChangeEquipment(int socket, Item item)
@@ -162,9 +167,6 @@ public partial class Player
         speed = playerData.Speed + item.speed;
     }
 }
-
-
-
 
 [System.Serializable]
 public class PlayerData
