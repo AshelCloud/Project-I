@@ -152,10 +152,10 @@ public partial class Player : MonoBehaviour, IDamageable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("trap"))
+        /*if (collision.collider.CompareTag("trap"))
         {
             GetDamaged(1000f);
-        }
+        }*/
     }
 
     private void OnTriggerStay2D(Collider2D collision)

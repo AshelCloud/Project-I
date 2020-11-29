@@ -161,10 +161,10 @@ public partial class Player
     }
     private void UpdateStat(Item item)
     {
-        offensePower = playerData.Offensepower + item.offensePower;
+       /* offensePower = playerData.Offensepower + item.offensePower;
         Defense = playerData.Defense = item.defense;
         MaxHP = playerData.HP + item.hp;
-        speed = playerData.Speed + item.speed;
+        speed = playerData.Speed + item.speed;    */
     }
 }
 
