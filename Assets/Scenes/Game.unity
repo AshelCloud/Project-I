@@ -802,7 +802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b37a732a3fec74ea51a633a831daf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adjustOffset: {x: 7.3, y: 4}
+  adjustOffset: {x: 3, y: 2}
 --- !u!1 &535239984
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemaps: []
-  startMapName: Forest_10
+  startMapName: Forest_12
   currentMapName: 
 --- !u!156049354 &789544101
 Grid:
@@ -1172,6 +1172,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3905798396274382593, guid: b8abbe68e898b8d4799cae5d8b2528a8,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3905798396274382596, guid: b8abbe68e898b8d4799cae5d8b2528a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1236,6 +1241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpForce
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3905798396274382599, guid: b8abbe68e898b8d4799cae5d8b2528a8,
+        type: 3}
+      propertyPath: groundCheckBox.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3905798396274382843, guid: b8abbe68e898b8d4799cae5d8b2528a8,
         type: 3}

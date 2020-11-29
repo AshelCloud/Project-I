@@ -53,10 +53,10 @@ public class PlayerCam : MonoBehaviour
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = smoothedPosition;
 
-            float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
+            /*float clampedX = Mathf.Clamp(this.transform.position.x, minBound.x + halfWidth, maxBound.x - halfWidth);
             float clampedY = Mathf.Clamp(this.transform.position.y, minBound.y + halfHeight, maxBound.y - halfHeight);
 
-            transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+            transform.position = new Vector3(clampedX, clampedY, transform.position.z);  */
         }
 
 
