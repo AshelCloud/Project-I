@@ -879,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemaps: []
-  startMapName: Forest_0
+  startMapName: Forest_11
   currentMapName: 
 --- !u!156049354 &789544101
 Grid:
@@ -1231,6 +1231,11 @@ PrefabInstance:
         type: 3}
       propertyPath: staminaRedution
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3905798396274382599, guid: b8abbe68e898b8d4799cae5d8b2528a8,
+        type: 3}
+      propertyPath: jumpForce
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3905798396274382843, guid: b8abbe68e898b8d4799cae5d8b2528a8,
         type: 3}
